@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Iniciar sesión · +Q1LÍDER</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<div class="login">
+  <section class="brand">
+    <div class="logoMark">+Q1</div><h1>+Q1LÍDER</h1><h2>Organiza. Participa. Lidera.</h2><p>Todo lo de +Q1LÍDER, organizado en un solo lugar.</p>
+  </section>
+  <section class="loginPane">
+    <form method="post" class="loginCard">
+      <div class="loginMobileBrand"><div class="logoMark smallLogo">+Q1</div><b>+Q1LÍDER</b></div>
+      <h2>Iniciar sesión</h2><p>Accede a tu calendario, tareas y materiales.</p>
+      {% with messages = get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+      <label>Correo electrónico<input name="email" type="email" value="admin@q1lider.local" autocomplete="email" required></label>
+      <label>Contraseña<input name="password" type="password" value="Q1Lider2026!" autocomplete="current-password" required></label>
+      <button type="submit" class="primaryButton">Iniciar sesión</button>
+      <div class="demo"><b>Acceso demo</b><br>admin@q1lider.local<br>Q1Lider2026!</div>
+    </form>
+  </section>
+</div>
+</body></html>

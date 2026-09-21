@@ -1,0 +1,32 @@
+{% extends 'base.html' %}{% block title %}Calendario · +Q1LÍDER{% endblock %}
+{% block content %}
+<div class="page">
+  <div class="titleRow"><div><h1>Calendario +Q1LÍDER</h1><p>Tu agenda oficial y personal en un solo lugar.</p></div><button class="primaryAction" data-modal-open="newEvent">＋ Nueva actividad</button></div>
+  <div class="toolbar">
+    <div class="seg"><a href="{{ url_for('calendar_page', year=prev.year, month=prev.month, filter=filter_name) }}">‹</a><a href="{{ url_for('calendar_page', filter=filter_name) }}">Hoy</a><a href="{{ url_for('calendar_page', year=next_month.year, month=next_month.month, filter=filter_name) }}">›</a></div>
+    <h2>{{ month_name }} {{ year }}</h2>
+    <div class="seg filterSeg"><a class="{{ 'active' if filter_name=='all' else '' }}" href="{{ url_for('calendar_page', year=year, month=month, filter='all') }}">Todas</a><a class="{{ 'active' if filter_name=='official' else '' }}" href="{{ url_for('calendar_page', year=year, month=month, filter='official') }}">+Q1LÍDER</a><a class="{{ 'active' if filter_name=='personal' else '' }}" href="{{ url_for('calendar_page', year=year, month=month, filter='personal') }}">Personales</a></div>
+  </div>
+
+  <section class="calendar desktopCalendar">
+    <div class="weekHeader">{% for d in ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'] %}<div>{{ d }}</div>{% endfor %}</div>
+    <div class="grid">{% for cell in days %}<div class="day {{ '' if cell.same_month else 'muted' }}" data-date="{{ cell.date.isoformat() }}"><span>{{ cell.date.day }}</span>{% for e in cell.events[:4] %}<button class="event {{ e.type }} event-detail" data-event='{{ e|tojson }}'>{{ e.startTime }} {{ e.title }}</button>{% endfor %}{% if cell.events|length > 4 %}<small>+{{ cell.events|length - 4 }} más</small>{% endif %}</div>{% endfor %}</div>
+  </section>
+
+  <section class="mobileAgenda">
+    <div class="agendaTitle"><h3>Próximas actividades</h3><span>{{ mobile_agenda|length }}</span></div>
+    {% for e in mobile_agenda %}<button class="agendaItem event-detail" data-event='{{ e|tojson }}'><div class="agendaDate"><b>{{ e.date[8:10] }}</b><small>{{ e.date[5:7] }}/{{ e.date[0:4] }}</small></div><div class="agendaInfo"><span class="badge {{ e.type }}">{{ '+Q1LÍDER' if e.type=='official' else 'Personal' }}</span><b>{{ e.title }}</b><small>{{ e.startTime }} · {{ e.place or 'Sin lugar' }}</small></div></button>{% else %}<div class="empty">No tienes actividades próximas.</div>{% endfor %}
+  </section>
+
+  {% if announcements %}<div class="notice"><b>{{ announcements[0].title }}</b> — {{ announcements[0].message }}</div>{% endif %}
+</div>
+
+<div class="overlay" id="newEvent"><form class="modal" method="post" action="{{ url_for('create_event') }}"><button type="button" class="modalClose" data-modal-close>×</button><h2>Nueva actividad</h2>
+  <label>Tipo<select name="type"><option value="personal">Actividad personal</option>{% if current_user.role in ['admin','coordinator'] %}<option value="official">Actividad +Q1LÍDER</option>{% endif %}</select></label>
+  <label>Título<input name="title" required></label><label>Descripción<textarea name="description"></textarea></label>
+  <div class="cols"><label>Fecha<input name="date" type="date" value="{{ today.isoformat() }}" required></label><label>Prioridad<select name="priority"><option value="low">Baja</option><option value="medium" selected>Media</option><option value="high">Alta</option><option value="urgent">Urgente</option></select></label></div>
+  <div class="cols"><label>Inicio<input name="startTime" type="time" value="09:00"></label><label>Fin<input name="endTime" type="time" value="10:00"></label></div><label>Lugar<input name="place"></label><input type="hidden" name="status" value="pending"><button class="primaryButton">Crear actividad</button>
+</form></div>
+
+<div class="overlay" id="eventDetail"><div class="modal"><button type="button" class="modalClose" data-modal-close>×</button><h2 id="detailTitle"></h2><div id="detailBadge"></div><p id="detailDescription"></p><div class="detailGrid"><b>Fecha</b><span id="detailDate"></span><b>Horario</b><span id="detailTime"></span><b>Lugar</b><span id="detailPlace"></span><b>Estado</b><span id="detailStatus"></span></div></div></div>
+{% endblock %}
