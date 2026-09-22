@@ -114,6 +114,7 @@ def safe_user(user: dict[str, Any]) -> dict[str, Any]:
         "email": user.get("email", ""),
         "role": canonical_role(user.get("role")),
         "status": user.get("status", "active"),
+        "theme": user.get("theme", "light") if user.get("theme") in {"light", "dark"} else "light",
         "createdAt": user.get("createdAt"),
     }
 
@@ -180,6 +181,7 @@ def ensure_seed() -> None:
                 "passwordHash": hash_password("Q1Lider2026!"),
                 "role": "admin",
                 "status": "active",
+                "theme": "light",
                 "createdAt": now_iso(),
                 "updatedAt": now_iso(),
             }
@@ -194,6 +196,7 @@ def ensure_seed() -> None:
                 "passwordHash": hash_password("Docente2026!"),
                 "role": "teacher",
                 "status": "active",
+                "theme": "light",
                 "createdAt": now_iso(),
                 "updatedAt": now_iso(),
             }
@@ -213,6 +216,7 @@ def ensure_seed() -> None:
                     "passwordHash": hash_password("Demo2026!"),
                     "role": "participant",
                     "status": "active",
+                    "theme": "light",
                     "createdAt": now_iso(),
                     "updatedAt": now_iso(),
                 }
@@ -285,10 +289,17 @@ def ensure_seed() -> None:
     else:
         admin_id = next((u.get("id") for u in db["users"] if canonical_role(u.get("role")) == "admin"), None)
 
-    # Normalize old coordinator accounts to teacher for the new administration UI.
+    # Normalize old coordinator accounts to teacher and add per-user appearance preferences
+    # without breaking existing JSON databases.
     for user in db["users"]:
+        user_changed = False
         if user.get("role") == "coordinator":
             user["role"] = "teacher"
+            user_changed = True
+        if user.get("theme") not in {"light", "dark"}:
+            user["theme"] = "light"
+            user_changed = True
+        if user_changed:
             user["updatedAt"] = now_iso()
             changed = True
 

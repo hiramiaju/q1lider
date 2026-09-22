@@ -12,6 +12,7 @@ from flask import (
     abort,
     flash,
     g,
+    jsonify,
     redirect,
     render_template,
     request,
@@ -112,7 +113,7 @@ def load_user_and_enforce_attendance() -> None:
         db = read_db()
         g.absence_count = absence_count(db, g.user["id"])
         g.attendance_blocked = g.absence_count >= BLOCK_AFTER_ABSENCES
-        allowed = {"blocked_page", "logout", "static"}
+        allowed = {"blocked_page", "logout", "static", "set_theme_preference"}
         if g.attendance_blocked and request.endpoint not in allowed:
             return redirect(url_for("blocked_page"))
 
@@ -286,6 +287,27 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("login"))
+
+
+@app.post("/preferencias/tema")
+@login_required
+def set_theme_preference():
+    payload = request.get_json(silent=True) or request.form
+    theme = str(payload.get("theme", "")).strip().lower()
+    if theme not in {"light", "dark"}:
+        return jsonify({"ok": False, "error": "Tema no válido"}), 400
+
+    db = read_db()
+    user = next((u for u in db["users"] if u.get("id") == g.user.get("id")), None)
+    if not user:
+        return jsonify({"ok": False, "error": "Usuario no encontrado"}), 404
+
+    user["theme"] = theme
+    user["updatedAt"] = now_iso()
+    write_db(db)
+    # Keep the current request context in sync so any subsequent rendering uses the same preference.
+    g.user["theme"] = theme
+    return jsonify({"ok": True, "theme": theme})
 
 
 @app.route("/bloqueado")
@@ -1126,12 +1148,37 @@ def create_note():
     return redirect(url_for("space_page"))
 
 
+@app.post("/notes/<note_id>/update")
+@login_required
+def update_note(note_id: str):
+    db = read_db()
+    note = next((n for n in db["notes"] if n.get("id") == note_id), None)
+    if not note:
+        abort(404)
+    # Las notas de Mi espacio son privadas: solo su propietario puede modificarlas.
+    if note.get("ownerId") != g.user["id"]:
+        abort(403)
+    text = request.form.get("text", "").strip()
+    if not text:
+        flash("La nota no puede quedar vacía.", "error")
+        return redirect(url_for("space_page"))
+    note["text"] = text[:4000]
+    note["updatedAt"] = now_iso()
+    write_db(db)
+    flash("Nota actualizada.", "success")
+    return redirect(url_for("space_page"))
+
+
 @app.post("/notes/<note_id>/delete")
 @login_required
 def delete_note(note_id: str):
     db = read_db()
+    before = len(db["notes"])
     db["notes"] = [n for n in db["notes"] if not (n.get("id") == note_id and n.get("ownerId") == g.user["id"])]
+    if len(db["notes"]) == before:
+        abort(404)
     write_db(db)
+    flash("Nota eliminada.", "success")
     return redirect(url_for("space_page"))
 
 
@@ -1288,7 +1335,7 @@ def create_user():
     db["users"].append({
         "id": new_id(), "name": name[:100], "lastName": request.form.get("lastName", "").strip()[:120],
         "email": email, "passwordHash": hash_password(request.form.get("password") or "Temporal2026!"),
-        "role": role, "status": "active", "createdAt": now_iso(), "updatedAt": now_iso(),
+        "role": role, "status": "active", "theme": "light", "createdAt": now_iso(), "updatedAt": now_iso(),
     })
     write_db(db)
     flash("Usuario creado correctamente.", "success")
@@ -1371,9 +1418,6 @@ def search_page():
 if __name__ == "__main__":
     ensure_seed()
     print("+Q1LÍDER Flask Campus listo en http://localhost:5000")
-    print("Admin: admin@q1lider.local / Q1Lider2026!")
-    print("Docente: docente@q1lider.local / Docente2026!")
-    print("Alumno demo: ana@q1lider.local / Demo2026!")
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
 else:
     ensure_seed()

@@ -1,17 +1,24 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="{{ current_user.theme if current_user and current_user.theme in ['light','dark'] else 'light' }}" data-user-id="{{ current_user.id if current_user else '' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#2D0B91">
+  <meta name="theme-color" content="{{ '#0f1020' if current_user and current_user.theme == 'dark' else '#2D0B91' }}">
   <title>{% block title %}+Q1LÍDER{% endblock %}</title>
+  <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='img/logo-q1lider.jpeg') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
 <div class="app">
   <div class="drawerBackdrop" data-close-drawer></div>
   <aside class="sidebar" id="sidebar">
-    <div class="sideHead"><a href="{{ url_for('calendar_page') }}" class="brandLink">+Q1LÍDER</a><button class="icon mobile" data-close-drawer aria-label="Cerrar">×</button></div>
+    <div class="sideHead">
+      <a href="{{ url_for('calendar_page') }}" class="brandLink" aria-label="Ir al calendario de +Q1LÍDER">
+        <span class="brandLogoFrame"><img src="{{ url_for('static', filename='img/logo-q1lider.jpeg') }}" alt="Logo +Q1LÍDER" class="brandLogoMain"></span>
+        <span class="brandWord">+Q1LÍDER</span>
+      </a>
+      <button class="icon mobile" data-close-drawer aria-label="Cerrar">×</button>
+    </div>
     <nav class="sideNav">
       <a href="{{ url_for('calendar_page') }}" class="{{ 'active' if request.endpoint == 'calendar_page' else '' }}"><span>▣</span>Calendario</a>
       <a href="{{ url_for('modules_page') }}" class="{{ 'active' if request.endpoint in ['modules_page','module_detail','take_exam','exam_result'] else '' }}"><span>▦</span>Módulos</a>
@@ -30,6 +37,15 @@
       <a href="{{ url_for('admin_page') }}" class="{{ 'active' if request.endpoint == 'admin_page' else '' }}"><span>♟</span>Administración</a>
       {% endif %}
     </nav>
+
+    <div class="sidebarPartner" aria-label="Instituto de la Juventud">
+      <small>En colaboración con</small>
+      <img class="partnerLogo partnerLight partnerLong" src="{{ url_for('static', filename='img/iaju-azul-largo.png') }}" alt="Instituto de la Juventud">
+      <!-- <img class="partnerLogo partnerDark partnerLong" src="{{ url_for('static', filename='img/iaju-blanco-largo.png') }}" alt="Instituto de la Juventud"> -->
+      <img class="partnerLogo partnerLight partnerShort" src="{{ url_for('static', filename='img/iaju-azul-corto.png') }}" alt="Instituto de la Juventud">
+      <img class="partnerLogo partnerDark partnerShort" src="{{ url_for('static', filename='img/iaju-blanco-corto.png') }}" alt="Instituto de la Juventud">
+    </div>
+
     <div class="sidebarFoot">
       <div class="avatar">{{ current_user.name[0] }}</div>
       <div class="userMeta"><b>{{ current_user.name }}</b><small>{{ {'admin':'Administrador','teacher':'Docente','participant':'Alumno'}.get(current_user.role,current_user.role) }}</small></div>
@@ -41,6 +57,9 @@
     <header>
       <button class="icon mobile" data-open-drawer aria-label="Abrir menú">☰</button>
       <form class="topSearch" action="{{ url_for('search_page') }}" method="get"><span>⌕</span><input name="q" placeholder="Buscar en +Q1LÍDER" value="{{ request.args.get('q','') if request.endpoint == 'search_page' else '' }}"></form>
+      <button type="button" class="themeToggle" data-theme-toggle aria-label="Cambiar tema" title="Cambiar modo claro/oscuro">
+        <span class="themeSun">☀</span><span class="themeMoon">☾</span><span class="themeLabel">Tema</span>
+      </button>
       <a class="icon notif" href="{{ url_for('notifications_page') }}" title="Notificaciones">♢{% if unread_notifications %}<span>{{ unread_notifications }}</span>{% endif %}</a>
       <div class="avatar topAvatar">{{ current_user.name[0] }}</div>
     </header>

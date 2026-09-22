@@ -1,25 +1,47 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2D0B91">
   <title>Iniciar sesión · +Q1LÍDER</title>
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('q1lider-login-theme')||'light'}catch(_){}</script>
+  <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='img/logo-q1lider.jpeg') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
 <div class="login">
+  <button type="button" class="themeToggle loginThemeToggle" data-login-theme-toggle aria-label="Cambiar tema" title="Cambiar modo claro/oscuro">
+    <span class="themeSun">☀</span><span class="themeMoon">☾</span><span class="themeLabel">Tema</span>
+  </button>
   <section class="brand">
-    <div class="logoMark">+Q1</div><h1>+Q1LÍDER</h1><h2>Organiza. Participa. Lidera.</h2><p>Todo lo de +Q1LÍDER, organizado en un solo lugar.</p>
+    <div class="loginPrincipalLogo"><img src="{{ url_for('static', filename='img/logo-q1lider.jpeg') }}" alt="Logo +Q1LÍDER"></div>
+    <h1>+Q1LÍDER</h1>
+    <h2>Organiza. Participa. Lidera.</h2>
+    <p>Todo lo de +Q1LÍDER, organizado en un solo lugar.</p>
+    <div class="loginInstitutionBrand">
+      <small>Un programa con identidad institucional</small>
+      <img src="{{ url_for('static', filename='img/iaju-blanco-largo.png') }}" alt="Instituto de la Juventud">
+    </div>
   </section>
   <section class="loginPane">
     <form method="post" class="loginCard">
-      <div class="loginMobileBrand"><div class="logoMark smallLogo">+Q1</div><b>+Q1LÍDER</b></div>
+      <div class="loginMobileBrand">
+        <span class="brandLogoFrame"><img src="{{ url_for('static', filename='img/logo-q1lider.jpeg') }}" alt="Logo +Q1LÍDER" class="brandLogoMain"></span>
+        <b>+Q1LÍDER</b>
+      </div>
       <h2>Iniciar sesión</h2><p>Accede a tu calendario, módulos, materiales, evaluaciones y Kárdex.</p>
       {% with messages = get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
-      <label>Correo electrónico<input name="email" type="email" value="admin@q1lider.local" autocomplete="email" required></label>
-      <label>Contraseña<input name="password" type="password" value="Q1Lider2026!" autocomplete="current-password" required></label>
+      <label>Correo electrónico<input name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required></label>
+      <label>Contraseña<input name="password" type="password" autocomplete="current-password" placeholder="••••••••" required></label>
       <button type="submit" class="primaryButton">Iniciar sesión</button>
-      <div class="demo"><b>Accesos demo</b><br><b>Admin:</b> admin@q1lider.local · Q1Lider2026!<br><b>Docente:</b> docente@q1lider.local · Docente2026!<br><b>Alumno:</b> ana@q1lider.local · Demo2026!</div>
+      <div class="loginPartnerLight">
+        <img class="partnerLight partnerLong" src="{{ url_for('static', filename='img/iaju-color-largo.png') }}" alt="El Gigante de México · Instituto de la Juventud">
+        <!-- <img class="partnerDark partnerLong" src="{{ url_for('static', filename='img/iaju-blanco-largo.png') }}" alt="El Gigante de México · Instituto de la Juventud"> -->
+        <img class="partnerLight partnerShort" src="{{ url_for('static', filename='img/iaju-color-corto.png') }}" alt="Instituto de la Juventud">
+        <img class="partnerDark partnerShort" src="{{ url_for('static', filename='img/iaju-blanco-corto.png') }}" alt="Instituto de la Juventud">
+      </div>
     </form>
   </section>
 </div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body></html>

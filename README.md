@@ -1,4 +1,4 @@
-# +Q1LÍDER — Flask Campus Académico v5
+# +Q1LÍDER — Flask Campus Académico v5.2
 
 Versión en **Python + Flask + Jinja + CSS/JavaScript + JSON local**. No usa Next.js, React, Vite, Express, Supabase ni servicios de Google.
 
@@ -126,7 +126,7 @@ Separada en:
 ## Instalación en Windows
 
 ```powershell
-cd D:\q1lider-flask-v5
+cd D:\q1lider-flask-v5.2
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
@@ -189,3 +189,32 @@ No existe `npm install`, `npm run seed` ni configuración de Supabase.
 - JavaScript validado con `node --check`.
 - Referencias `url_for(...)` comparadas contra endpoints Flask.
 - La instalación de Flask no está disponible en el entorno de generación, por lo que el arranque HTTP completo debe ejecutarse en tu PC después de `pip install -r requirements.txt`.
+
+
+## Novedad v5.1 — Mi espacio editable por usuario
+
+- Cada usuario puede crear, editar y eliminar sus **notas rápidas privadas**.
+- Las notas se validan por propietario en Flask: otro usuario no puede editarlas ni borrarlas aunque manipule una URL.
+- Cada usuario puede crear, editar y eliminar sus **actividades personales** directamente desde “Mi espacio”.
+- Las actividades oficiales pueden verse desde “Mi espacio”, pero un participante no puede modificarlas.
+- La edición de actividades personales reutiliza la protección del backend por propietario.
+- La pantalla “Mi espacio” fue rediseñada con tarjetas, indicadores de privacidad y controles responsivos.
+
+## Novedad v5.2 — Identidad oficial + tema por usuario
+
+- Se integró `+q1lider.jpeg` como **logo principal** de la plataforma, incluyendo login, navegación y favicon.
+- Se incluyeron las seis variantes institucionales del Instituto de la Juventud: Azul Corto/Largo, Blanco Corto/Largo y Color Corto/Largo.
+- La interfaz selecciona automáticamente variantes adecuadas para fondo claro, oscuro, escritorio y móvil.
+- Se agregó selector de **modo claro / modo oscuro**.
+- La preferencia se guarda en `data/db.json` dentro del registro de cada usuario (`theme`), por lo que al volver a iniciar sesión recupera el último modo que utilizó.
+- Las bases de datos de versiones anteriores son compatibles: a usuarios existentes se les asigna modo claro la primera vez y después se conserva su elección.
+- La pantalla de inicio de sesión ya no muestra correos, contraseñas ni el bloque de accesos de demostración, y los campos aparecen vacíos.
+- El modo oscuro se aplica a navegación, calendario, módulos, materiales, comentarios, actividades, administración, Kárdex, asistencia, evaluaciones, modales y Mi espacio.
+
+
+## v5.3 — Corrección de barra lateral
+
+- El menú central de la barra lateral ahora tiene scroll independiente cuando hay muchas opciones.
+- Perfil, identidad institucional y cerrar sesión permanecen visibles al fondo.
+- El botón de cerrar sesión ya no se oculta en la barra compacta de tablet/escritorio.
+- El drawer móvil usa la altura dinámica del dispositivo y respeta el área segura inferior.
