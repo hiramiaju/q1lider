@@ -21,6 +21,8 @@
       const e = JSON.parse(btn.dataset.event || '{}');
       const $ = id => document.getElementById(id);
       $('detailTitle').textContent = e.title || '';
+      const imageBox = $('detailImage');
+      if (imageBox) imageBox.innerHTML = e.imageName ? `<img src="/uploads/${encodeURIComponent(e.imageName)}" alt="Imagen de la actividad">` : '';
       $('detailDescription').textContent = e.description || 'Sin descripción.';
       $('detailDate').textContent = e.date || '';
       $('detailTime').textContent = `${e.startTime || ''} – ${e.endTime || ''}`;

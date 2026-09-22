@@ -1,37 +1,132 @@
-# +Q1LÍDER — versión Python + Flask
+# +Q1LÍDER — Flask Campus Académico v5
 
-Conversión de la plataforma v2.2 de React/Vite + Express/TypeScript a un proyecto **Python + Flask**. Esta versión no necesita Node.js, npm, Vite, React, Express, Supabase ni servicios de Google.
+Versión en **Python + Flask + Jinja + CSS/JavaScript + JSON local**. No usa Next.js, React, Vite, Express, Supabase ni servicios de Google.
 
-## Qué conserva
+## Cambios principales de v5
 
-- Login privado y roles: Administrador, Coordinador y Participante.
-- Calendario principal con actividades oficiales y personales.
-- Privacidad de actividades personales.
-- Mis tareas.
-- Actividades oficiales.
-- Biblioteca de materiales con subida de archivos de hasta 25 MB.
-- Comentarios **públicos** y **personales** en materiales.
-- Mi espacio y notas privadas.
-- Módulo de asistencia por fecha/actividad.
-- Estados: Presente, Falta, Retardo y Justificada.
-- Resumen acumulado de faltas y porcentaje de asistencia por alumno.
-- Administración de usuarios y activación/desactivación.
-- Notificaciones internas.
-- Búsqueda global.
-- Diseño responsive para desktop, tablet y celular.
-- Base local JSON y carpeta local de uploads.
+### Contenido del módulo en cuadrícula
+Cada módulo separa visualmente el material en tarjetas independientes y con fondos de color:
 
-## Requisitos
+- Plan del módulo.
+- Guía de estudio complementaria.
+- Enunciado de caso práctico.
+- Enunciado práctico para proyecto.
+- Master class / clase grabada.
+- Recurso complementario.
 
-- Python 3.11 o superior recomendado.
-- Windows, macOS o Linux.
+Cada recurso mantiene sus **comentarios públicos** y **comentarios personales (solo yo)**.
+
+### Gestión real del módulo para Docente/Admin
+Desde la misma pantalla del módulo un Docente o Administrador puede:
+
+- Editar título, subtítulo y descripción del módulo.
+- Subir documentos directamente al módulo.
+- Agregar enlaces o videos externos.
+- Elegir a qué apartado pertenece el contenido.
+- Editar un material publicado.
+- Reemplazar/agregar el archivo de un material.
+- Cambiar de sección el material.
+- Eliminar contenido.
+- Administrar evaluaciones.
+
+### Evaluaciones de un solo intento
+Todas las evaluaciones son de **un solo intento para el alumno**.
+
+1. El alumno abre la evaluación.
+2. Contesta y presiona **Enviar evaluación**.
+3. Se registra la calificación y se cierra el intento.
+4. El alumno regresa a la sección de evaluaciones del módulo.
+5. La tarjeta muestra **Evaluación enviada** y la calificación.
+6. Ya no puede volver a abrir las preguntas.
+7. Puede consultar una pantalla de resultado, pero no modificar sus respuestas.
+
+El examen final conserva la regla adicional: **la encuesta del módulo debe completarse primero**.
+
+### Docentes pueden editar evaluaciones
+En **Exámenes**, Docente/Admin puede:
+
+- Crear evaluaciones.
+- Editar título y descripción.
+- Cambiar módulo.
+- Cambiar entre autoevaluación y examen final.
+- Editar preguntas y respuestas correctas.
+- Modificar el porcentaje que aporta a la calificación.
+- Eliminar la evaluación.
+
+Los intentos ya enviados por los alumnos permanecen registrados y cerrados.
+
+### Actividades oficiales editables con imagen
+En **Actividades**, Docente/Admin puede:
+
+- Crear una actividad global +Q1LÍDER.
+- Editar título y descripción.
+- Cambiar fecha, horario y lugar.
+- Cambiar prioridad y estado.
+- Subir/reemplazar/quitar una imagen de portada.
+- Eliminar actividades.
+
+Los alumnos **no pueden crear actividades globales**. En su calendario solo pueden crear actividades personales. Esta restricción existe tanto en la interfaz como en el backend Flask.
+
+## Funciones académicas incluidas
+
+### Programa de 12 semanas / 6 módulos
+
+- Módulo 1: semanas 1–2
+- Módulo 2: semanas 3–4
+- Módulo 3: semanas 5–6
+- Módulo 4: semanas 7–8
+- Módulo 5: semanas 9–10
+- Módulo 6: semanas 11–12
+
+Cada módulo integra:
+
+1. Plan del módulo.
+2. Guía de estudio complementaria.
+3. Enunciado de caso práctico.
+4. Entrega de caso práctico.
+5. Foro de dudas.
+6. Autoevaluaciones.
+7. Enunciados prácticos para proyectos.
+8. Master class / clases grabadas.
+9. Encuesta de cierre.
+10. Examen final.
+
+### Asistencia y bloqueo
+
+- Presente.
+- Falta.
+- Retardo.
+- Justificada.
+- Lista relacionada con módulo y semana.
+- **3 faltas durante las 12 semanas bloquean automáticamente al alumno.**
+- Si un Docente/Admin corrige la asistencia y el alumno baja de 3 faltas, el acceso se reactiva automáticamente.
+
+### Kárdex y calificaciones
+
+El Kárdex muestra por alumno:
+
+- Los seis módulos.
+- Calificación por módulo.
+- Faltas.
+- Estado de encuesta.
+- Examen final.
+- Promedio general.
+- Estado de acceso.
+
+Docente/Admin puede definir actividades calificables y su porcentaje. Los resultados de evaluaciones vinculadas se registran automáticamente.
+
+### Administración
+
+Separada en:
+
+- Alumnos.
+- Docentes.
+- Admin.
 
 ## Instalación en Windows
 
-Abre PowerShell dentro de la carpeta del proyecto:
-
 ```powershell
-cd D:\q1lider-flask
+cd D:\q1lider-flask-v5
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
@@ -44,135 +139,53 @@ Abre:
 http://localhost:5000
 ```
 
-### Usuario demo
+## Accesos demo
+
+**Administrador**
 
 ```text
-Correo: admin@q1lider.local
-Contraseña: Q1Lider2026!
+admin@q1lider.local
+Q1Lider2026!
 ```
 
-Los tres participantes demo usan la contraseña:
+**Docente**
 
 ```text
+docente@q1lider.local
+Docente2026!
+```
+
+**Alumno**
+
+```text
+ana@q1lider.local
 Demo2026!
 ```
 
-## Arranque rápido después de instalar
+## Actualizar desde Flask v4 sin perder datos
 
-En Windows puedes ejecutar:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-python app.py
-```
-
-También puedes usar `start.bat` si el entorno virtual ya está activo.
-
-## Dónde se guardan los datos
+Antes de reemplazar la versión anterior haz copia de:
 
 ```text
 data/db.json
 uploads/
 ```
 
-El JSON se crea automáticamente la primera vez. Si no hay usuarios, Flask crea el administrador y datos demo automáticamente. **No existe `npm run seed`.**
+Después puedes sustituir el resto del proyecto con v5 y volver a colocar esas dos rutas. La estructura JSON continúa siendo compatible.
 
-## Migrar los datos de tu versión React/Express
-
-La versión Flask entiende los hashes bcrypt y el formato JSON de la versión anterior. Si tu proyecto anterior está, por ejemplo, en `D:\q1lider-simple`, ejecuta:
-
-```powershell
-python migrate_node_data.py "D:\q1lider-simple"
-```
-
-El script:
-
-1. Busca `D:\q1lider-simple\server\data\db.json`.
-2. Crea backup del JSON actual de Flask.
-3. Copia usuarios, actividades, tareas, materiales, asistencia y comentarios.
-4. Copia también `server\uploads` si existe.
-
-Después:
-
-```powershell
-python app.py
-```
-
-También puedes hacerlo manualmente copiando:
+## Datos
 
 ```text
-VERSIÓN NODE/server/data/db.json  ->  VERSIÓN FLASK/data/db.json
-VERSIÓN NODE/server/uploads/*     ->  VERSIÓN FLASK/uploads/*
+data/db.json
+uploads/
 ```
 
-## Reiniciar los datos demo
+No existe `npm install`, `npm run seed` ni configuración de Supabase.
 
-```powershell
-python reset.py
-```
+## Validación de esta entrega
 
-Esto elimina los datos locales actuales y vuelve a crear el acceso demo.
-
-## Responsive
-
-- Desktop: sidebar completo y calendario mensual.
-- Tablet: navegación compacta y layouts reacomodados.
-- Celular: drawer lateral + navegación inferior, agenda móvil, formularios de una columna y modales tipo bottom sheet.
-- Asistencia: controles grandes para marcar la lista desde teléfono.
-- Administración: tabla de usuarios convertida en tarjetas en móvil.
-
-## Estructura
-
-```text
-q1lider-flask/
-├─ app.py
-├─ db.py
-├─ reset.py
-├─ migrate_node_data.py
-├─ requirements.txt
-├─ Procfile
-├─ data/
-│  └─ db.json              # se crea automáticamente
-├─ uploads/
-├─ static/
-│  ├─ css/styles.css
-│  └─ js/app.js
-└─ templates/
-   ├─ base.html
-   ├─ login.html
-   ├─ calendar.html
-   ├─ tasks.html
-   ├─ activities.html
-   ├─ material.html
-   ├─ space.html
-   ├─ attendance.html
-   ├─ admin.html
-   ├─ notifications.html
-   └─ search.html
-```
-
-## Producción
-
-Para producción cambia la clave de sesión con una variable de entorno:
-
-```powershell
-$env:Q1LIDER_SECRET="una-clave-larga-y-unica"
-```
-
-En Linux/macOS:
-
-```bash
-export Q1LIDER_SECRET="una-clave-larga-y-unica"
-```
-
-Con Gunicorn:
-
-```bash
-gunicorn app:app --bind 0.0.0.0:5000
-```
-
-El `Procfile` ya viene incluido para hosts compatibles.
-
-## Nota sobre la validación de esta entrega
-
-Los archivos Python fueron validados con `compileall` y todas las plantillas Jinja fueron compiladas sintácticamente. En el entorno donde se generó el ZIP no había acceso de red para descargar Flask mediante pip, por lo que no fue posible ejecutar el servidor Flask completo allí. El proyecto incluye `requirements.txt` para instalar las dependencias normalmente en tu equipo.
+- Sintaxis Python validada con `py_compile`.
+- Todas las plantillas Jinja parseadas sin errores.
+- JavaScript validado con `node --check`.
+- Referencias `url_for(...)` comparadas contra endpoints Flask.
+- La instalación de Flask no está disponible en el entorno de generación, por lo que el arranque HTTP completo debe ejecutarse en tu PC después de `pip install -r requirements.txt`.

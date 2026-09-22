@@ -14,13 +14,17 @@
     <div class="sideHead"><a href="{{ url_for('calendar_page') }}" class="brandLink">+Q1LÍDER</a><button class="icon mobile" data-close-drawer aria-label="Cerrar">×</button></div>
     <nav class="sideNav">
       <a href="{{ url_for('calendar_page') }}" class="{{ 'active' if request.endpoint == 'calendar_page' else '' }}"><span>▣</span>Calendario</a>
+      <a href="{{ url_for('modules_page') }}" class="{{ 'active' if request.endpoint in ['modules_page','module_detail','take_exam','exam_result'] else '' }}"><span>▦</span>Módulos</a>
       <a href="{{ url_for('tasks_page') }}" class="{{ 'active' if request.endpoint == 'tasks_page' else '' }}"><span>✓</span>Mis tareas</a>
       <a href="{{ url_for('activities_page') }}" class="{{ 'active' if request.endpoint == 'activities_page' else '' }}"><span>⌂</span>Actividades</a>
       <a href="{{ url_for('material_page') }}" class="{{ 'active' if request.endpoint == 'material_page' else '' }}"><span>▤</span>Material</a>
+      <a href="{{ url_for('kardex_page') }}" class="{{ 'active' if request.endpoint == 'kardex_page' else '' }}"><span>▥</span>Kárdex</a>
       <a href="{{ url_for('space_page') }}" class="{{ 'active' if request.endpoint == 'space_page' else '' }}"><span>✦</span>Mi espacio</a>
-      {% if current_user.role in ['admin','coordinator'] %}
+      {% if current_user.role in ['admin','teacher'] %}
       <div class="sep"></div>
       <a href="{{ url_for('attendance_page') }}" class="{{ 'active' if request.endpoint == 'attendance_page' else '' }}"><span>☑</span>Asistencia</a>
+      <a href="{{ url_for('exams_page') }}" class="{{ 'active' if request.endpoint in ['exams_page','edit_exam'] else '' }}"><span>✎</span>Exámenes</a>
+      <a href="{{ url_for('gradebook_page') }}" class="{{ 'active' if request.endpoint == 'gradebook_page' else '' }}"><span>★</span>Calificaciones</a>
       {% endif %}
       {% if current_user.role == 'admin' %}
       <a href="{{ url_for('admin_page') }}" class="{{ 'active' if request.endpoint == 'admin_page' else '' }}"><span>♟</span>Administración</a>
@@ -28,7 +32,7 @@
     </nav>
     <div class="sidebarFoot">
       <div class="avatar">{{ current_user.name[0] }}</div>
-      <div class="userMeta"><b>{{ current_user.name }}</b><small>{{ {'admin':'Administrador','coordinator':'Coordinador','participant':'Participante'}.get(current_user.role,current_user.role) }}</small></div>
+      <div class="userMeta"><b>{{ current_user.name }}</b><small>{{ {'admin':'Administrador','teacher':'Docente','participant':'Alumno'}.get(current_user.role,current_user.role) }}</small></div>
       <form method="post" action="{{ url_for('logout') }}"><button class="icon" title="Cerrar sesión">↪</button></form>
     </div>
   </aside>
@@ -49,10 +53,10 @@
 
   <nav class="bottomNav">
     <a href="{{ url_for('calendar_page') }}" class="{{ 'active' if request.endpoint == 'calendar_page' else '' }}"><span>▣</span><small>Calendario</small></a>
+    <a href="{{ url_for('modules_page') }}" class="{{ 'active' if request.endpoint in ['modules_page','module_detail','take_exam','exam_result'] else '' }}"><span>▦</span><small>Módulos</small></a>
     <a href="{{ url_for('tasks_page') }}" class="{{ 'active' if request.endpoint == 'tasks_page' else '' }}"><span>✓</span><small>Tareas</small></a>
-    <a href="{{ url_for('activities_page') }}" class="{{ 'active' if request.endpoint == 'activities_page' else '' }}"><span>⌂</span><small>Actividades</small></a>
     <a href="{{ url_for('material_page') }}" class="{{ 'active' if request.endpoint == 'material_page' else '' }}"><span>▤</span><small>Material</small></a>
-    <a href="{{ url_for('space_page') }}" class="{{ 'active' if request.endpoint == 'space_page' else '' }}"><span>✦</span><small>Mi espacio</small></a>
+    <a href="{{ url_for('kardex_page') }}" class="{{ 'active' if request.endpoint == 'kardex_page' else '' }}"><span>▥</span><small>Kárdex</small></a>
   </nav>
 </div>
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>

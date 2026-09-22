@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block title %}{{ module.title }} · +Q1LÍDER{% endblock %}
+{% block content %}
+<div class="page modulePage">
+  <div class="moduleHero">
+    <a href="{{ url_for('modules_page') }}">← Todos los módulos</a>
+    <span class="moduleWeeks">Semanas {{ module.startWeek }}–{{ module.endWeek }}</span>
+    <h1>{{ module.title }}</h1>
+    <p>{{ module.description }}</p>
+    {% if current_user.role=='participant' and grade_data and grade_data.grade is not none %}
+      <div class="moduleGradeChip">Calificación actual <b>{{ grade_data.grade }}</b></div>
+    {% endif %}
+  </div>
+
+  {% if current_user.role in ['admin','teacher'] %}
+  <div class="teacherToolsGrid">
+    <details class="panel compactPanel teacherToolCard">
+      <summary><b>✎ Editar información del módulo</b><span>Título, descripción y datos generales</span></summary>
+      <form class="inlineEditor" method="post" action="{{ url_for('update_module', module_id=module.id) }}">
+        <label>Título<input name="title" value="{{ module.title }}" required></label>
+        <label>Subtítulo<input name="subtitle" value="{{ module.subtitle }}"></label>
+        <label>Descripción<textarea name="description">{{ module.description }}</textarea></label>
+        <button>Guardar cambios del módulo</button>
+      </form>
+    </details>
+
+    <details class="panel compactPanel teacherToolCard" {% if request.args.get('gestionar') %}open{% endif %}>
+      <summary><b>＋ Gestionar contenido</b><span>Sube documentos, videos, enlaces y recursos</span></summary>
+      <form class="inlineEditor" method="post" action="{{ url_for('create_material') }}" enctype="multipart/form-data">
+        <input type="hidden" name="moduleId" value="{{ module.id }}">
+        <div class="cols">
+          <label>Sección
+            <select name="contentType" required>
+              {% for key,label in material_type_labels.items() %}<option value="{{ key }}">{{ label }}</option>{% endfor %}
+            </select>
+          </label>
+          <label>Nombre<input name="name" placeholder="Ej. Plan del {{ module.title }}" required></label>
+        </div>
+        <label>Descripción<textarea name="description" placeholder="Describe brevemente el contenido"></textarea></label>
+        <div class="cols">
+          <label>Documento / archivo<input type="file" name="file"></label>
+          <label>Enlace o video externo<input type="url" name="url" placeholder="https://..."></label>
+        </div>
+        <input type="hidden" name="category" value="Capacitaciones">
+        <button>Publicar en este módulo</button>
+      </form>
+    </details>
+  </div>
+  {% endif %}
+
+  <nav class="moduleTabs">
+    <a href="#contenido">Contenido</a><a href="#caso">Caso práctico</a><a href="#foro">Foro</a><a href="#evaluaciones">Evaluaciones</a>
+  </nav>
+
+  <section id="contenido" class="moduleSection">
+    <div class="sectionHead">
+      <div><span class="eyebrow">CONTENIDO DEL MÓDULO</span><h2>Material de estudio</h2><p>Cada apartado funciona como una sección independiente del módulo.</p></div>
+      {% if current_user.role in ['admin','teacher'] %}<a class="secondaryButton" href="{{ url_for('module_detail', module_id=module.id, gestionar=1) }}#contenido">＋ Agregar contenido</a>{% endif %}
+    </div>
+
+    <div class="contentTypeGrid academicContentGrid">
+      {% for key,label in material_type_labels.items() %}
+      <article class="contentTypeCard academicContentCard type-{{ key }}">
+        <div class="academicCardHead">
+          <div class="contentTypeIcon">{{ {'module_plan':'▧','study_guide':'▤','case_statement':'◆','project_practical':'◇','master_class':'▶','resource':'+'}.get(key,'▤') }}</div>
+          <div><span class="contentKicker">MATERIAL DE ESTUDIO</span><h3>{{ label }}</h3></div>
+        </div>
+
+        <div class="academicCardBody">
+        {% for m in grouped.get(key,[]) %}
+          <div class="moduleMaterial academicMaterial" id="material-{{ m.id }}">
+            <div class="materialText"><b>{{ m.name }}</b><small>{{ m.description or 'Sin descripción.' }}</small></div>
+            {% if m.fileName %}<a class="resourceButton" href="{{ url_for('uploaded_file', filename=m.fileName) }}" target="_blank">Abrir archivo ↗</a>
+            {% elif m.url %}<a class="resourceButton" href="{{ m.url }}" target="_blank" rel="noopener">Abrir recurso ↗</a>{% endif %}
+          </div>
+
+          {% if current_user.role in ['admin','teacher'] %}
+          <details class="staffContentEditor">
+            <summary>✎ Editar este contenido</summary>
+            <form method="post" action="{{ url_for('update_material', material_id=m.id) }}" enctype="multipart/form-data">
+              <label>Nombre<input name="name" value="{{ m.name }}" required></label>
+              <label>Descripción<textarea name="description">{{ m.description }}</textarea></label>
+              <label>Sección<select name="contentType">{% for type_key,type_label in material_type_labels.items() %}<option value="{{ type_key }}" {{ 'selected' if type_key==m.contentType else '' }}>{{ type_label }}</option>{% endfor %}</select></label>
+              <label>Reemplazar / agregar archivo<input type="file" name="file"></label>
+              <label>Enlace<input type="url" name="url" value="{{ m.url or '' }}" placeholder="https://..."></label>
+              <div class="editorActions"><button>Guardar contenido</button></div>
+            </form>
+            <form method="post" action="{{ url_for('delete_material', material_id=m.id) }}" onsubmit="return confirm('¿Eliminar este contenido y sus comentarios?')"><button class="dangerGhost fullButton">Eliminar contenido</button></form>
+          </details>
+          {% endif %}
+
+          <details class="moduleComments">
+            <summary>Comentarios ({{ grouped_comments.get(m.id,[])|length }})</summary>
+            <form method="post" action="{{ url_for('add_material_comment', material_id=m.id) }}">
+              <textarea name="text" placeholder="Escribe un comentario sobre este material" required></textarea>
+              <div class="commentActions"><select name="visibility"><option value="public">🌐 Público</option><option value="personal">🔒 Personal (solo yo)</option></select><button>Comentar</button></div>
+            </form>
+            {% for c in grouped_comments.get(m.id,[]) %}
+              <div class="miniComment"><b>{{ c.authorName }}</b><span>{{ '🔒 Personal' if c.visibility=='personal' else '🌐 Público' }}</span><p>{{ c.text }}</p></div>
+            {% endfor %}
+          </details>
+        {% else %}
+          <div class="academicEmpty"><span>{{ {'module_plan':'▧','study_guide':'▤','case_statement':'◆','project_practical':'◇','master_class':'▶','resource':'+'}.get(key,'▤') }}</span><p>Aún no se ha publicado contenido.</p>{% if current_user.role in ['admin','teacher'] %}<a href="{{ url_for('module_detail', module_id=module.id, gestionar=1) }}#contenido">Agregar ahora</a>{% endif %}</div>
+        {% endfor %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="caso" class="moduleSection twoColAcademic">
+    <div class="panel"><span class="eyebrow">ENTREGA</span><h2>Caso práctico</h2>
+      {% if current_user.role=='participant' %}
+        <p>Sube aquí tu entrega correspondiente a este módulo. Puedes reemplazarla mientras el docente no haya cerrado la actividad.</p>
+        {% if submission %}<div class="submissionDone"><b>✓ Entrega registrada</b><span>{{ submission.originalName }} · {{ submission.updatedAt[:16].replace('T',' ') }}</span><a href="{{ url_for('uploaded_file', filename=submission.fileName) }}" target="_blank">Ver entrega</a></div>{% endif %}
+        <form method="post" action="{{ url_for('submit_case', module_id=module.id) }}" enctype="multipart/form-data"><label>Archivo<input type="file" name="file" required></label><label>Nota para el docente<textarea name="note" placeholder="Comentario opcional"></textarea></label><button>{{ 'Reemplazar entrega' if submission else 'Entregar caso práctico' }}</button></form>
+      {% else %}<p>Los alumnos pueden subir aquí su caso práctico. Las calificaciones se capturan desde el módulo de Calificaciones.</p>{% endif %}
+    </div>
+    <div class="panel"><span class="eyebrow">PROGRESO</span><h2>Ruta del módulo</h2><ol class="moduleChecklist"><li>Plan del módulo</li><li>Guía complementaria</li><li>Enunciado del caso práctico</li><li>Entrega del caso</li><li>Foro de dudas</li><li>Autoevaluación</li><li>Proyecto práctico</li><li>Master class</li><li>Encuesta de cierre</li><li>Examen final</li></ol></div>
+  </section>
+
+  <section id="foro" class="moduleSection">
+    <div class="sectionHead"><div><span class="eyebrow">COLABORACIÓN</span><h2>Foro de dudas</h2></div></div>
+    <div class="forumLayout">
+      <form class="panel forumComposer" method="post" action="{{ url_for('create_forum_post', module_id=module.id) }}"><label>Escribe una duda, respuesta o comentario<textarea name="text" required placeholder="Comparte tu pregunta con el grupo..."></textarea></label><button>Publicar en el foro</button></form>
+      <div class="forumFeed">{% for p in posts %}<article class="forumPost"><div class="avatar small">{{ p.authorName[0] }}</div><div><div class="forumMeta"><b>{{ p.authorName }}</b><small>{{ p.createdAt[:16].replace('T',' ') }}</small></div><p>{{ p.text }}</p></div>{% if p.authorId==current_user.id or current_user.role in ['admin','teacher'] %}<form method="post" action="{{ url_for('delete_forum_post', post_id=p.id) }}"><button class="deleteComment">×</button></form>{% endif %}</article>{% else %}<div class="empty compact">Todavía no hay dudas en este módulo.</div>{% endfor %}</div>
+    </div>
+  </section>
+
+  <section id="evaluaciones" class="moduleSection">
+    <div class="sectionHead"><div><span class="eyebrow">EVALUACIÓN</span><h2>Autoevaluaciones y examen final</h2><p>Una vez enviada una evaluación, el intento queda cerrado y ya no se puede volver a abrir.</p></div>{% if current_user.role in ['admin','teacher'] %}<a class="secondaryButton" href="{{ url_for('exams_page') }}">Administrar evaluaciones</a>{% endif %}</div>
+    <div class="assessmentGrid">
+      {% for exam in assessments %}
+        {% set tries=attempts_by_exam.get(exam.id,[]) %}
+        <article class="assessmentCard {{ 'final' if exam.type=='final_exam' else '' }} {{ 'completedAssessment' if tries else '' }}">
+          <span>{{ assessment_type_labels.get(exam.type,exam.type) }}</span><h3>{{ exam.title }}</h3><p>{{ exam.description }}</p>
+          {% if current_user.role=='participant' %}
+            {% if tries %}
+              <div class="submittedAssessment">✓ Evaluación enviada <b>{{ tries[-1].score }}/100</b><small>Tu intento quedó cerrado.</small></div>
+              <a class="secondaryButton linkAsButton" href="{{ url_for('exam_result', exam_id=exam.id) }}">Ver resultado</a>
+            {% elif exam.type=='final_exam' and not survey_done %}
+              <div class="lockedExam">🔒 Completa la encuesta para desbloquear</div>
+            {% else %}
+              <a class="primaryButton linkAsButton" href="{{ url_for('take_exam', exam_id=exam.id) }}">Presentar evaluación</a>
+            {% endif %}
+          {% else %}
+            <small>{{ exam.questions|length }} preguntas</small><a class="secondaryButton linkAsButton" href="{{ url_for('edit_exam', exam_id=exam.id) }}">✎ Editar evaluación</a>
+          {% endif %}
+        </article>
+      {% else %}<div class="empty compact">No hay evaluaciones publicadas todavía.</div>{% endfor %}
+    </div>
+  </section>
+
+  <section id="encuesta" class="moduleSection surveySection"><div class="panel"><span class="eyebrow">REQUISITO DE CIERRE</span><h2>Encuesta del módulo</h2>{% if current_user.role=='participant' %}{% if survey_done %}<div class="surveyComplete"><b>✓ Encuesta completada</b><p>El examen final se encuentra desbloqueado.</p></div>{% elif survey %}<p>{{ survey.description }}</p><form method="post" action="{{ url_for('submit_survey', module_id=module.id) }}">{% for q in survey.questions %}<label>{{ loop.index }}. {{ q.text }}{% if q.type=='rating' %}<select name="q_{{ q.id }}" required><option value="">Selecciona</option>{% for n in range(1,6) %}<option value="{{ n }}">{{ n }} / 5</option>{% endfor %}</select>{% else %}<textarea name="q_{{ q.id }}" required></textarea>{% endif %}</label>{% endfor %}<button class="primaryButton">Enviar encuesta y desbloquear examen final</button></form>{% endif %}{% else %}<p>Los alumnos deben completar esta encuesta antes de poder abrir el examen final.</p>{% endif %}</div></section>
+</div>
+{% endblock %}

@@ -1,3 +1,47 @@
 {% extends 'base.html' %}{% block title %}Actividades · +Q1LÍDER{% endblock %}{% block content %}
-<div class="page"><div class="titleRow"><div><h1>Actividades</h1><p>Actividades oficiales del programa.</p></div></div><div class="activityGrid">{% for e in items %}<article class="activityCard"><div class="dateBox"><b>{{ e.date[8:10] }}</b><span>{{ e.date[5:7] }}/{{ e.date[0:4] }}</span></div><div><span class="badge official">+Q1LÍDER</span><h3>{{ e.title }}</h3><p>{{ e.description }}</p><small>{{ e.startTime }} · {{ e.place or 'Por definir' }}</small></div></article>{% else %}<div class="empty">Todavía no hay actividades oficiales.</div>{% endfor %}</div></div>
+<div class="page">
+  <div class="titleRow">
+    <div><h1>Actividades</h1><p>Actividades oficiales del programa. Solo docentes y administradores pueden publicarlas globalmente.</p></div>
+    {% if current_user.role in ['admin','teacher'] %}<button class="primaryAction" data-modal-open="newOfficialEvent">＋ Nueva actividad oficial</button>{% endif %}
+  </div>
+
+  <div class="activityGrid enhancedActivityGrid">
+    {% for e in items %}
+    <article class="activityCard enhancedActivityCard">
+      {% if e.imageName %}<div class="activityImage"><img src="{{ url_for('uploaded_file', filename=e.imageName) }}" alt="Imagen de {{ e.title }}"></div>{% endif %}
+      <div class="activityMain">
+        <div class="dateBox"><b>{{ e.date[8:10] }}</b><span>{{ e.date[5:7] }}/{{ e.date[0:4] }}</span></div>
+        <div class="activityInfo"><span class="badge official">+Q1LÍDER</span><h3>{{ e.title }}</h3><p>{{ e.description }}</p><small>{{ e.startTime }}–{{ e.endTime }} · {{ e.place or 'Por definir' }}</small></div>
+      </div>
+      {% if current_user.role in ['admin','teacher'] %}
+      <div class="activityActions"><button class="secondaryButton" data-modal-open="editEvent-{{ e.id }}">✎ Editar</button><form method="post" action="{{ url_for('delete_event', event_id=e.id) }}" onsubmit="return confirm('¿Eliminar esta actividad?')"><button class="dangerGhost">Eliminar</button></form></div>
+      {% endif %}
+    </article>
+
+    {% if current_user.role in ['admin','teacher'] %}
+    <div class="overlay" id="editEvent-{{ e.id }}"><form class="modal wideModal" method="post" action="{{ url_for('update_event', event_id=e.id) }}" enctype="multipart/form-data"><button type="button" class="modalClose" data-modal-close>×</button><h2>Editar actividad</h2>
+      <label>Título<input name="title" value="{{ e.title }}" required></label>
+      <label>Descripción<textarea name="description">{{ e.description }}</textarea></label>
+      <div class="cols"><label>Fecha<input type="date" name="date" value="{{ e.date }}" required></label><label>Lugar<input name="place" value="{{ e.place or '' }}"></label></div>
+      <div class="cols"><label>Inicio<input type="time" name="startTime" value="{{ e.startTime }}"></label><label>Fin<input type="time" name="endTime" value="{{ e.endTime }}"></label></div>
+      <div class="cols"><label>Prioridad<select name="priority"><option value="low" {{ 'selected' if e.priority=='low' else '' }}>Baja</option><option value="medium" {{ 'selected' if e.priority=='medium' else '' }}>Media</option><option value="high" {{ 'selected' if e.priority=='high' else '' }}>Alta</option><option value="urgent" {{ 'selected' if e.priority=='urgent' else '' }}>Urgente</option></select></label><label>Estado<select name="status"><option value="pending" {{ 'selected' if e.status=='pending' else '' }}>Pendiente</option><option value="completed" {{ 'selected' if e.status=='completed' else '' }}>Completada</option></select></label></div>
+      <label>Imagen de la actividad<input type="file" name="image" accept="image/png,image/jpeg,image/gif,image/webp"><small>PNG, JPG, GIF o WEBP.</small></label>
+      {% if e.imageName %}<label class="checkLabel"><input type="checkbox" name="removeImage" value="1"> Quitar imagen actual</label>{% endif %}
+      <button class="primaryButton">Guardar actividad</button>
+    </form></div>
+    {% endif %}
+    {% else %}<div class="empty">Todavía no hay actividades oficiales.</div>{% endfor %}
+  </div>
+</div>
+
+{% if current_user.role in ['admin','teacher'] %}
+<div class="overlay" id="newOfficialEvent"><form class="modal wideModal" method="post" action="{{ url_for('create_event') }}" enctype="multipart/form-data"><button type="button" class="modalClose" data-modal-close>×</button><h2>Nueva actividad oficial</h2>
+  <input type="hidden" name="type" value="official">
+  <label>Título<input name="title" required></label><label>Descripción<textarea name="description"></textarea></label>
+  <div class="cols"><label>Fecha<input name="date" type="date" required></label><label>Lugar<input name="place"></label></div>
+  <div class="cols"><label>Inicio<input name="startTime" type="time" value="09:00"></label><label>Fin<input name="endTime" type="time" value="10:00"></label></div>
+  <label>Imagen<input type="file" name="image" accept="image/png,image/jpeg,image/gif,image/webp"></label>
+  <input type="hidden" name="status" value="pending"><input type="hidden" name="priority" value="medium"><button class="primaryButton">Publicar actividad global</button>
+</form></div>
+{% endif %}
 {% endblock %}

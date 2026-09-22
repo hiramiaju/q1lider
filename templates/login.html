@@ -13,12 +13,12 @@
   <section class="loginPane">
     <form method="post" class="loginCard">
       <div class="loginMobileBrand"><div class="logoMark smallLogo">+Q1</div><b>+Q1LÍDER</b></div>
-      <h2>Iniciar sesión</h2><p>Accede a tu calendario, tareas y materiales.</p>
+      <h2>Iniciar sesión</h2><p>Accede a tu calendario, módulos, materiales, evaluaciones y Kárdex.</p>
       {% with messages = get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
       <label>Correo electrónico<input name="email" type="email" value="admin@q1lider.local" autocomplete="email" required></label>
       <label>Contraseña<input name="password" type="password" value="Q1Lider2026!" autocomplete="current-password" required></label>
       <button type="submit" class="primaryButton">Iniciar sesión</button>
-      <div class="demo"><b>Acceso demo</b><br>admin@q1lider.local<br>Q1Lider2026!</div>
+      <div class="demo"><b>Accesos demo</b><br><b>Admin:</b> admin@q1lider.local · Q1Lider2026!<br><b>Docente:</b> docente@q1lider.local · Docente2026!<br><b>Alumno:</b> ana@q1lider.local · Demo2026!</div>
     </form>
   </section>
 </div>

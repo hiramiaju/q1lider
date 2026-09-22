@@ -13,7 +13,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from db import DB_FILE, UPLOAD_DIR, normalize, write_db
+from db import DB_FILE, UPLOAD_DIR, ensure_seed, normalize, write_db
 
 
 def main() -> int:
@@ -36,6 +36,7 @@ def main() -> int:
         shutil.copy2(DB_FILE, backup)
         print(f"📦 Backup creado: {backup}")
     write_db(data)
+    ensure_seed()  # agrega módulos/encuestas académicas sin borrar lo migrado
     copied = 0
     if source_uploads.exists():
         UPLOAD_DIR.mkdir(parents=True, exist_ok=True)

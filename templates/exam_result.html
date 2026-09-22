@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block title %}Resultado · {{ exam.title }}{% endblock %}{% block content %}
+<div class="page examResultPage">
+  <a href="{{ url_for('module_detail', module_id=exam.moduleId) }}#evaluaciones">← Volver a evaluaciones del módulo</a>
+  <div class="resultHero">
+    <div class="resultCheck">✓</div>
+    <span class="eyebrow">EVALUACIÓN ENVIADA</span>
+    <h1>{{ exam.title }}</h1>
+    <p>Tu respuesta fue registrada correctamente. Esta evaluación ya no puede volver a abrirse ni modificarse.</p>
+    <div class="resultScore"><b>{{ attempt.score }}</b><span>/100</span></div>
+    <div class="resultStats"><span><b>{{ attempt.correct }}</b> respuestas correctas</span><span><b>{{ attempt.total }}</b> preguntas</span><span>Enviada {{ attempt.createdAt[:16].replace('T',' ') }}</span></div>
+    <a class="primaryButton linkAsButton resultReturn" href="{{ url_for('module_detail', module_id=exam.moduleId) }}#evaluaciones">Regresar a la asignación de evaluaciones</a>
+  </div>
+</div>
+{% endblock %}

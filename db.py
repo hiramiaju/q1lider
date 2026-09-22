@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import os
 from copy import deepcopy
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -39,6 +38,16 @@ def base_db() -> dict[str, Any]:
         "attendanceSessions": [],
         "attendanceRecords": [],
         "materialComments": [],
+        # Academic campus
+        "modules": [],
+        "forumPosts": [],
+        "assessments": [],
+        "assessmentAttempts": [],
+        "surveys": [],
+        "surveyResponses": [],
+        "gradeItems": [],
+        "grades": [],
+        "submissions": [],
     }
 
 
@@ -90,122 +99,251 @@ def check_password(password: str, password_hash: str) -> bool:
         return False
 
 
+def canonical_role(role: str | None) -> str:
+    """Old coordinator accounts are treated as teachers without breaking old JSON."""
+    if role == "coordinator":
+        return "teacher"
+    return role or "participant"
+
+
 def safe_user(user: dict[str, Any]) -> dict[str, Any]:
     return {
         "id": user.get("id"),
         "name": user.get("name", ""),
         "lastName": user.get("lastName", ""),
         "email": user.get("email", ""),
-        "role": user.get("role", "participant"),
+        "role": canonical_role(user.get("role")),
         "status": user.get("status", "active"),
+        "createdAt": user.get("createdAt"),
     }
+
+
+def ensure_academic_seed(db: dict[str, Any], admin_id: str | None = None) -> bool:
+    """Add academic structures to old databases without removing any existing information."""
+    changed = False
+    if not db["modules"]:
+        for number in range(1, 7):
+            start_week = (number - 1) * 2 + 1
+            end_week = start_week + 1
+            db["modules"].append(
+                {
+                    "id": new_id(),
+                    "number": number,
+                    "title": f"Módulo {number}",
+                    "subtitle": f"Semanas {start_week} y {end_week}",
+                    "description": "Unidad formativa de +Q1LÍDER. Personaliza aquí objetivos, contenidos y actividades.",
+                    "startWeek": start_week,
+                    "endWeek": end_week,
+                    "status": "published",
+                    "createdBy": admin_id,
+                    "createdAt": now_iso(),
+                    "updatedAt": now_iso(),
+                }
+            )
+        changed = True
+
+    # Every module gets one default satisfaction survey. It is the gate for the final exam.
+    for module in db["modules"]:
+        if not any(s.get("moduleId") == module.get("id") for s in db["surveys"]):
+            db["surveys"].append(
+                {
+                    "id": new_id(),
+                    "moduleId": module["id"],
+                    "title": f"Encuesta de cierre · {module['title']}",
+                    "description": "Completa esta encuesta para desbloquear el examen final del módulo.",
+                    "questions": [
+                        {"id": new_id(), "text": "¿Qué tan útil te resultó el módulo?", "type": "rating"},
+                        {"id": new_id(), "text": "¿Qué fue lo más valioso que aprendiste?", "type": "text"},
+                        {"id": new_id(), "text": "¿Qué mejorarías del módulo?", "type": "text"},
+                    ],
+                    "createdBy": admin_id,
+                    "createdAt": now_iso(),
+                }
+            )
+            changed = True
+    return changed
 
 
 def ensure_seed() -> None:
     db = read_db()
-    if db["users"]:
-        # This keeps old JSON files from the Node version compatible.
-        write_db(db)
-        return
+    changed = False
+    fresh_install = not bool(db["users"])
 
-    admin_id = new_id()
-    db["users"].append(
-        {
-            "id": admin_id,
-            "name": "Administrador",
-            "lastName": "+Q1LÍDER",
-            "email": "admin@q1lider.local",
-            "passwordHash": hash_password("Q1Lider2026!"),
-            "role": "admin",
-            "status": "active",
-            "createdAt": now_iso(),
-            "updatedAt": now_iso(),
-        }
-    )
-
-    for name, last_name, email in [
-        ("Ana", "Martínez", "ana@q1lider.local"),
-        ("Diego", "López", "diego@q1lider.local"),
-        ("Sofía", "Ramírez", "sofia@q1lider.local"),
-    ]:
+    if not db["users"]:
+        admin_id = new_id()
         db["users"].append(
             {
-                "id": new_id(),
-                "name": name,
-                "lastName": last_name,
-                "email": email,
-                "passwordHash": hash_password("Demo2026!"),
-                "role": "participant",
+                "id": admin_id,
+                "name": "Administrador",
+                "lastName": "+Q1LÍDER",
+                "email": "admin@q1lider.local",
+                "passwordHash": hash_password("Q1Lider2026!"),
+                "role": "admin",
+                "status": "active",
+                "createdAt": now_iso(),
+                "updatedAt": now_iso(),
+            }
+        )
+        teacher_id = new_id()
+        db["users"].append(
+            {
+                "id": teacher_id,
+                "name": "Docente",
+                "lastName": "Demo",
+                "email": "docente@q1lider.local",
+                "passwordHash": hash_password("Docente2026!"),
+                "role": "teacher",
                 "status": "active",
                 "createdAt": now_iso(),
                 "updatedAt": now_iso(),
             }
         )
 
-    today = datetime.now().date()
-    demo_events = [
-        ("Taller de Liderazgo", 2, "09:00", "11:00", "Auditorio"),
-        ("Reunión de Coordinadores", 5, "16:00", "17:30", "Sala de juntas"),
-        ("Actividad Comunitaria", 9, "08:00", "13:00", "Casa Blanca"),
-        ("Capacitación +Q1LÍDER", 13, "10:00", "12:00", "Sala de capacitación"),
-        ("Entrega de Proyecto", 18, "18:00", "19:00", "En línea"),
-    ]
-    for title, offset, start, end, place in demo_events:
-        db["events"].append(
+        for name, last_name, email in [
+            ("Ana", "Martínez", "ana@q1lider.local"),
+            ("Diego", "López", "diego@q1lider.local"),
+            ("Sofía", "Ramírez", "sofia@q1lider.local"),
+        ]:
+            db["users"].append(
+                {
+                    "id": new_id(),
+                    "name": name,
+                    "lastName": last_name,
+                    "email": email,
+                    "passwordHash": hash_password("Demo2026!"),
+                    "role": "participant",
+                    "status": "active",
+                    "createdAt": now_iso(),
+                    "updatedAt": now_iso(),
+                }
+            )
+
+        today = datetime.now().date()
+        demo_events = [
+            ("Taller de Liderazgo", 2, "09:00", "11:00", "Auditorio"),
+            ("Reunión de Coordinadores", 5, "16:00", "17:30", "Sala de juntas"),
+            ("Actividad Comunitaria", 9, "08:00", "13:00", "Casa Blanca"),
+            ("Capacitación +Q1LÍDER", 13, "10:00", "12:00", "Sala de capacitación"),
+            ("Entrega de Proyecto", 18, "18:00", "19:00", "En línea"),
+        ]
+        for title, offset, start, end, place in demo_events:
+            db["events"].append(
+                {
+                    "id": new_id(),
+                    "title": title,
+                    "description": "Actividad de demostración +Q1LÍDER",
+                    "date": (today + timedelta(days=offset)).isoformat(),
+                    "startTime": start,
+                    "endTime": end,
+                    "place": place,
+                    "type": "official",
+                    "status": "pending",
+                    "priority": "medium",
+                    "ownerId": admin_id,
+                    "responsibleId": admin_id,
+                    "participants": [],
+                    "checklist": [],
+                    "createdAt": now_iso(),
+                    "updatedAt": now_iso(),
+                }
+            )
+
+        db["tasks"].append(
             {
                 "id": new_id(),
-                "title": title,
-                "description": "Actividad de demostración +Q1LÍDER",
-                "date": (today + timedelta(days=offset)).isoformat(),
-                "startTime": start,
-                "endTime": end,
-                "place": place,
-                "type": "official",
+                "title": "Revisar material del taller",
+                "description": "Tarea demo",
+                "dueDate": (today + timedelta(days=1)).isoformat(),
+                "priority": "high",
                 "status": "pending",
-                "priority": "medium",
                 "ownerId": admin_id,
-                "responsibleId": admin_id,
-                "participants": [],
+                "personal": True,
                 "checklist": [],
                 "createdAt": now_iso(),
                 "updatedAt": now_iso(),
             }
         )
+        db["notifications"].append(
+            {
+                "id": new_id(),
+                "userId": admin_id,
+                "title": "Bienvenido a +Q1LÍDER",
+                "message": "Tu campus +Q1LÍDER está listo para navegar.",
+                "read": False,
+                "createdAt": now_iso(),
+            }
+        )
+        db["announcements"].append(
+            {
+                "id": new_id(),
+                "title": "Plataforma lista",
+                "message": "Ya puedes organizar actividades, módulos, materiales, asistencia, exámenes y calificaciones.",
+                "createdAt": now_iso(),
+            }
+        )
+        changed = True
+    else:
+        admin_id = next((u.get("id") for u in db["users"] if canonical_role(u.get("role")) == "admin"), None)
 
-    db["tasks"].append(
-        {
-            "id": new_id(),
-            "title": "Revisar material del taller",
-            "description": "Tarea demo",
-            "dueDate": (today + timedelta(days=1)).isoformat(),
-            "priority": "high",
-            "status": "pending",
-            "ownerId": admin_id,
-            "personal": True,
-            "checklist": [],
-            "createdAt": now_iso(),
-            "updatedAt": now_iso(),
+    # Normalize old coordinator accounts to teacher for the new administration UI.
+    for user in db["users"]:
+        if user.get("role") == "coordinator":
+            user["role"] = "teacher"
+            user["updatedAt"] = now_iso()
+            changed = True
+
+    if ensure_academic_seed(db, admin_id):
+        changed = True
+
+    # Demonstration academic content only on a brand-new installation.
+    if fresh_install and db["modules"] and not db["assessments"]:
+        module1 = sorted(db["modules"], key=lambda m: int(m.get("number") or 0))[0]
+        case_item = {
+            "id": new_id(), "moduleId": module1["id"], "title": "Caso práctico", "type": "case", "weight": 30,
+            "createdBy": admin_id, "createdAt": now_iso(), "updatedAt": now_iso(),
         }
-    )
-    db["notifications"].append(
-        {
-            "id": new_id(),
-            "userId": admin_id,
-            "title": "Bienvenido a +Q1LÍDER",
-            "message": "Tu plataforma Flask está lista para navegar.",
-            "read": False,
-            "createdAt": now_iso(),
+        auto_item = {
+            "id": new_id(), "moduleId": module1["id"], "title": "Autoevaluación 1", "type": "self_assessment", "weight": 20,
+            "createdBy": admin_id, "createdAt": now_iso(), "updatedAt": now_iso(),
         }
-    )
-    db["announcements"].append(
-        {
-            "id": new_id(),
-            "title": "Plataforma lista",
-            "message": "Ya puedes organizar actividades, tareas, materiales y asistencia desde un solo lugar.",
-            "createdAt": now_iso(),
+        final_item = {
+            "id": new_id(), "moduleId": module1["id"], "title": "Examen final", "type": "final_exam", "weight": 50,
+            "createdBy": admin_id, "createdAt": now_iso(), "updatedAt": now_iso(),
         }
-    )
-    write_db(db)
+        db["gradeItems"].extend([case_item, auto_item, final_item])
+        demo_questions = [
+            {"id": new_id(), "text": "¿Cuál es una característica esencial del liderazgo efectivo?", "options": ["Escucha activa", "Evitar delegar", "Trabajar sin objetivos"], "correctIndex": 0},
+            {"id": new_id(), "text": "¿Qué ayuda a organizar mejor un proyecto?", "options": ["No definir responsables", "Definir objetivos y seguimiento", "Cambiar metas diariamente"], "correctIndex": 1},
+        ]
+        db["assessments"].append({
+            "id": new_id(), "moduleId": module1["id"], "title": "Autoevaluación 1", "description": "Autoevaluación de demostración del primer módulo.",
+            "type": "self_assessment", "questions": deepcopy(demo_questions), "gradeItemId": auto_item["id"],
+            "createdBy": admin_id, "createdAt": now_iso(), "updatedAt": now_iso(),
+        })
+        db["assessments"].append({
+            "id": new_id(), "moduleId": module1["id"], "title": "Examen final · Módulo 1", "description": "Se desbloquea después de contestar la encuesta del módulo.",
+            "type": "final_exam", "questions": deepcopy(demo_questions), "gradeItemId": final_item["id"],
+            "createdBy": admin_id, "createdAt": now_iso(), "updatedAt": now_iso(),
+        })
+        for ctype, name, description in [
+            ("module_plan", "Plan del Módulo 1", "Estructura y objetivos generales del módulo."),
+            ("study_guide", "Guía de estudio complementaria", "Material guía para reforzar los temas principales."),
+            ("case_statement", "Enunciado del caso práctico", "Caso de demostración listo para sustituirse por el contenido real."),
+            ("project_practical", "Enunciado práctico para proyecto", "Indicaciones de demostración para el proyecto del módulo."),
+            ("master_class", "Master class de demostración", "Espacio preparado para cargar o enlazar la clase grabada."),
+        ]:
+            db["materials"].append({
+                "id": new_id(), "name": name, "description": description, "category": "Capacitaciones",
+                "contentType": ctype, "moduleId": module1["id"], "authorId": admin_id, "fileName": None,
+                "originalName": None, "mime": None, "url": None, "createdAt": now_iso(), "updatedAt": now_iso(),
+            })
+        changed = True
+
+    if changed:
+        write_db(db)
+    else:
+        # normalize adds missing collections in memory; persist them for old databases
+        write_db(db)
 
 
 def reset_local_data() -> None:
@@ -213,6 +351,6 @@ def reset_local_data() -> None:
         DB_FILE.unlink()
     if UPLOAD_DIR.exists():
         for item in UPLOAD_DIR.iterdir():
-            if item.is_file():
+            if item.is_file() and item.name != ".gitkeep":
                 item.unlink()
     ensure_seed()
