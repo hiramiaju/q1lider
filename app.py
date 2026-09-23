@@ -32,6 +32,8 @@ from db import (
     now_iso,
     read_db,
     safe_user,
+    suggested_username,
+    unique_username,
     write_db,
 )
 
@@ -109,11 +111,14 @@ def load_user_and_enforce_attendance() -> None:
     g.absence_count = 0
     if not g.user:
         return
+    password_allowed = {"change_password", "logout", "static", "set_theme_preference"}
+    if g.user.get("mustChangePassword") and request.endpoint not in password_allowed:
+        return redirect(url_for("change_password"))
     if role_of(g.user) == "participant":
         db = read_db()
         g.absence_count = absence_count(db, g.user["id"])
         g.attendance_blocked = g.absence_count >= BLOCK_AFTER_ABSENCES
-        allowed = {"blocked_page", "logout", "static", "set_theme_preference"}
+        allowed = {"blocked_page", "logout", "static", "set_theme_preference", "change_password"}
         if g.attendance_blocked and request.endpoint not in allowed:
             return redirect(url_for("blocked_page"))
 
@@ -268,19 +273,48 @@ def login():
     if g.get("user"):
         return redirect(url_for("calendar_page"))
     if request.method == "POST":
-        email = request.form.get("email", "").strip().lower()
+        identifier = (request.form.get("identifier") or request.form.get("email") or "").strip().lower()
         password = request.form.get("password", "")
         db = read_db()
-        user = next((u for u in db["users"] if u.get("email", "").lower() == email and u.get("status") == "active"), None)
+        user = next((u for u in db["users"] if u.get("status") == "active" and (str(u.get("email", "")).lower() == identifier or str(u.get("username", "")).lower() == identifier)), None)
         if not user or not check_password(password, user.get("passwordHash", "")):
-            flash("Correo o contraseña incorrectos.", "error")
+            flash("Usuario/correo o contraseña incorrectos.", "error")
         else:
             session.clear()
             session["user_id"] = user["id"]
+            if user.get("mustChangePassword"):
+                return redirect(url_for("change_password"))
             if user_is_attendance_blocked(db, user):
                 return redirect(url_for("blocked_page"))
             return redirect(request.args.get("next") or url_for("calendar_page"))
     return render_template("login.html")
+
+
+@app.route("/cambiar-contrasena", methods=["GET", "POST"])
+@login_required
+def change_password():
+    if request.method == "POST":
+        password = request.form.get("password", "")
+        confirm = request.form.get("confirm", "")
+        if len(password) < 8:
+            flash("La nueva contraseña debe tener al menos 8 caracteres.", "error")
+            return render_template("change_password.html")
+        if password != confirm:
+            flash("Las contraseñas no coinciden.", "error")
+            return render_template("change_password.html")
+        db = read_db()
+        user = next((u for u in db["users"] if u.get("id") == g.user.get("id")), None)
+        if not user:
+            abort(404)
+        user["passwordHash"] = hash_password(password)
+        user["mustChangePassword"] = False
+        user["updatedAt"] = now_iso()
+        write_db(db)
+        flash("Contraseña actualizada. Ya puedes usar la plataforma.", "success")
+        if user_is_attendance_blocked(db, user):
+            return redirect(url_for("blocked_page"))
+        return redirect(url_for("calendar_page"))
+    return render_template("change_password.html")
 
 
 @app.post("/logout")
@@ -1306,9 +1340,9 @@ def save_attendance_records(session_id: str):
 def admin_page():
     db = read_db()
     users = [safe_user(u) for u in db["users"]]
-    students = sorted([u for u in users if u.get("role") == "participant"], key=lambda u: u.get("name", "").lower())
-    teachers = sorted([u for u in users if u.get("role") == "teacher"], key=lambda u: u.get("name", "").lower())
-    admins = sorted([u for u in users if u.get("role") == "admin"], key=lambda u: u.get("name", "").lower())
+    students = sorted([u for u in users if u.get("role") == "participant"], key=lambda u: u.get("fullName", "").lower())
+    teachers = sorted([u for u in users if u.get("role") == "teacher"], key=lambda u: u.get("fullName", "").lower())
+    admins = sorted([u for u in users if u.get("role") == "admin"], key=lambda u: u.get("fullName", "").lower())
     attendance_map = {u["id"]: absence_count(db, u["id"]) for u in students}
     stats = {
         "students": len(students), "teachers": len(teachers), "admins": len(admins),
@@ -1323,6 +1357,9 @@ def create_user():
     db = read_db()
     email = request.form.get("email", "").strip().lower()
     name = request.form.get("name", "").strip()
+    last_name = request.form.get("lastName", "").strip()
+    requested_username = request.form.get("username", "").strip()
+    username = unique_username(db, requested_username or suggested_username(name, last_name))
     role = canonical_role(request.form.get("role", "participant"))
     if role not in ROLES:
         role = "participant"
@@ -1333,9 +1370,9 @@ def create_user():
         flash("Ese correo ya está registrado.", "error")
         return redirect(url_for("admin_page"))
     db["users"].append({
-        "id": new_id(), "name": name[:100], "lastName": request.form.get("lastName", "").strip()[:120],
+        "id": new_id(), "username": username, "name": name[:100], "lastName": last_name[:120],
         "email": email, "passwordHash": hash_password(request.form.get("password") or "Temporal2026!"),
-        "role": role, "status": "active", "theme": "light", "createdAt": now_iso(), "updatedAt": now_iso(),
+        "role": role, "status": "active", "theme": "light", "mustChangePassword": True, "createdAt": now_iso(), "updatedAt": now_iso(),
     })
     write_db(db)
     flash("Usuario creado correctamente.", "success")
@@ -1355,12 +1392,16 @@ def update_user(user_id: str):
         user["role"] = role
     if status in {"active", "inactive"}:
         user["status"] = status
-    for key in ["name", "lastName", "email"]:
+    for key in ["name", "lastName", "email", "phone", "instagram", "birthDate", "address", "expectations", "ambitions"]:
         if request.form.get(key) is not None:
             user[key] = request.form.get(key).strip()
+    requested_username = request.form.get("username", "").strip()
+    if requested_username:
+        user["username"] = unique_username(db, requested_username, user_id)
     password = request.form.get("password", "").strip()
     if password:
         user["passwordHash"] = hash_password(password)
+        user["mustChangePassword"] = True
     user["updatedAt"] = now_iso()
     write_db(db)
     if user_id == g.user["id"] and status == "inactive":

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import re
+import unicodedata
 from copy import deepcopy
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -14,6 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 DB_FILE = DATA_DIR / "db.json"
 UPLOAD_DIR = BASE_DIR / "uploads"
+ROSTER_FILE = DATA_DIR / "roster_q1lider.json"
 LOCK = RLock()
 
 
@@ -109,14 +112,83 @@ def canonical_role(role: str | None) -> str:
 def safe_user(user: dict[str, Any]) -> dict[str, Any]:
     return {
         "id": user.get("id"),
+        "username": user.get("username", ""),
         "name": user.get("name", ""),
         "lastName": user.get("lastName", ""),
+        "fullName": user.get("fullName") or f"{user.get('name', '')} {user.get('lastName', '')}".strip(),
         "email": user.get("email", ""),
+        "phone": user.get("phone", ""),
+        "instagram": user.get("instagram", ""),
+        "birthDate": user.get("birthDate", ""),
+        "address": user.get("address", ""),
+        "expectations": user.get("expectations", ""),
+        "ambitions": user.get("ambitions", ""),
         "role": canonical_role(user.get("role")),
         "status": user.get("status", "active"),
         "theme": user.get("theme", "light") if user.get("theme") in {"light", "dark"} else "light",
+        "mustChangePassword": bool(user.get("mustChangePassword")),
         "createdAt": user.get("createdAt"),
     }
+
+
+def _ascii_part(value: str) -> str:
+    value = unicodedata.normalize("NFKD", value or "")
+    value = "".join(ch for ch in value if not unicodedata.combining(ch))
+    return re.sub(r"[^A-Za-z0-9]", "", value)
+
+
+def suggested_username(name: str, last_name: str = "") -> str:
+    parts = [p for p in f"{name} {last_name}".strip().split() if p]
+    if not parts:
+        return "Usuario+q1"
+    first = _ascii_part(parts[0]).capitalize()
+    last = _ascii_part(parts[-1]).capitalize() if len(parts) > 1 else ""
+    return f"{first}{last}+q1"
+
+
+def unique_username(db: dict[str, Any], desired: str, ignore_user_id: str | None = None) -> str:
+    desired = (desired or "Usuario+q1").strip()
+    existing = {str(u.get("username", "")).lower() for u in db.get("users", []) if u.get("id") != ignore_user_id}
+    if desired.lower() not in existing:
+        return desired
+    stem = desired[:-3] if desired.lower().endswith("+q1") else desired
+    n = 2
+    while f"{stem}{n}+q1".lower() in existing:
+        n += 1
+    return f"{stem}{n}+q1"
+
+
+def ensure_roster_seed(db: dict[str, Any]) -> bool:
+    """Merge the cleaned +Q1LÍDER roster into old/new databases without deleting existing work."""
+    if not ROSTER_FILE.exists():
+        return False
+    try:
+        roster = json.loads(ROSTER_FILE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    changed = False
+    profile_fields = ["fullName", "phone", "instagram", "birthDate", "address", "expectations", "ambitions", "sourceTimestamp"]
+    for row in roster:
+        email = str(row.get("email", "")).strip().lower()
+        username = str(row.get("username", "")).strip()
+        existing = next((u for u in db["users"] if (email and str(u.get("email", "")).lower() == email) or (username and str(u.get("username", "")).lower() == username.lower())), None)
+        if existing:
+            if not existing.get("username") and username:
+                existing["username"] = unique_username(db, username, existing.get("id"))
+                changed = True
+            for field in profile_fields:
+                if row.get(field) and not existing.get(field):
+                    existing[field] = row[field]
+                    changed = True
+            continue
+        item = deepcopy(row)
+        item["id"] = new_id()
+        item["username"] = unique_username(db, username or suggested_username(item.get("name", ""), item.get("lastName", "")))
+        item.setdefault("createdAt", now_iso())
+        item.setdefault("updatedAt", now_iso())
+        db["users"].append(item)
+        changed = True
+    return changed
 
 
 def ensure_academic_seed(db: dict[str, Any], admin_id: str | None = None) -> bool:
@@ -178,6 +250,7 @@ def ensure_seed() -> None:
                 "name": "Administrador",
                 "lastName": "+Q1LÍDER",
                 "email": "admin@q1lider.local",
+                "username": "Admin+q1",
                 "passwordHash": hash_password("Q1Lider2026!"),
                 "role": "admin",
                 "status": "active",
@@ -193,6 +266,7 @@ def ensure_seed() -> None:
                 "name": "Docente",
                 "lastName": "Demo",
                 "email": "docente@q1lider.local",
+                "username": "Docente+q1",
                 "passwordHash": hash_password("Docente2026!"),
                 "role": "teacher",
                 "status": "active",
@@ -201,26 +275,6 @@ def ensure_seed() -> None:
                 "updatedAt": now_iso(),
             }
         )
-
-        for name, last_name, email in [
-            ("Ana", "Martínez", "ana@q1lider.local"),
-            ("Diego", "López", "diego@q1lider.local"),
-            ("Sofía", "Ramírez", "sofia@q1lider.local"),
-        ]:
-            db["users"].append(
-                {
-                    "id": new_id(),
-                    "name": name,
-                    "lastName": last_name,
-                    "email": email,
-                    "passwordHash": hash_password("Demo2026!"),
-                    "role": "participant",
-                    "status": "active",
-                    "theme": "light",
-                    "createdAt": now_iso(),
-                    "updatedAt": now_iso(),
-                }
-            )
 
         today = datetime.now().date()
         demo_events = [
@@ -299,9 +353,19 @@ def ensure_seed() -> None:
         if user.get("theme") not in {"light", "dark"}:
             user["theme"] = "light"
             user_changed = True
+        if not user.get("username"):
+            desired = "Admin+q1" if canonical_role(user.get("role")) == "admin" else ("Docente+q1" if canonical_role(user.get("role")) == "teacher" else suggested_username(user.get("name", ""), user.get("lastName", "")))
+            user["username"] = unique_username(db, desired, user.get("id"))
+            user_changed = True
+        if "mustChangePassword" not in user:
+            user["mustChangePassword"] = False
+            user_changed = True
         if user_changed:
             user["updatedAt"] = now_iso()
             changed = True
+
+    if ensure_roster_seed(db):
+        changed = True
 
     if ensure_academic_seed(db, admin_id):
         changed = True

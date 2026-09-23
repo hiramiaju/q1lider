@@ -29,14 +29,14 @@
         <span class="brandLogoFrame"><img src="{{ url_for('static', filename='img/logo-q1lider.jpeg') }}" alt="Logo +Q1LÍDER" class="brandLogoMain"></span>
         <b>+Q1LÍDER</b>
       </div>
-      <h2>Iniciar sesión</h2><p>Accede a tu calendario, módulos, materiales, evaluaciones y Kárdex.</p>
+      <h2>Iniciar sesión</h2><p>Usa tu correo o tu usuario +Q1 para entrar al campus.</p>
       {% with messages = get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
-      <label>Correo electrónico<input name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required></label>
+      <label>Correo o nombre de usuario<input name="identifier" type="text" autocomplete="username" placeholder="Ej. MiguelLomeli+q1" required></label>
       <label>Contraseña<input name="password" type="password" autocomplete="current-password" placeholder="••••••••" required></label>
       <button type="submit" class="primaryButton">Iniciar sesión</button>
       <div class="loginPartnerLight">
         <img class="partnerLight partnerLong" src="{{ url_for('static', filename='img/iaju-color-largo.png') }}" alt="El Gigante de México · Instituto de la Juventud">
-        <!-- <img class="partnerDark partnerLong" src="{{ url_for('static', filename='img/iaju-blanco-largo.png') }}" alt="El Gigante de México · Instituto de la Juventud"> -->
+        <img class="partnerDark partnerLong" src="{{ url_for('static', filename='img/iaju-blanco-largo.png') }}" alt="El Gigante de México · Instituto de la Juventud">
         <img class="partnerLight partnerShort" src="{{ url_for('static', filename='img/iaju-color-corto.png') }}" alt="Instituto de la Juventud">
         <img class="partnerDark partnerShort" src="{{ url_for('static', filename='img/iaju-blanco-corto.png') }}" alt="Instituto de la Juventud">
       </div>

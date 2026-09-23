@@ -48,7 +48,7 @@
 
     <div class="sidebarFoot">
       <div class="avatar">{{ current_user.name[0] }}</div>
-      <div class="userMeta"><b>{{ current_user.name }}</b><small>{{ {'admin':'Administrador','teacher':'Docente','participant':'Alumno'}.get(current_user.role,current_user.role) }}</small></div>
+      <div class="userMeta"><b>{{ current_user.name }}</b><small>@{{ current_user.username }}</small></div>
       <form method="post" action="{{ url_for('logout') }}"><button class="icon" title="Cerrar sesión">↪</button></form>
     </div>
   </aside>

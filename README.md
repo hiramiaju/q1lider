@@ -211,10 +211,24 @@ No existe `npm install`, `npm run seed` ni configuración de Supabase.
 - La pantalla de inicio de sesión ya no muestra correos, contraseñas ni el bloque de accesos de demostración, y los campos aparecen vacíos.
 - El modo oscuro se aplica a navegación, calendario, módulos, materiales, comentarios, actividades, administración, Kárdex, asistencia, evaluaciones, modales y Mi espacio.
 
+## v5.4 · Usuarios +Q1 y padrón 2026
 
-## v5.3 — Corrección de barra lateral
+Esta versión incorpora el padrón limpio entregado en `+q1lider.xlsx`.
 
-- El menú central de la barra lateral ahora tiene scroll independiente cuando hay muchas opciones.
-- Perfil, identidad institucional y cerrar sesión permanecen visibles al fondo.
-- El botón de cerrar sesión ya no se oculta en la barra compacta de tablet/escritorio.
-- El drawer móvil usa la altura dinámica del dispositivo y respeta el área segura inferior.
+- Se detectaron **56 registros únicos** válidos.
+- El sistema asigna un usuario con el formato `NombreApellido+q1` (sin acentos ni espacios).
+- El alumno puede iniciar sesión con **correo o nombre de usuario**.
+- Las cuentas cargadas desde el padrón usan una contraseña temporal individual y obligan a cambiarla en el primer acceso.
+- Las contraseñas temporales se entregan en el archivo separado `+q1lider_registros_acomodados.xlsx`, hoja **Credenciales**. No se guardan en texto plano dentro del proyecto.
+- Si copias un `data/db.json` anterior, el arranque agrega solamente los alumnos faltantes y conserva actividades, calificaciones, asistencia y demás información existente.
+- Administración ahora incluye búsqueda por nombre, usuario, correo o teléfono, vista rápida de perfil y botón para copiar el nombre de usuario.
+
+### Formato de usuario
+
+Ejemplo:
+
+```text
+Miguel Lomeli → MiguelLomeli+q1
+```
+
+Cuando el nombre tiene varias palabras se utiliza el **primer nombre + primer apellido estimado** para mantener una regla cercana al formato habitual mexicano. Se eliminan acentos y espacios para facilitar el acceso.

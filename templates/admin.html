@@ -1,10 +1,142 @@
-{% extends 'base.html' %}{% block title %}Administración · +Q1LÍDER{% endblock %}{% block content %}
-<div class="page"><div class="titleRow"><div><span class="eyebrow">ADMINISTRACIÓN</span><h1>Usuarios</h1><p>Gestión separada de alumnos, docentes y administradores.</p></div><button class="primaryAction" data-modal-open="newUser">＋ Crear usuario</button></div>
-<div class="stats"><div><b>{{ stats.students }}</b><span>Alumnos</span></div><div><b>{{ stats.teachers }}</b><span>Docentes</span></div><div><b>{{ stats.admins }}</b><span>Administradores</span></div><div><b>{{ stats.blocked }}</b><span>Bloqueados por faltas</span></div></div>
-<div class="adminTabs"><button class="adminTab active" data-admin-tab="students">Alumnos</button><button class="adminTab" data-admin-tab="teachers">Docentes</button><button class="adminTab" data-admin-tab="admins">Admin</button></div>
-{% macro user_table(items, kind) -%}<section class="adminTabPanel {{ 'active' if kind=='students' else '' }}" data-admin-panel="{{ kind }}"><div class="userTable"><div class="tr head"><span>Nombre</span><span>Correo</span><span>{% if kind=='students' %}Faltas{% else %}Rol{% endif %}</span><span>Estatus</span><span></span></div>{% for u in items %}<div class="tr"><span data-label="Nombre">{{ u.name }} {{ u.lastName }}</span><span data-label="Correo">{{ u.email }}</span><span data-label="{{ 'Faltas' if kind=='students' else 'Rol' }}">{% if kind=='students' %}<b class="{{ 'absenceCount' if attendance_map.get(u.id,0) else '' }}">{{ attendance_map.get(u.id,0) }}</b>{% if attendance_map.get(u.id,0)>=block_after %} <span class="state inactive">Bloqueado</span>{% endif %}{% else %}{{ 'Docente' if u.role=='teacher' else 'Administrador' }}{% endif %}</span><span data-label="Estatus"><span class="state {{ u.status }}">{{ 'Activo' if u.status=='active' else 'Inactivo' }}</span></span><span><button class="linkButton user-edit" data-user='{{ u|tojson }}'>Editar</button>{% if kind=='students' %}<a class="linkButton" href="{{ url_for('kardex_page', student=u.id) }}">Kárdex</a>{% endif %}</span></div>{% else %}<div class="empty compact">No hay usuarios en esta sección.</div>{% endfor %}</div></section>{%- endmacro %}
-{{ user_table(students,'students') }}{{ user_table(teachers,'teachers') }}{{ user_table(admins,'admins') }}</div>
-<div class="overlay" id="newUser"><form class="modal" method="post" action="{{ url_for('create_user') }}"><button type="button" class="modalClose" data-modal-close>×</button><h2>Crear usuario</h2><div class="cols"><label>Nombre<input name="name" required></label><label>Apellidos<input name="lastName"></label></div><label>Correo<input name="email" type="email" required></label><label>Contraseña temporal<input name="password" value="Temporal2026!"></label><label>Tipo de usuario<select name="role"><option value="participant">Alumno</option><option value="teacher">Docente</option><option value="admin">Administrador</option></select></label><button class="primaryButton">Crear usuario</button></form></div>
-<div class="overlay" id="editUser"><form class="modal" id="editUserForm" method="post"><button type="button" class="modalClose" data-modal-close>×</button><h2>Editar usuario</h2><div class="cols"><label>Nombre<input name="name" id="editName"></label><label>Apellidos<input name="lastName" id="editLastName"></label></div><label>Correo<input name="email" id="editEmail"></label><label>Rol<select name="role" id="editRole"><option value="participant">Alumno</option><option value="teacher">Docente</option><option value="admin">Administrador</option></select></label><label>Estatus<select name="status" id="editStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label><label>Nueva contraseña (opcional)<input name="password" type="password"></label><button class="primaryButton">Guardar cambios</button></form></div>
+{% extends 'base.html' %}
+{% block title %}Administración · +Q1LÍDER{% endblock %}
+{% block content %}
+<div class="page adminPeoplePage">
+  <div class="titleRow adminTitleRow">
+    <div>
+      <span class="eyebrow">ADMINISTRACIÓN</span>
+      <h1>Personas del programa</h1>
+      <p>Encuentra rápido a cualquier alumno, consulta su usuario y administra su acceso.</p>
+    </div>
+    <button class="primaryAction" data-modal-open="newUser">＋ Crear usuario</button>
+  </div>
+
+  <div class="stats adminStats">
+    <div><b>{{ stats.students }}</b><span>Alumnos</span></div>
+    <div><b>{{ stats.teachers }}</b><span>Docentes</span></div>
+    <div><b>{{ stats.admins }}</b><span>Administradores</span></div>
+    <div><b>{{ stats.blocked }}</b><span>Bloqueados por faltas</span></div>
+  </div>
+
+  <div class="directoryToolbar">
+    <div class="directorySearch"><span>⌕</span><input id="userDirectorySearch" type="search" placeholder="Buscar por nombre, usuario, correo o teléfono..."></div>
+    <div class="directoryHint"><b>Tip:</b> el alumno puede iniciar sesión con su correo o con su usuario <strong>NombreApellido+q1</strong>.</div>
+  </div>
+
+  <div class="adminTabs">
+    <button class="adminTab active" data-admin-tab="students">Alumnos <span>{{ stats.students }}</span></button>
+    <button class="adminTab" data-admin-tab="teachers">Docentes <span>{{ stats.teachers }}</span></button>
+    <button class="adminTab" data-admin-tab="admins">Admin <span>{{ stats.admins }}</span></button>
+  </div>
+
+  {% macro user_table(items, kind) -%}
+  <section class="adminTabPanel {{ 'active' if kind=='students' else '' }}" data-admin-panel="{{ kind }}">
+    <div class="peopleList">
+      {% for u in items %}
+      <article class="personRow" data-person-row data-search="{{ (u.fullName ~ ' ' ~ u.username ~ ' ' ~ u.email ~ ' ' ~ u.phone)|lower }}">
+        <div class="personMain">
+          <div class="avatar personAvatar">{{ u.name[0]|upper }}</div>
+          <div class="personIdentity">
+            <b>{{ u.fullName }}</b>
+            <div class="usernameLine"><span>@{{ u.username }}</span><button type="button" class="copyMini" data-copy="{{ u.username }}" title="Copiar usuario">Copiar</button></div>
+          </div>
+        </div>
+        <div class="personContact">
+          <span>{{ u.email }}</span>
+          {% if u.phone %}<small>{{ u.phone }}</small>{% endif %}
+        </div>
+        <div class="personMetric">
+          {% if kind=='students' %}
+            <span class="metricLabel">Faltas</span>
+            <b class="{{ 'dangerText' if attendance_map.get(u.id,0)>=block_after else '' }}">{{ attendance_map.get(u.id,0) }}</b>
+            {% if attendance_map.get(u.id,0)>=block_after %}<small class="dangerText">Bloqueado</small>{% endif %}
+          {% else %}
+            <span class="metricLabel">Rol</span>
+            <b>{{ 'Docente' if u.role=='teacher' else 'Admin' }}</b>
+          {% endif %}
+        </div>
+        <div class="personStatus"><span class="state {{ u.status }}">{{ 'Activo' if u.status=='active' else 'Inactivo' }}</span></div>
+        <div class="personActions">
+          <button type="button" class="secondaryMini user-view" data-user='{{ u|tojson }}'>Ver perfil</button>
+          <button type="button" class="linkButton user-edit" data-user='{{ u|tojson }}'>Editar</button>
+          {% if kind=='students' %}<a class="linkButton" href="{{ url_for('kardex_page', student=u.id) }}">Kárdex</a>{% endif %}
+        </div>
+      </article>
+      {% else %}
+      <div class="empty compact">No hay usuarios en esta sección.</div>
+      {% endfor %}
+      <div class="empty compact directoryNoResults" hidden>No encontramos usuarios con esa búsqueda.</div>
+    </div>
+  </section>
+  {%- endmacro %}
+
+  {{ user_table(students,'students') }}
+  {{ user_table(teachers,'teachers') }}
+  {{ user_table(admins,'admins') }}
+</div>
+
+<div class="overlay" id="newUser">
+  <form class="modal" method="post" action="{{ url_for('create_user') }}">
+    <button type="button" class="modalClose" data-modal-close>×</button>
+    <span class="eyebrow">NUEVA CUENTA</span><h2>Crear usuario</h2>
+    <div class="cols"><label>Nombre<input name="name" id="newName" required></label><label>Apellidos<input name="lastName" id="newLastName"></label></div>
+    <label>Nombre de usuario <input name="username" id="newUsername" placeholder="Se genera automáticamente si lo dejas vacío"><small class="fieldHelp">Formato sugerido: NombreApellido+q1</small></label>
+    <label>Correo<input name="email" type="email" required></label>
+    <label>Contraseña temporal<input name="password" value="Temporal2026!"><small class="fieldHelp">Se le pedirá cambiarla cuando ingrese.</small></label>
+    <label>Tipo de usuario<select name="role"><option value="participant">Alumno</option><option value="teacher">Docente</option><option value="admin">Administrador</option></select></label>
+    <button class="primaryButton">Crear usuario</button>
+  </form>
+</div>
+
+<div class="overlay" id="viewUser">
+  <div class="modal profileModal">
+    <button type="button" class="modalClose" data-modal-close>×</button>
+    <div class="profileHero"><div class="avatar profileAvatar" id="viewAvatar">A</div><div><span class="eyebrow">PERFIL</span><h2 id="viewFullName">Usuario</h2><div class="profileUsername" id="viewUsername"></div></div></div>
+    <div class="profileGrid">
+      <div><small>Correo</small><b id="viewEmail">—</b></div><div><small>Teléfono</small><b id="viewPhone">—</b></div>
+      <div><small>Fecha de nacimiento</small><b id="viewBirth">—</b></div><div><small>Instagram</small><b id="viewInstagram">—</b></div>
+    </div>
+    <div class="profileLong"><small>Domicilio</small><p id="viewAddress">—</p></div>
+    <div class="profileLong"><small>¿Qué espera del programa?</small><p id="viewExpectations">—</p></div>
+    <div class="profileLong"><small>Ambiciones y metas</small><p id="viewAmbitions">—</p></div>
+  </div>
+</div>
+
+<div class="overlay" id="editUser">
+  <form class="modal" id="editUserForm" method="post">
+    <button type="button" class="modalClose" data-modal-close>×</button>
+    <span class="eyebrow">CUENTA</span><h2>Editar usuario</h2>
+    <div class="cols"><label>Nombre<input name="name" id="editName"></label><label>Apellidos<input name="lastName" id="editLastName"></label></div>
+    <label>Nombre de usuario<input name="username" id="editUsername"></label>
+    <div class="cols"><label>Correo<input name="email" id="editEmail"></label><label>Teléfono<input name="phone" id="editPhone"></label></div>
+    <div class="cols"><label>Fecha de nacimiento<input name="birthDate" id="editBirth" type="date"></label><label>Instagram<input name="instagram" id="editInstagram"></label></div>
+    <label>Domicilio<textarea name="address" id="editAddress"></textarea></label>
+    <label>¿Qué espera del programa?<textarea name="expectations" id="editExpectations"></textarea></label>
+    <label>Ambiciones y metas<textarea name="ambitions" id="editAmbitions"></textarea></label>
+    <div class="cols"><label>Rol<select name="role" id="editRole"><option value="participant">Alumno</option><option value="teacher">Docente</option><option value="admin">Administrador</option></select></label><label>Estatus<select name="status" id="editStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label></div>
+    <label>Nueva contraseña (opcional)<input name="password" type="password"><small class="fieldHelp">Si la cambias, se marcará como temporal y el usuario deberá reemplazarla al entrar.</small></label>
+    <button class="primaryButton">Guardar cambios</button>
+  </form>
+</div>
 {% endblock %}
-{% block scripts %}<script>document.querySelectorAll('[data-admin-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-admin-tab]').forEach(x=>x.classList.remove('active'));document.querySelectorAll('[data-admin-panel]').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelector('[data-admin-panel="'+b.dataset.adminTab+'"]').classList.add('active')}));document.querySelectorAll('.user-edit').forEach(btn=>btn.addEventListener('click',()=>{const u=JSON.parse(btn.dataset.user);const f=document.getElementById('editUserForm');f.action='/users/'+u.id+'/update';document.getElementById('editName').value=u.name||'';document.getElementById('editLastName').value=u.lastName||'';document.getElementById('editEmail').value=u.email||'';document.getElementById('editRole').value=u.role||'participant';document.getElementById('editStatus').value=u.status||'active';document.getElementById('editUser').classList.add('open')}));</script>{% endblock %}
+
+{% block scripts %}
+<script>
+const normalizeUserPart=v=>(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-z0-9]/g,'');
+const suggestUser=()=>{const n=document.getElementById('newName'),l=document.getElementById('newLastName'),u=document.getElementById('newUsername');if(!n||!l||!u||u.dataset.touched==='1')return;const first=(n.value.trim().split(/\s+/)[0]||'');const lp=l.value.trim().split(/\s+/).filter(Boolean);const last=lp.length?lp[lp.length-1]:'';if(first)u.value=normalizeUserPart(first)+normalizeUserPart(last)+'+q1'};
+document.getElementById('newName')?.addEventListener('input',suggestUser);document.getElementById('newLastName')?.addEventListener('input',suggestUser);document.getElementById('newUsername')?.addEventListener('input',e=>e.currentTarget.dataset.touched='1');
+
+document.querySelectorAll('[data-admin-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-admin-tab]').forEach(x=>x.classList.remove('active'));document.querySelectorAll('[data-admin-panel]').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelector('[data-admin-panel="'+b.dataset.adminTab+'"]').classList.add('active');filterDirectory()}));
+
+const search=document.getElementById('userDirectorySearch');
+function filterDirectory(){const q=(search?.value||'').trim().toLowerCase();document.querySelectorAll('[data-admin-panel]').forEach(panel=>{let visible=0;panel.querySelectorAll('[data-person-row]').forEach(row=>{const show=!q||row.dataset.search.includes(q);row.hidden=!show;if(show)visible++});const empty=panel.querySelector('.directoryNoResults');if(empty)empty.hidden=visible!==0||!q})}
+search?.addEventListener('input',filterDirectory);
+
+document.querySelectorAll('[data-copy]').forEach(btn=>btn.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(btn.dataset.copy);const old=btn.textContent;btn.textContent='Copiado ✓';setTimeout(()=>btn.textContent=old,1200)}catch(_){}}));
+
+const fill=(id,value)=>{const e=document.getElementById(id);if(e)e.textContent=value||'—'};
+document.querySelectorAll('.user-view').forEach(btn=>btn.addEventListener('click',()=>{const u=JSON.parse(btn.dataset.user);fill('viewFullName',u.fullName);fill('viewUsername','@'+(u.username||''));fill('viewEmail',u.email);fill('viewPhone',u.phone);fill('viewBirth',u.birthDate);fill('viewInstagram',u.instagram?('@'+u.instagram.replace(/^@/,'')):'');fill('viewAddress',u.address);fill('viewExpectations',u.expectations);fill('viewAmbitions',u.ambitions);document.getElementById('viewAvatar').textContent=(u.name||'?')[0].toUpperCase();document.getElementById('viewUser').classList.add('open')}));
+
+document.querySelectorAll('.user-edit').forEach(btn=>btn.addEventListener('click',()=>{const u=JSON.parse(btn.dataset.user);const f=document.getElementById('editUserForm');f.action='/users/'+u.id+'/update';const map={editName:u.name,editLastName:u.lastName,editUsername:u.username,editEmail:u.email,editPhone:u.phone,editBirth:u.birthDate,editInstagram:u.instagram,editAddress:u.address,editExpectations:u.expectations,editAmbitions:u.ambitions,editRole:u.role,editStatus:u.status};Object.entries(map).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v||''});document.getElementById('editUser').classList.add('open')}));
+</script>
+{% endblock %}
