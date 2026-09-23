@@ -18,9 +18,16 @@
     <div><b>{{ stats.blocked }}</b><span>Bloqueados por faltas</span></div>
   </div>
 
+  <div class="studentAccessCard">
+    <div class="studentAccessIcon">🔑</div>
+    <div class="studentAccessText"><small>ACCESO INICIAL DE ALUMNOS</small><b>{{ student_shared_password }}</b><span>Todos los alumnos usan esta misma contraseña. Pueden entrar con su correo o con <strong>NombreApellido+q1</strong>.</span></div>
+    <button type="button" class="secondaryMini passwordCopy" data-copy="{{ student_shared_password }}">Copiar contraseña</button>
+    <form method="post" action="{{ url_for('reset_students_shared_password') }}" onsubmit="return confirm('¿Restablecer la contraseña de TODOS los alumnos a la clave común?')"><button class="linkButton resetStudentsPassword">Reaplicar a todos</button></form>
+  </div>
+
   <div class="directoryToolbar">
-    <div class="directorySearch"><span>⌕</span><input id="userDirectorySearch" type="search" placeholder="Buscar por nombre, usuario, correo o teléfono..."></div>
-    <div class="directoryHint"><b>Tip:</b> el alumno puede iniciar sesión con su correo o con su usuario <strong>NombreApellido+q1</strong>.</div>
+    <div class="directorySearch"><span>⌕</span><input id="userDirectorySearch" type="search" placeholder="Buscar alumno por nombre, usuario, correo o teléfono..."></div>
+    <div class="directoryHint"><b>Atajo:</b> usa las pestañas para separar alumnos, docentes y administradores.</div>
   </div>
 
   <div class="adminTabs">
@@ -82,7 +89,7 @@
     <div class="cols"><label>Nombre<input name="name" id="newName" required></label><label>Apellidos<input name="lastName" id="newLastName"></label></div>
     <label>Nombre de usuario <input name="username" id="newUsername" placeholder="Se genera automáticamente si lo dejas vacío"><small class="fieldHelp">Formato sugerido: NombreApellido+q1</small></label>
     <label>Correo<input name="email" type="email" required></label>
-    <label>Contraseña temporal<input name="password" value="Temporal2026!"><small class="fieldHelp">Se le pedirá cambiarla cuando ingrese.</small></label>
+    <label>Contraseña inicial<input name="password" value="{{ student_shared_password }}"><small class="fieldHelp">Para alumnos, esta es la contraseña común actual. Puedes cambiarla manualmente al crear Docente/Admin.</small></label>
     <label>Tipo de usuario<select name="role"><option value="participant">Alumno</option><option value="teacher">Docente</option><option value="admin">Administrador</option></select></label>
     <button class="primaryButton">Crear usuario</button>
   </form>
@@ -114,7 +121,7 @@
     <label>¿Qué espera del programa?<textarea name="expectations" id="editExpectations"></textarea></label>
     <label>Ambiciones y metas<textarea name="ambitions" id="editAmbitions"></textarea></label>
     <div class="cols"><label>Rol<select name="role" id="editRole"><option value="participant">Alumno</option><option value="teacher">Docente</option><option value="admin">Administrador</option></select></label><label>Estatus<select name="status" id="editStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label></div>
-    <label>Nueva contraseña (opcional)<input name="password" type="password"><small class="fieldHelp">Si la cambias, se marcará como temporal y el usuario deberá reemplazarla al entrar.</small></label>
+    <label>Nueva contraseña (opcional)<input name="password" type="password"><small class="fieldHelp">Solo úsala si necesitas una clave individual. Para volver a la clave común de alumnos usa “Reaplicar a todos”.</small></label>
     <button class="primaryButton">Guardar cambios</button>
   </form>
 </div>

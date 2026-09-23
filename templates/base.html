@@ -20,21 +20,26 @@
       <button class="icon mobile" data-close-drawer aria-label="Cerrar">×</button>
     </div>
     <nav class="sideNav">
-      <a href="{{ url_for('calendar_page') }}" class="{{ 'active' if request.endpoint == 'calendar_page' else '' }}"><span>▣</span>Calendario</a>
-      <a href="{{ url_for('modules_page') }}" class="{{ 'active' if request.endpoint in ['modules_page','module_detail','take_exam','exam_result'] else '' }}"><span>▦</span>Módulos</a>
-      <a href="{{ url_for('tasks_page') }}" class="{{ 'active' if request.endpoint == 'tasks_page' else '' }}"><span>✓</span>Mis tareas</a>
-      <a href="{{ url_for('activities_page') }}" class="{{ 'active' if request.endpoint == 'activities_page' else '' }}"><span>⌂</span>Actividades</a>
-      <a href="{{ url_for('material_page') }}" class="{{ 'active' if request.endpoint == 'material_page' else '' }}"><span>▤</span>Material</a>
-      <a href="{{ url_for('kardex_page') }}" class="{{ 'active' if request.endpoint == 'kardex_page' else '' }}"><span>▥</span>Kárdex</a>
-      <a href="{{ url_for('space_page') }}" class="{{ 'active' if request.endpoint == 'space_page' else '' }}"><span>✦</span>Mi espacio</a>
+      <div class="navGroupLabel">MI +Q1LÍDER</div>
+      <a href="{{ url_for('calendar_page') }}" class="{{ 'active' if request.endpoint == 'calendar_page' else '' }}"><span>▣</span><b>Calendario</b><small>Agenda principal</small></a>
+      <a href="{{ url_for('space_page') }}" class="{{ 'active' if request.endpoint == 'space_page' else '' }}"><span>✦</span><b>Mi espacio</b><small>Notas y agenda personal</small></a>
+      <a href="{{ url_for('tasks_page') }}" class="{{ 'active' if request.endpoint == 'tasks_page' else '' }}"><span>✓</span><b>Mis tareas</b><small>Pendientes y entregas</small></a>
+
+      <div class="navGroupLabel">FORMACIÓN</div>
+      <a href="{{ url_for('modules_page') }}" class="{{ 'active' if request.endpoint in ['modules_page','module_detail','take_exam','exam_result'] else '' }}"><span>▦</span><b>Módulos</b><small>Ruta de 12 semanas</small></a>
+      <a href="{{ url_for('material_page') }}" class="{{ 'active' if request.endpoint == 'material_page' else '' }}"><span>▤</span><b>Material</b><small>Biblioteca del programa</small></a>
+      <a href="{{ url_for('activities_page') }}" class="{{ 'active' if request.endpoint == 'activities_page' else '' }}"><span>⌂</span><b>Actividades</b><small>Eventos +Q1LÍDER</small></a>
+      <a href="{{ url_for('kardex_page') }}" class="{{ 'active' if request.endpoint == 'kardex_page' else '' }}"><span>▥</span><b>Kárdex</b><small>Avance y calificaciones</small></a>
+
       {% if current_user.role in ['admin','teacher'] %}
-      <div class="sep"></div>
-      <a href="{{ url_for('attendance_page') }}" class="{{ 'active' if request.endpoint == 'attendance_page' else '' }}"><span>☑</span>Asistencia</a>
-      <a href="{{ url_for('exams_page') }}" class="{{ 'active' if request.endpoint in ['exams_page','edit_exam'] else '' }}"><span>✎</span>Exámenes</a>
-      <a href="{{ url_for('gradebook_page') }}" class="{{ 'active' if request.endpoint == 'gradebook_page' else '' }}"><span>★</span>Calificaciones</a>
+      <div class="navGroupLabel">GESTIÓN ACADÉMICA</div>
+      <a href="{{ url_for('attendance_page') }}" class="{{ 'active' if request.endpoint == 'attendance_page' else '' }}"><span>☑</span><b>Asistencia</b><small>Pasar lista</small></a>
+      <a href="{{ url_for('exams_page') }}" class="{{ 'active' if request.endpoint in ['exams_page','edit_exam'] else '' }}"><span>✎</span><b>Exámenes</b><small>Crear y editar</small></a>
+      <a href="{{ url_for('gradebook_page') }}" class="{{ 'active' if request.endpoint == 'gradebook_page' else '' }}"><span>★</span><b>Calificaciones</b><small>Captura y ponderación</small></a>
       {% endif %}
       {% if current_user.role == 'admin' %}
-      <a href="{{ url_for('admin_page') }}" class="{{ 'active' if request.endpoint == 'admin_page' else '' }}"><span>♟</span>Administración</a>
+      <div class="navGroupLabel">SISTEMA</div>
+      <a href="{{ url_for('admin_page') }}" class="{{ 'active' if request.endpoint == 'admin_page' else '' }}"><span>♟</span><b>Administración</b><small>Alumnos y accesos</small></a>
       {% endif %}
     </nav>
 

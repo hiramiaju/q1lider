@@ -1,4 +1,4 @@
-# +Q1LÍDER — Flask Campus Académico v5.2
+# +Q1LÍDER — Flask Campus Académico v5.5
 
 Versión en **Python + Flask + Jinja + CSS/JavaScript + JSON local**. No usa Next.js, React, Vite, Express, Supabase ni servicios de Google.
 
@@ -126,7 +126,7 @@ Separada en:
 ## Instalación en Windows
 
 ```powershell
-cd D:\q1lider-flask-v5.2
+cd D:\q1lider-flask-v5.5
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
@@ -218,8 +218,8 @@ Esta versión incorpora el padrón limpio entregado en `+q1lider.xlsx`.
 - Se detectaron **56 registros únicos** válidos.
 - El sistema asigna un usuario con el formato `NombreApellido+q1` (sin acentos ni espacios).
 - El alumno puede iniciar sesión con **correo o nombre de usuario**.
-- Las cuentas cargadas desde el padrón usan una contraseña temporal individual y obligan a cambiarla en el primer acceso.
-- Las contraseñas temporales se entregan en el archivo separado `+q1lider_registros_acomodados.xlsx`, hoja **Credenciales**. No se guardan en texto plano dentro del proyecto.
+- Todos los alumnos cargados desde el padrón utilizan una **contraseña inicial común**: `AlumnoQ1Lider2026!`.
+- Los alumnos pueden iniciar sesión con correo o con su usuario `NombreApellido+q1`. La administración incluye un botón para reaplicar la contraseña común a todos cuando sea necesario.
 - Si copias un `data/db.json` anterior, el arranque agrega solamente los alumnos faltantes y conserva actividades, calificaciones, asistencia y demás información existente.
 - Administración ahora incluye búsqueda por nombre, usuario, correo o teléfono, vista rápida de perfil y botón para copiar el nombre de usuario.
 
@@ -232,3 +232,14 @@ Miguel Lomeli → MiguelLomeli+q1
 ```
 
 Cuando el nombre tiene varias palabras se utiliza el **primer nombre + primer apellido estimado** para mantener una regla cercana al formato habitual mexicano. Se eliminan acentos y espacios para facilitar el acceso.
+
+
+## v5.5 · Contraseña común + navegación más intuitiva
+
+- Contraseña común de alumnos: `AlumnoQ1Lider2026!`.
+- La migración v5.5 aplica esa contraseña a todos los usuarios con rol Alumno una sola vez, sin tocar Admin ni Docentes.
+- Los alumnos nuevos cargados desde el padrón usan la misma clave.
+- Administración muestra la clave común y permite copiarla o reaplicarla a todos los alumnos con confirmación.
+- El calendario principal incluye accesos rápidos y tarjetas de resumen según el rol.
+- La barra lateral está agrupada por **Mi +Q1LÍDER / Formación / Gestión académica / Sistema** y agrega descripciones cortas para que cada sección se entienda más rápido.
+- El front mantiene responsive, modo claro/oscuro y el sidebar con scroll interno.

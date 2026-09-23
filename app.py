@@ -24,6 +24,8 @@ from werkzeug.utils import secure_filename
 
 from db import (
     UPLOAD_DIR,
+    STUDENT_SHARED_PASSWORD,
+    STUDENT_PASSWORD_POLICY_VERSION,
     canonical_role,
     check_password,
     ensure_seed,
@@ -390,11 +392,31 @@ def calendar_page():
     next_month = (first.replace(day=monthrange(year, month)[1]) + timedelta(days=1)).replace(day=1)
     announcements = sorted(db["announcements"], key=lambda x: x.get("createdAt", ""), reverse=True)
     mobile_agenda = sorted([e for e in events if e.get("date", "") >= today.isoformat()], key=lambda x: (x.get("date", ""), x.get("startTime", "")))[:30]
+
+    pending_tasks = [t for t in db["tasks"] if (t.get("ownerId") == uid or t.get("assignedTo") == uid) and t.get("status") != "completed"]
+    next_event = mobile_agenda[0] if mobile_agenda else None
+    if role_of(g.user) == "participant":
+        fourth_card = {
+            "label": "Faltas acumuladas",
+            "value": f"{absence_count(db, uid)} / {BLOCK_AFTER_ABSENCES}",
+            "hint": "A las 3 faltas se bloquea el acceso",
+            "tone": "danger" if absence_count(db, uid) >= max(1, BLOCK_AFTER_ABSENCES - 1) else "normal",
+        }
+    else:
+        active_students = sum(1 for u in db["users"] if role_of(u) == "participant" and u.get("status") == "active")
+        fourth_card = {"label": "Alumnos activos", "value": str(active_students), "hint": "Participantes con acceso activo", "tone": "normal"}
+
+    home_summary = {
+        "nextEvent": next_event,
+        "pendingTasks": len(pending_tasks),
+        "modules": len(db["modules"]),
+        "fourth": fourth_card,
+    }
     return render_template(
         "calendar.html", days=days, year=year, month=month,
         month_name=["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"][month],
         prev=prev, next_month=next_month, filter_name=filter_name, announcements=announcements,
-        mobile_agenda=mobile_agenda, today=today,
+        mobile_agenda=mobile_agenda, today=today, home_summary=home_summary,
     )
 
 
@@ -1348,7 +1370,11 @@ def admin_page():
         "students": len(students), "teachers": len(teachers), "admins": len(admins),
         "blocked": sum(1 for u in students if attendance_map.get(u["id"], 0) >= BLOCK_AFTER_ABSENCES),
     }
-    return render_template("admin.html", students=students, teachers=teachers, admins=admins, stats=stats, attendance_map=attendance_map, block_after=BLOCK_AFTER_ABSENCES)
+    return render_template(
+        "admin.html", students=students, teachers=teachers, admins=admins, stats=stats,
+        attendance_map=attendance_map, block_after=BLOCK_AFTER_ABSENCES,
+        student_shared_password=STUDENT_SHARED_PASSWORD,
+    )
 
 
 @app.post("/users")
@@ -1369,13 +1395,38 @@ def create_user():
     if any(u.get("email", "").lower() == email for u in db["users"]):
         flash("Ese correo ya está registrado.", "error")
         return redirect(url_for("admin_page"))
+    requested_password = (request.form.get("password") or "").strip()
+    if role == "participant" and not requested_password:
+        requested_password = STUDENT_SHARED_PASSWORD
+    elif not requested_password:
+        requested_password = "Temporal2026!"
     db["users"].append({
         "id": new_id(), "username": username, "name": name[:100], "lastName": last_name[:120],
-        "email": email, "passwordHash": hash_password(request.form.get("password") or "Temporal2026!"),
-        "role": role, "status": "active", "theme": "light", "mustChangePassword": True, "createdAt": now_iso(), "updatedAt": now_iso(),
+        "email": email, "passwordHash": hash_password(requested_password),
+        "role": role, "status": "active", "theme": "light",
+        "mustChangePassword": False if role == "participant" and requested_password == STUDENT_SHARED_PASSWORD else True,
+        "createdAt": now_iso(), "updatedAt": now_iso(),
     })
     write_db(db)
     flash("Usuario creado correctamente.", "success")
+    return redirect(url_for("admin_page"))
+
+
+@app.post("/admin/alumnos/restablecer-clave-comun")
+@roles_required("admin")
+def reset_students_shared_password():
+    db = read_db()
+    shared_hash = hash_password(STUDENT_SHARED_PASSWORD)
+    count = 0
+    for user in db["users"]:
+        if role_of(user) == "participant":
+            user["passwordHash"] = shared_hash
+            user["mustChangePassword"] = False
+            user["updatedAt"] = now_iso()
+            count += 1
+    db["studentPasswordPolicyVersion"] = STUDENT_PASSWORD_POLICY_VERSION
+    write_db(db)
+    flash(f"Contraseña común aplicada a {count} alumnos.", "success")
     return redirect(url_for("admin_page"))
 
 

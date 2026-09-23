@@ -1,8 +1,37 @@
 {% extends 'base.html' %}{% block title %}Calendario · +Q1LÍDER{% endblock %}
 {% block content %}
 <div class="page">
-  <div class="titleRow"><div><h1>Calendario +Q1LÍDER</h1><p>Tu agenda oficial y personal en un solo lugar.</p></div><button class="primaryAction" data-modal-open="newEvent">＋ Nueva actividad</button></div>
-  <div class="toolbar">
+  <div class="titleRow"><div><span class="eyebrow">CENTRO DIGITAL DEL PROGRAMA</span><h1>Calendario +Q1LÍDER</h1><p>Tu agenda oficial y personal en un solo lugar.</p></div><button class="primaryAction" data-modal-open="newEvent">＋ Nueva actividad</button></div>
+
+  <section class="homeGuide">
+    <div class="homeWelcome">
+      <span class="homeHello">Hola, {{ current_user.name }} 👋</span>
+      <h2>{{ '¿Qué necesitas gestionar hoy?' if current_user.role in ['admin','teacher'] else 'Tu ruta de hoy, en un vistazo' }}</h2>
+      <p>{{ 'Accede directo a las herramientas que más usas.' if current_user.role in ['admin','teacher'] else 'Revisa tu próxima actividad, tareas y avance sin perderte entre secciones.' }}</p>
+    </div>
+    <div class="homeQuickActions">
+      {% if current_user.role == 'participant' %}
+        <a href="{{ url_for('modules_page') }}"><span>▦</span><b>Continuar módulos</b><small>Material y evaluaciones</small></a>
+        <a href="{{ url_for('tasks_page') }}"><span>✓</span><b>Ver tareas</b><small>Pendientes personales</small></a>
+        <a href="{{ url_for('kardex_page') }}"><span>▥</span><b>Mi Kárdex</b><small>Calificaciones y faltas</small></a>
+        <a href="{{ url_for('space_page') }}"><span>✦</span><b>Mi espacio</b><small>Notas y agenda privada</small></a>
+      {% else %}
+        <a href="{{ url_for('attendance_page') }}"><span>☑</span><b>Pasar lista</b><small>Asistencia por módulo</small></a>
+        <a href="{{ url_for('modules_page') }}"><span>▦</span><b>Gestionar módulos</b><small>Material y contenido</small></a>
+        <a href="{{ url_for('exams_page') }}"><span>✎</span><b>Evaluaciones</b><small>Crear y editar</small></a>
+        {% if current_user.role == 'admin' %}<a href="{{ url_for('admin_page') }}"><span>♟</span><b>Usuarios</b><small>Alumnos y accesos</small></a>{% else %}<a href="{{ url_for('gradebook_page') }}"><span>★</span><b>Calificaciones</b><small>Captura y ponderación</small></a>{% endif %}
+      {% endif %}
+    </div>
+  </section>
+
+  <div class="homeStats">
+    <article><span class="statIcon violet">⌁</span><div><small>Próxima actividad</small><b>{{ home_summary.nextEvent.title if home_summary.nextEvent else 'Sin actividades' }}</b><em>{% if home_summary.nextEvent %}{{ home_summary.nextEvent.date }} · {{ home_summary.nextEvent.startTime }}{% else %}Tu agenda está libre{% endif %}</em></div></article>
+    <article><span class="statIcon blue">✓</span><div><small>Tareas pendientes</small><b>{{ home_summary.pendingTasks }}</b><em>{{ 'Todo al día' if home_summary.pendingTasks == 0 else 'Revisa tus pendientes' }}</em></div></article>
+    <article><span class="statIcon mint">▦</span><div><small>Módulos</small><b>{{ home_summary.modules }}</b><em>Ruta académica del programa</em></div></article>
+    <article class="{{ 'warningStat' if home_summary.fourth.tone == 'danger' else '' }}"><span class="statIcon amber">{{ '!' if home_summary.fourth.tone == 'danger' else '◎' }}</span><div><small>{{ home_summary.fourth.label }}</small><b>{{ home_summary.fourth.value }}</b><em>{{ home_summary.fourth.hint }}</em></div></article>
+  </div>
+
+  <div class="toolbar calendarToolbar">
     <div class="seg"><a href="{{ url_for('calendar_page', year=prev.year, month=prev.month, filter=filter_name) }}">‹</a><a href="{{ url_for('calendar_page', filter=filter_name) }}">Hoy</a><a href="{{ url_for('calendar_page', year=next_month.year, month=next_month.month, filter=filter_name) }}">›</a></div>
     <h2>{{ month_name }} {{ year }}</h2>
     <div class="seg filterSeg"><a class="{{ 'active' if filter_name=='all' else '' }}" href="{{ url_for('calendar_page', year=year, month=month, filter='all') }}">Todas</a><a class="{{ 'active' if filter_name=='official' else '' }}" href="{{ url_for('calendar_page', year=year, month=month, filter='official') }}">+Q1LÍDER</a><a class="{{ 'active' if filter_name=='personal' else '' }}" href="{{ url_for('calendar_page', year=year, month=month, filter='personal') }}">Personales</a></div>

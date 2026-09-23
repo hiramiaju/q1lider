@@ -19,6 +19,11 @@ UPLOAD_DIR = BASE_DIR / "uploads"
 ROSTER_FILE = DATA_DIR / "roster_q1lider.json"
 LOCK = RLock()
 
+# Contraseña inicial común solicitada para todos los alumnos.
+# Se aplica al migrar a v5.5 y a alumnos nuevos cargados desde el padrón.
+STUDENT_SHARED_PASSWORD = "AlumnoQ1Lider2026!"
+STUDENT_PASSWORD_POLICY_VERSION = 1
+
 
 def now_iso() -> str:
     return datetime.now().astimezone().isoformat(timespec="seconds")
@@ -184,6 +189,9 @@ def ensure_roster_seed(db: dict[str, Any]) -> bool:
         item = deepcopy(row)
         item["id"] = new_id()
         item["username"] = unique_username(db, username or suggested_username(item.get("name", ""), item.get("lastName", "")))
+        if canonical_role(item.get("role")) == "participant":
+            item["passwordHash"] = hash_password(STUDENT_SHARED_PASSWORD)
+            item["mustChangePassword"] = False
         item.setdefault("createdAt", now_iso())
         item.setdefault("updatedAt", now_iso())
         db["users"].append(item)
@@ -365,6 +373,18 @@ def ensure_seed() -> None:
             changed = True
 
     if ensure_roster_seed(db):
+        changed = True
+
+    # v5.5: unificar la contraseña inicial de todos los alumnos una sola vez.
+    # El marcador evita volver a sobrescribir contraseñas en cada arranque.
+    if int(db.get("studentPasswordPolicyVersion", 0) or 0) < STUDENT_PASSWORD_POLICY_VERSION:
+        common_hash = hash_password(STUDENT_SHARED_PASSWORD)
+        for user in db["users"]:
+            if canonical_role(user.get("role")) == "participant":
+                user["passwordHash"] = common_hash
+                user["mustChangePassword"] = False
+                user["updatedAt"] = now_iso()
+        db["studentPasswordPolicyVersion"] = STUDENT_PASSWORD_POLICY_VERSION
         changed = True
 
     if ensure_academic_seed(db, admin_id):
