@@ -1,12 +1,15 @@
-{% extends 'base.html' %}{% block title %}Editar {{ exam.title }} · +Q1LÍDER{% endblock %}{% block content %}
+{% extends 'base.html' %}
+{% block title %}Editar {{ exam.title }} · +Q1LÍDER{% endblock %}
+{% block content %}
 <div class="page narrowPage">
-  <div class="titleRow"><div><a href="{{ url_for('exams_page') }}">← Volver a Exámenes</a><h1>Editar evaluación</h1><p>Los cambios aplican a los alumnos que todavía no la han contestado. Los intentos ya enviados permanecen cerrados.</p></div></div>
+  <div class="titleRow"><div><a href="{{ url_for('exams_page') }}">← Volver a Evaluaciones</a><h1>Editar evaluación</h1><p>Los cambios aplican a quienes todavía no la han contestado. Los intentos ya enviados permanecen cerrados.</p></div></div>
   <form class="panel examEditorForm" method="post" action="{{ url_for('edit_exam', exam_id=exam.id) }}">
-    <div class="cols"><label>Módulo<select name="moduleId" required>{% for m in modules %}<option value="{{ m.id }}" {{ 'selected' if m.id==exam.moduleId else '' }}>{{ m.title }}</option>{% endfor %}</select></label><label>Tipo<select name="type"><option value="self_assessment" {{ 'selected' if exam.type=='self_assessment' else '' }}>Autoevaluación</option><option value="final_exam" {{ 'selected' if exam.type=='final_exam' else '' }}>Examen final</option></select></label></div>
+    <div class="cols"><label>Módulo<select name="moduleId" required>{% for m in modules %}<option value="{{ m.id }}" {{ 'selected' if m.id==exam.moduleId else '' }}>{{ m.title }}</option>{% endfor %}</select></label><label>Tipo<select name="type"><option value="self_assessment" {{ 'selected' if exam.type=='self_assessment' else '' }}>Autoevaluación</option><option value="evaluation" {{ 'selected' if exam.type=='evaluation' else '' }}>Evaluación</option><option value="final_exam" {{ 'selected' if exam.type=='final_exam' else '' }}>Examen final</option></select></label></div>
     <label>Título<input name="title" value="{{ exam.title }}" required></label>
     <label>Descripción<textarea name="description">{{ exam.description }}</textarea></label>
     <label>Valor en la calificación del módulo (%)<input name="weight" type="number" min="0" max="100" step="0.01" value="{{ grade_item.weight if grade_item else 0 }}"></label>
-    <label>Preguntas<textarea name="questions" rows="12" required>{{ questions_text }}</textarea><small>Formato: Pregunta|Opción A|Opción B|Opción C|número de opción correcta</small></label>
+    <label>Preguntas<textarea name="questions" rows="14" required>{{ questions_text }}</textarea></label>
+    <div class="syntaxMiniGuide"><b>Sintaxis:</b><code>Pregunta|A|B|C|2</code><code>ESCALA|Pregunta|1|5</code><code>VF|Pregunta|V</code><code>ABIERTA|Pregunta</code><code>MULTI|Pregunta|A|B|C|1,3</code></div>
     <button class="primaryButton">Guardar cambios</button>
   </form>
 </div>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}{{ instrument.title }} · {{ module.title }}{% endblock %}
+{% block content %}
+<div class="page narrowPage evaluationInstrumentPage">
+  <a href="{{ url_for('module_detail', module_id=module.id) }}#evaluaciones-integrales">← Volver a {{ module.title }}</a>
+  <div class="instrumentHero">
+    <span class="eyebrow">SISTEMA DE EVALUACIÓN INTEGRAL · {{ module.title }}</span>
+    <h1>{{ instrument.title }}</h1>
+    <p><b>Evaluado por:</b> {{ instrument.evaluatedBy }}</p>
+    <div class="scaleBanner"><b>Escala 1 a 5</b><span>1 = Deficiente / Totalmente en desacuerdo</span><span>5 = Excelente / Totalmente de acuerdo</span></div>
+    {% if instrument.anonymous %}<div class="anonymousNotice">🔒 Este instrumento se registra de forma anónima en los reportes.</div>{% endif %}
+  </div>
+
+  {% if existing %}
+    <div class="panel completedInstrument"><div class="resultCheck">✓</div><h2>Evaluación enviada</h2><p>Ya respondiste este instrumento para {{ module.title }}. La respuesta quedó cerrada para evitar duplicados.</p><a class="primaryButton linkAsButton" href="{{ url_for('module_detail', module_id=module.id) }}#evaluaciones-integrales">Volver al módulo</a></div>
+  {% else %}
+  <form class="panel integralEvaluationForm" method="post">
+    <div class="evaluationMetaGrid">
+      <label>Nombre evaluado/a <input name="evaluatedName" placeholder="Nombre de la persona o área evaluada"></label>
+      <label>Evaluador/a <input name="evaluatorName" value="{{ '' if instrument.anonymous else current_user.fullName }}" placeholder="Tu nombre" {% if instrument.anonymous %}disabled{% endif %}></label>
+      <label>Generación / cohorte <input name="generation" placeholder="Ej. 2026–2027"></label>
+    </div>
+
+    <div class="instrumentQuestions">
+      {% for q in instrument.questions %}
+      {% set q_index = loop.index %}
+      <fieldset class="surveyQuestion instrumentQuestion">
+        <legend><b>{{ loop.index }}.</b> {{ q }}</legend>
+        <div class="ratingScale ratingScale5" role="radiogroup">
+          {% for n in range(1,6) %}<label class="ratingChoice"><input type="radio" name="q_{{ q_index }}" value="{{ n }}" required><span>{{ n }}</span></label>{% endfor %}
+        </div>
+        <div class="scaleLegend"><span>1 · Deficiente</span><span>3 · Neutral</span><span>5 · Excelente</span></div>
+      </fieldset>
+      {% endfor %}
+    </div>
+
+    <label class="qualitativeComment"><b>Comentario cualitativo</b><span>{{ instrument.commentPrompt }}</span><textarea name="comment" rows="5" placeholder="Escribe una respuesta breve y concreta"></textarea></label>
+    <div class="surveySubmitBar"><div><b>Revisa antes de enviar</b><small>Esta evaluación solo puede responderse una vez por módulo.</small></div><button class="primaryButton">Enviar evaluación</button></div>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

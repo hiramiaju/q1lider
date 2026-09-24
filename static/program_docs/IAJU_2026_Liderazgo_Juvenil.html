@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Programa Institucional de Liderazgo Juvenil — IAJU 2026-2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Inter:wght@400;600;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+:root{
+  --papel:#F4F1EA;
+  --tinta:#1A1A1A;
+  --neon:#CCFF00;
+  --rosa:#FF007F;
+  --cyan:#00E5FF;
+  --postit:#FFF066;
+  --cinta:rgba(255,255,255,.6);
+  --margen:#E4573D;
+  --reticula:rgba(26,26,26,.10);
+  --display:"Archivo Black","Arial Black",sans-serif;
+  --marker:"Permanent Marker",cursive;
+  --mano:"Caveat","Comic Sans MS",cursive;
+  --cuerpo:"Inter",Arial,Helvetica,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:#2A2724;
+  font-family:var(--cuerpo);
+  color:var(--tinta);
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ---------- ESCENARIO 16:9 ---------- */
+#escenario{width:1280px;height:720px;position:relative;transform-origin:center center;}
+.slide{
+  position:absolute;inset:0;
+  background:var(--papel);
+  overflow:hidden;
+  display:none;
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+}
+.slide.activa{display:block}
+
+/* hoja de libreta: cuadrícula + rayas + margen rojo */
+.slide::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--reticula) 1px,transparent 1px),
+    linear-gradient(90deg,var(--reticula) 1px,transparent 1px);
+  background-size:26px 26px;
+  opacity:.85;
+}
+.slide::after{
+  content:"";position:absolute;top:0;bottom:0;left:96px;width:2px;
+  background:var(--margen);opacity:.55;pointer-events:none;
+}
+/* perforaciones */
+.perfos{position:absolute;left:34px;top:0;bottom:0;width:26px;z-index:2}
+.perfos i{position:absolute;left:0;width:22px;height:22px;border-radius:50%;
+  background:#2A2724;box-shadow:inset -2px -2px 4px rgba(0,0,0,.5)}
+
+.lienzo{position:absolute;inset:0;padding:44px 56px 44px 130px;z-index:3}
+
+/* ---------- TIPOGRAFÍA ---------- */
+.titulazo{font-family:var(--display);line-height:.86;letter-spacing:-.02em;text-transform:uppercase}
+.marker{font-family:var(--marker)}
+.mano{font-family:var(--mano);line-height:1.15}
+.rotulo{font-family:var(--marker);font-size:19px;letter-spacing:.02em}
+p,li{font-size:17px;line-height:1.45}
+
+/* subrayado / resaltador */
+.res{background:linear-gradient(transparent 52%,var(--neon) 52%,var(--neon) 94%,transparent 94%);padding:0 4px}
+.res-rosa{background:linear-gradient(transparent 52%,rgba(255,0,127,.35) 52%,rgba(255,0,127,.35) 94%,transparent 94%);padding:0 4px}
+.res-cyan{background:linear-gradient(transparent 52%,rgba(0,229,255,.45) 52%,rgba(0,229,255,.45) 94%,transparent 94%);padding:0 4px}
+.tachado{text-decoration:line-through;text-decoration-color:var(--rosa);text-decoration-thickness:3px;opacity:.62}
+
+/* ---------- OBJETOS PEGADOS ---------- */
+.cinta{position:absolute;width:118px;height:30px;background:var(--cinta);
+  box-shadow:0 1px 3px rgba(0,0,0,.18);
+  border-left:1px dashed rgba(0,0,0,.12);border-right:1px dashed rgba(0,0,0,.12)}
+
+.postit{
+  position:absolute;background:var(--postit);padding:16px 18px;
+  font-family:var(--mano);font-size:24px;line-height:1.12;
+  box-shadow:4px 6px 12px rgba(0,0,0,.22);
+  width:210px;min-height:150px;z-index:6;
+}
+.postit.rosa{background:#FFB3D9}
+.postit.verde{background:#D6FF7A}
+
+.polaroid{
+  position:absolute;background:#fff;padding:12px 12px 44px;
+  box-shadow:5px 8px 18px rgba(0,0,0,.3);z-index:5;
+}
+.polaroid .hueco{
+  background:repeating-linear-gradient(45deg,#E9E5DC,#E9E5DC 9px,#DED9CE 9px,#DED9CE 18px);
+  border:2px dashed #9a948a;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:10px;
+}
+.polaroid .hueco span{font-family:var(--cuerpo);font-size:11px;font-weight:600;color:#6b665e;line-height:1.35}
+.polaroid .pie{font-family:var(--mano);font-size:20px;text-align:center;margin-top:9px}
+
+.hueco-libre{
+  border:2px dashed #9a948a;
+  background:repeating-linear-gradient(45deg,#EDE9E0,#EDE9E0 9px,#E2DDD2 9px,#E2DDD2 18px);
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;
+}
+.hueco-libre span{font-size:11px;font-weight:600;color:#6b665e;line-height:1.4}
+
+.sello{
+  position:absolute;border:4px double currentColor;padding:6px 14px;
+  font-family:var(--display);font-size:22px;letter-spacing:.04em;text-transform:uppercase;
+  opacity:.72;z-index:7;
+}
+.sello.rosa{color:var(--rosa)}
+.sello.tinta{color:var(--tinta)}
+
+.sticker{
+  display:inline-block;border:3px solid var(--tinta);border-radius:40px;
+  padding:9px 18px;font-family:var(--marker);font-size:20px;
+  box-shadow:3px 4px 0 var(--tinta);background:#fff;
+}
+.sticker.neon{background:var(--neon)}
+.sticker.rosa{background:var(--rosa);color:#fff;border-color:var(--tinta)}
+.sticker.cyan{background:var(--cyan)}
+
+.ficha{background:#fff;border:2px solid var(--tinta);padding:14px 16px;
+  box-shadow:4px 5px 0 rgba(26,26,26,.85);position:relative}
+
+.garabato{position:absolute;pointer-events:none;z-index:4}
+
+/* ---------- CHROME ---------- */
+#barra{
+  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:14px;z-index:50;
+  background:rgba(244,241,234,.94);border:2px solid #1A1A1A;
+  padding:8px 14px;border-radius:34px;box-shadow:0 6px 20px rgba(0,0,0,.4);
+}
+#barra button{
+  font-family:var(--cuerpo);font-weight:800;font-size:13px;
+  border:2px solid var(--tinta);background:#fff;color:var(--tinta);
+  padding:7px 13px;border-radius:20px;cursor:pointer;
+}
+#barra button:hover{background:var(--neon)}
+#barra button:focus-visible{outline:3px solid var(--rosa);outline-offset:2px}
+#contador{font-family:var(--marker);font-size:19px;min-width:70px;text-align:center}
+
+#notas{
+  position:fixed;top:0;right:0;height:100%;width:430px;z-index:60;
+  background:#161412;color:#F4F1EA;padding:26px 26px 90px;
+  overflow-y:auto;transform:translateX(100%);transition:transform .25s ease;
+  border-left:4px solid var(--neon);
+}
+#notas.abierto{transform:translateX(0)}
+#notas h3{font-family:var(--marker);font-size:24px;color:var(--neon);margin-bottom:6px}
+#notas h4{font-family:var(--cuerpo);font-size:12px;letter-spacing:.14em;color:var(--cyan);margin:20px 0 7px;font-weight:800}
+#notas li{font-size:13.5px;line-height:1.55;margin:0 0 8px 18px}
+#notas p{font-size:13.5px;line-height:1.55;margin-bottom:10px}
+#notas .cerrar{position:absolute;top:16px;right:18px;background:none;border:none;
+  color:#F4F1EA;font-size:24px;cursor:pointer;font-family:var(--cuerpo)}
+.notas-fuente{display:none}
+
+@media (prefers-reduced-motion:reduce){#notas{transition:none}}
+</style>
+</head>
+<body>
+
+<div id="escenario">
+
+<!-- ============================ SLIDE 1 · PORTADA ============================ -->
+<section class="slide activa">
+  <div class="perfos"><i style="top:88px"></i><i style="top:238px"></i><i style="top:388px"></i><i style="top:538px"></i><i style="top:660px"></i></div>
+  <div class="lienzo">
+
+    <div class="cinta" style="top:-8px;left:210px;transform:rotate(-4deg)"></div>
+    <div class="cinta" style="top:-10px;left:930px;transform:rotate(6deg)"></div>
+
+    <div class="sello rosa" style="top:34px;right:56px;transform:rotate(9deg)">Cero choro</div>
+
+    <div class="rotulo" style="margin-top:10px">Instituto Aguascalentense de la Juventud · Cohorte 2026–2027</div>
+
+    <h1 class="titulazo" style="font-size:132px;margin-top:16px">Desbloquea<br>tu voz</h1>
+
+    <p class="mano" style="font-size:44px;margin-top:6px">…y deja de pedir permiso para hablar.</p>
+
+    <p style="font-size:23px;max-width:620px;margin-top:22px;font-weight:600">
+      <span class="res">Programa Institucional de Liderazgo Juvenil</span><br>
+      <span style="font-weight:400">12 semanas de laboratorio: comunicación, negociación, presencia y un proyecto que sí se ejecuta.</span>
+    </p>
+
+    <div style="margin-top:26px;display:flex;gap:12px">
+      <span class="sticker neon">6 módulos</span>
+      <span class="sticker cyan">12 semanas</span>
+      <span class="sticker rosa">+90 días de seguimiento</span>
+    </div>
+
+    <p class="mano" style="font-size:30px;margin-top:24px">
+      19 sep → 4 dic 2026 &nbsp;·&nbsp; Aguascalientes, Ags.
+    </p>
+
+    <p style="position:absolute;bottom:34px;left:130px;font-size:13px;font-weight:600;opacity:.7">
+      Autoría estratégica: Ing. Flavio Eduardo Padilla Gómez / Miguel Lomelí
+    </p>
+
+    <div class="polaroid" style="top:150px;right:64px;width:290px;transform:rotate(4deg)">
+      <div class="hueco" style="height:250px"><span>FOTO REAL 1<br>Ex-Taller de Locomotoras / Tres Centurias.<br>Grupo de jóvenes de espaldas caminando, luz de tarde.<br>Vertical 4:5</span></div>
+      <div class="pie">aquí empieza</div>
+    </div>
+    <div class="cinta" style="top:138px;right:150px;transform:rotate(-18deg);width:96px"></div>
+
+    <svg class="garabato" style="bottom:120px;right:120px" width="240" height="130" viewBox="0 0 240 130" aria-hidden="true">
+      <path d="M20,110 C70,120 150,95 195,45" fill="none" stroke="#1A1A1A" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M180,38 L200,38 L196,60" fill="none" stroke="#1A1A1A" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="0" y="128" font-family="Caveat,cursive" font-size="27" fill="#1A1A1A">sí, tú</text>
+    </svg>
+  </div>
+
+  <div class="notas-fuente">
+    <h3>Slide 1 · Portada</h3>
+    <h4>INTENCIÓN</h4>
+    <p>La primera pantalla no vende el programa: reta al espectador. El titular ocupa un tercio de la hoja para que se lea a 3 metros de distancia en una proyección de auditorio.</p>
+    <h4>FOTOGRAFÍA A SUSTITUIR</h4>
+    <ul><li><b>Foto 1 (Polaroid, vertical 4:5):</b> Ex-Taller de Locomotoras o Tres Centurias. Jóvenes reales de espaldas o en movimiento, nunca posando de frente. Luz de tarde, grano visible. Si se usa foto de archivo institucional, elegir una donde no se distinga rostro completo para evitar problemas de cesión de imagen antes de firmar el documento 2.</li></ul>
+    <h4>STICKERS Y SELLOS</h4>
+    <ul>
+      <li>Sello «CERO CHORO» arriba a la derecha, rotado 9°, en magenta, con textura de tinta gastada.</li>
+      <li>Tres stickers-píldora (neón, cyan, magenta) con las cifras duras del programa.</li>
+      <li>Dos trozos de masking tape en el borde superior y uno diagonal sujetando la Polaroid.</li>
+    </ul>
+    <h4>GARABATOS A MANO</h4>
+    <ul><li>Flecha curva ascendente hacia el titular con la anotación «sí, tú» en manuscrita.</li></ul>
+    <h4>SI SE ANIMA</h4>
+    <p>Un solo movimiento: el sello «CERO CHORO» cae y rebota al entrar. Nada más se mueve.</p>
+  </div>
+</section>
+
+<!-- ============================ SLIDE 2 · PROBLEMA VS SOLUCIÓN ============================ -->
+<section class="slide">
+  <div class="perfos"><i style="top:88px"></i><i style="top:238px"></i><i style="top:388px"></i><i style="top:538px"></i><i style="top:660px"></i></div>
+  <div class="lienzo">
+
+    <h2 class="titulazo" style="font-size:70px">Esto no es<br>otra plática</h2>
+    <p class="mano" style="font-size:30px;margin-top:8px">Comparemos, sin defendernos:</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:24px">
+
+      <div class="ficha" style="transform:rotate(-.8deg)">
+        <div class="rotulo" style="color:var(--rosa)">La versión que ya te sabes</div>
+        <ul style="list-style:none;margin-top:12px">
+          <li class="tachado" style="margin-bottom:11px">Tres horas sentado en un auditorio frío.</li>
+          <li class="tachado" style="margin-bottom:11px">Noventa diapositivas leídas en voz alta.</li>
+          <li class="tachado" style="margin-bottom:11px">«Ustedes son el futuro de México».</li>
+          <li class="tachado" style="margin-bottom:11px">Foto de grupo, constancia y hasta luego.</li>
+        </ul>
+        <p class="mano" style="font-size:26px;margin-top:10px;color:var(--rosa)">salías igual que como entraste</p>
+      </div>
+
+      <div class="ficha" style="transform:rotate(.7deg);border-width:3px">
+        <div class="rotulo">La versión que sí sirve</div>
+        <ul style="list-style:none;margin-top:12px">
+          <li style="margin-bottom:11px">▸ <span class="res">70% del tiempo estás de pie</span>, no escuchando.</li>
+          <li style="margin-bottom:11px">▸ Te equivocas frente a doce personas y no te cuesta nada.</li>
+          <li style="margin-bottom:11px">▸ Cada módulo termina en un entregable que existe.</li>
+          <li style="margin-bottom:11px">▸ Sales con una red local y algo real que poner en el CV.</li>
+        </ul>
+        <p class="mano" style="font-size:26px;margin-top:10px">y con 90 días de seguimiento</p>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:16px;margin-top:30px;align-items:flex-start">
+      <div style="flex:1">
+        <span class="sticker neon">Cero choro, 100% acción</span>
+        <p style="font-size:14.5px;margin-top:9px;max-width:270px">Laboratorio de liderazgo, negociación y presencia. Ni oratoria de concurso ni política de partido.</p>
+      </div>
+      <div style="flex:1">
+        <span class="sticker cyan">Espacio seguro</span>
+        <p style="font-size:14.5px;margin-top:9px;max-width:270px">Equivocarse no cuesta. Mentores cercanos y dinámicas vivenciales, no exposición pública.</p>
+      </div>
+      <div style="flex:1">
+        <span class="sticker rosa">Red local y valor real</span>
+        <p style="font-size:14.5px;margin-top:9px;max-width:270px">Otros jóvenes creativos de Aguascalientes y proyectos con impacto directo en el estado.</p>
+      </div>
+    </div>
+
+    <div class="hueco-libre" style="position:absolute;top:100px;right:56px;width:250px;height:200px;transform:rotate(3deg);z-index:6">
+      <span>MEME 1<br>Sobre pánico escénico o «me toca exponer».<br>Formato cuadrado, con marco de cinta adhesiva.<br>Usar plantilla de dominio público o meme propio del IAJU.</span>
+    </div>
+
+    <div class="postit rosa" style="bottom:26px;right:60px;transform:rotate(-5deg);width:230px;min-height:120px;font-size:22px">
+      18 a 29 años.<br>No necesitas experiencia previa ni militar en nada.
+    </div>
+  </div>
+
+  <div class="notas-fuente">
+    <h3>Slide 2 · El problema vs. la solución</h3>
+    <h4>INTENCIÓN</h4>
+    <p>Desarmar la objeción antes de que aparezca. La columna izquierda va literalmente tachada con plumón magenta: el gesto comunica más rápido que el texto.</p>
+    <h4>IMÁGENES A SUSTITUIR</h4>
+    <ul><li><b>Meme 1:</b> pánico escénico / «me toca exponer». Colocarlo con marco de cinta adhesiva en las cuatro esquinas. Recomendación institucional: generar el meme con foto propia de una cohorte anterior en lugar de usar plantillas con derechos de terceros.</li></ul>
+    <h4>STICKERS Y POST-ITS</h4>
+    <ul>
+      <li>Tres stickers-píldora en la banda inferior: uno por pilar narrativo (neón, cyan, magenta).</li>
+      <li>Post-it rosa abajo a la derecha con el requisito de entrada. Es el dato que más se pregunta; por eso va en post-it y no en el cuerpo.</li>
+    </ul>
+    <h4>GARABATOS A MANO</h4>
+    <ul>
+      <li>Tachado doble a mano alzada sobre cada línea de la columna izquierda.</li>
+      <li>Palomitas manuscritas al margen de la columna derecha.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ SLIDE 3 · MAPA DEL VIAJE ============================ -->
+<section class="slide">
+  <div class="perfos"><i style="top:88px"></i><i style="top:238px"></i><i style="top:388px"></i><i style="top:538px"></i><i style="top:660px"></i></div>
+  <div class="lienzo" style="padding-top:34px">
+
+    <h2 class="titulazo" style="font-size:62px">El mapa del viaje</h2>
+    <p class="mano" style="font-size:28px;margin-top:4px">Seis sábados. Cada uno termina con algo en la mano.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px">
+
+      <div class="ficha" style="transform:rotate(-.6deg)">
+        <div style="font-family:var(--display);font-size:34px;line-height:1">01</div>
+        <div style="font-weight:800;font-size:16.5px;margin-top:4px">Autoconocimiento, valores y autorregulación</div>
+        <p style="font-size:13.5px;margin-top:7px">Fortalezas, límites personales y mapa de sobrecarga.</p>
+        <p style="font-size:13px;margin-top:8px"><b>Entregable:</b> <span class="res">Ficha del Semáforo Personal</span></p>
+        <p class="mano" style="font-size:21px;margin-top:4px">sáb 19 sep</p>
+      </div>
+
+      <div class="ficha" style="transform:rotate(.5deg)">
+        <div style="font-family:var(--display);font-size:34px;line-height:1">02</div>
+        <div style="font-weight:800;font-size:16.5px;margin-top:4px">Comunicación estratégica y presencia</div>
+        <p style="font-size:13.5px;margin-top:7px">Lenguaje corporal, pitch de impacto y miedo escénico.</p>
+        <p style="font-size:13px;margin-top:8px"><b>Entregable:</b> <span class="res">Video de pitch de 1 minuto</span></p>
+        <p class="mano" style="font-size:21px;margin-top:4px">sáb 3 oct</p>
+      </div>
+
+      <div class="ficha" style="transform:rotate(-.4deg)">
+        <div style="font-family:var(--display);font-size:34px;line-height:1">03</div>
+        <div style="font-weight:800;font-size:16.5px;margin-top:4px">Inteligencia emocional y manejo de conflictos</div>
+        <p style="font-size:13.5px;margin-top:7px">Conversaciones difíciles y negociación gana-gana.</p>
+        <p style="font-size:13px;margin-top:8px"><b>Entregable:</b> <span class="res">Acuerdo Win-Win (Harvard)</span></p>
+        <p class="mano" style="font-size:21px;margin-top:4px">sáb 17 oct</p>
+      </div>
+
+      <div class="ficha" style="transform:rotate(.6deg)">
+        <div style="font-family:var(--display);font-size:34px;line-height:1">04</div>
+        <div style="font-weight:800;font-size:16.5px;margin-top:4px">Pensamiento crítico y resolución de problemas</div>
+        <p style="font-size:13.5px;margin-top:7px">Causa raíz, problemas complejos y mini-hackathon.</p>
+        <p style="font-size:13px;margin-top:8px"><b>Entregable:</b> <span class="res">Prototipo con 5 porqués</span></p>
+        <p class="mano" style="font-size:21px;margin-top:4px">sáb 31 oct</p>
+      </div>
+
+      <div class="ficha" style="transform:rotate(-.5deg)">
+        <div style="font-family:var(--display);font-size:34px;line-height:1">05</div>
+        <div style="font-weight:800;font-size:16.5px;margin-top:4px">Gestión de proyectos y ejecución impecable</div>
+        <p style="font-size:13.5px;margin-top:7px">Planificación ágil, tableros e imprevistos.</p>
+        <p style="font-size:13px;margin-top:8px"><b>Entregable:</b> <span class="res">Kanban e hitos de contingencia</span></p>
+        <p class="mano" style="font-size:21px;margin-top:4px">sáb 14 nov</p>
+      </div>
+
+      <div class="ficha" style="transform:rotate(.4deg);border-width:3px">
+        <div style="font-family:var(--display);font-size:34px;line-height:1">06</div>
+        <div style="font-weight:800;font-size:16.5px;margin-top:4px">Pitch final, impacto y sostenibilidad</div>
+        <p style="font-size:13.5px;margin-top:7px">Presentación de alto impacto y graduación.</p>
+        <p style="font-size:13px;margin-top:8px"><b>Entregable:</b> <span class="res-rosa">Carta a 90 días + acuerdo entre pares</span></p>
+        <p class="mano" style="font-size:21px;margin-top:4px">sáb 28 nov</p>
+      </div>
+    </div>
+
+    <div style="margin-top:22px">
+      <div class="rotulo">Ritmo real de las 12 semanas</div>
+      <div style="display:flex;gap:5px;margin-top:9px;align-items:flex-end">
+        <div style="flex:1;background:var(--neon);border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px;font-weight:800">S1<br>Clase M1</div>
+        <div style="flex:1;background:#fff;border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px">S2<br>Tarea</div>
+        <div style="flex:1;background:var(--neon);border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px;font-weight:800">S3<br>Clase M2</div>
+        <div style="flex:1;background:#fff;border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px">S4<br>Tarea</div>
+        <div style="flex:1;background:var(--neon);border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px;font-weight:800">S5<br>Clase M3</div>
+        <div style="flex:1;background:#fff;border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px">S6<br>Tarea</div>
+        <div style="flex:1;background:var(--neon);border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px;font-weight:800">S7<br>Clase M4</div>
+        <div style="flex:1;background:#fff;border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px">S8<br>Tarea</div>
+        <div style="flex:1;background:var(--neon);border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px;font-weight:800">S9<br>Clase M5</div>
+        <div style="flex:1;background:#fff;border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px">S10<br>Tarea</div>
+        <div style="flex:1;background:var(--neon);border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px;font-weight:800">S11<br>Clase M6</div>
+        <div style="flex:1;background:var(--postit);border:2px solid var(--tinta);padding:6px 4px;text-align:center;font-size:11.5px;font-weight:800">S12<br>Cierre</div>
+      </div>
+    </div>
+
+    <div class="postit" style="top:34px;right:56px;transform:rotate(5deg);width:236px;min-height:132px;font-size:22px;z-index:8">
+      Viernes: pre-junta del equipo.<br>Sábado: la clase.<br>Semana siguiente: tarea + mentoría.
+    </div>
+  </div>
+
+  <div class="notas-fuente">
+    <h3>Slide 3 · Mapa del viaje</h3>
+    <h4>INTENCIÓN</h4>
+    <p>Es la única slide donde la numeración 01–06 se justifica: el contenido sí es una secuencia. La franja inferior traduce el calendario maestro a lo único que le importa al joven: cuándo hay clase y cuándo hay tarea.</p>
+    <h4>TRATAMIENTO</h4>
+    <ul>
+      <li>Seis fichas tipo tarjeta de cartulina, cada una con rotación distinta entre −0.6° y +0.6° para que se lean como pegadas a mano.</li>
+      <li>La ficha del módulo 6 lleva borde más grueso: es la meta.</li>
+      <li>Barras de semana en neón para clase presencial, blanco para semana de tarea, amarillo post-it para el cierre.</li>
+    </ul>
+    <h4>STICKERS Y POST-ITS</h4>
+    <ul><li>Post-it amarillo arriba a la derecha con el ritmo semanal viernes/sábado/semana siguiente.</li></ul>
+    <h4>GARABATOS A MANO</h4>
+    <ul><li>Flecha serpenteante dibujada a mano que conecte 01 → 06 pasando por encima de las fichas, en tinta negra fina, sin tapar texto.</li>
+    <li>Círculo a mano alzada alrededor de «sáb 28 nov» con la nota «graduación» al margen.</li></ul>
+    <h4>PENDIENTE DE VALIDAR</h4>
+    <p>El dataset marca <b>fechaFinPresencial: 2026-12-04</b>, pero la última clase presencial es el 28 de noviembre y el 4 de diciembre es la entrega final de tarea. Conviene unificar el término antes de publicar.</p>
+  </div>
+</section>
+
+<!-- ============================ SLIDE 4 · 70/20/10 ============================ -->
+<section class="slide">
+  <div class="perfos"><i style="top:88px"></i><i style="top:238px"></i><i style="top:388px"></i><i style="top:538px"></i><i style="top:660px"></i></div>
+  <div class="lienzo">
+
+    <h2 class="titulazo" style="font-size:118px;line-height:.9">70 / 20 / 10</h2>
+    <p class="mano" style="font-size:34px;margin-top:2px">La regla que decide cómo se gasta cada minuto.</p>
+
+    <div style="margin-top:28px;max-width:730px">
+
+      <div style="margin-bottom:20px">
+        <div style="display:flex;align-items:baseline;gap:12px">
+          <span style="font-family:var(--display);font-size:44px">70%</span>
+          <span style="font-weight:800;font-size:20px">Práctica vivencial</span>
+        </div>
+        <div style="height:34px;background:var(--neon);border:3px solid var(--tinta);width:100%;margin-top:6px"></div>
+        <p style="font-size:16px;margin-top:7px">Simulaciones, dinámicas en tercias, pitches y juegos de rol. Estás haciendo, no viendo.</p>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="display:flex;align-items:baseline;gap:12px">
+          <span style="font-family:var(--display);font-size:44px">20%</span>
+          <span style="font-weight:800;font-size:20px">Interacción y debate</span>
+        </div>
+        <div style="height:34px;background:var(--cyan);border:3px solid var(--tinta);width:29%;margin-top:6px"></div>
+        <p style="font-size:16px;margin-top:7px">Discusión entre pares, retroalimentación inmediata y mentoreo cara a cara.</p>
+      </div>
+
+      <div>
+        <div style="display:flex;align-items:baseline;gap:12px">
+          <span style="font-family:var(--display);font-size:44px">10%</span>
+          <span style="font-weight:800;font-size:20px">Teoría directa</span>
+        </div>
+        <div style="height:34px;background:var(--rosa);border:3px solid var(--tinta);width:15%;margin-top:6px"></div>
+        <p style="font-size:16px;margin-top:7px">Cápsulas conceptuales de <span class="res-rosa">12 a 15 minutos máximo</span>. Si se pasa, el facilitador corta.</p>
+      </div>
+    </div>
+
+    <div class="sello tinta" style="bottom:78px;right:96px;transform:rotate(-11deg);font-size:26px">Nadie lee slides</div>
+
+    <div class="postit verde" style="top:180px;right:64px;transform:rotate(4deg);width:250px;min-height:170px;font-size:24px">
+      Traducción honesta: casi todo el tiempo vas a estar de pie, hablando, negociando o construyendo algo.
+    </div>
+
+    <div class="hueco-libre" style="position:absolute;top:390px;right:64px;width:250px;height:175px;transform:rotate(-3deg);z-index:6">
+      <span>FOTO REAL 2<br>Dinámica en tercias, manos y post-its sobre una mesa. Sin rostros identificables.<br>Horizontal 4:3</span>
+    </div>
+  </div>
+
+  <div class="notas-fuente">
+    <h3>Slide 4 · La regla 70/20/10</h3>
+    <h4>INTENCIÓN</h4>
+    <p>Aquí la tipografía es el gráfico. Las tres barras proporcionales sustituyen a cualquier dona o pastel: se entienden sin leyenda y en menos de tres segundos.</p>
+    <h4>FOTOGRAFÍA A SUSTITUIR</h4>
+    <ul><li><b>Foto 2 (horizontal 4:3):</b> plano cenital de una mesa con manos, post-its y plumones durante una dinámica. Sin rostros: refuerza el mensaje de «espacio seguro» y evita el trámite de cesión de imagen.</li></ul>
+    <h4>STICKERS Y SELLOS</h4>
+    <ul>
+      <li>Sello «NADIE LEE SLIDES» rotado −11° sobre la esquina inferior derecha, en tinta negra medio gastada.</li>
+      <li>Post-it verde limón con la traducción coloquial de la metodología.</li>
+    </ul>
+    <h4>GARABATOS A MANO</h4>
+    <ul>
+      <li>Llave manuscrita abarcando el 20% y el 10% con la nota «esto es lo único que se parece a una clase».</li>
+      <li>Reloj dibujado a mano junto a la cápsula de 15 minutos.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ SLIDE 5 · BLINDAJE ============================ -->
+<section class="slide">
+  <div class="perfos"><i style="top:88px"></i><i style="top:238px"></i><i style="top:388px"></i><i style="top:538px"></i><i style="top:660px"></i></div>
+  <div class="lienzo" style="padding-top:36px">
+
+    <h2 class="titulazo" style="font-size:64px">Blindaje</h2>
+    <p class="mano" style="font-size:29px;margin-top:2px">Las reglas están escritas antes de empezar. Nadie las mueve a media marcha.</p>
+
+    <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:26px;margin-top:22px">
+
+      <div class="ficha" style="transform:rotate(-.5deg)">
+        <div class="rotulo">Cómo se gradúa: criterio 80/20</div>
+
+        <div style="margin-top:13px;padding-left:12px;border-left:5px solid var(--neon)">
+          <div style="font-weight:800;font-size:16px">Fase táctica — 80%</div>
+          <p style="font-size:15px;margin-top:5px">83.3% de asistencia presencial: <span class="res">máximo una falta</span> en todo el programa.</p>
+          <p style="font-size:15px;margin-top:5px">100% de las tareas aprobadas con <span class="res">80 puntos o más</span>.</p>
+        </div>
+
+        <div style="margin-top:14px;padding-left:12px;border-left:5px solid var(--cyan)">
+          <div style="font-weight:800;font-size:16px">Fase de seguimiento — 20%</div>
+          <p style="font-size:15px;margin-top:5px">100% de las llamadas quincenales reportadas durante los 90 días posteriores.</p>
+        </div>
+
+        <div style="margin-top:15px;background:var(--tinta);color:var(--papel);padding:10px 13px">
+          <p style="font-size:14.5px;color:var(--papel)">No se condonan faltas. No se venden puntos extra. No se compensa asistencia con trabajos adicionales.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="ficha" style="transform:rotate(.6deg)">
+          <div class="rotulo">Semáforo personal de sobrecarga</div>
+          <div style="display:flex;gap:9px;margin-top:11px">
+            <div style="flex:1;text-align:center">
+              <div style="height:34px;background:#3FBF4F;border:2px solid var(--tinta)"></div>
+              <p style="font-size:12.5px;margin-top:6px">Vas bien. Sigues solo.</p>
+            </div>
+            <div style="flex:1;text-align:center">
+              <div style="height:34px;background:var(--postit);border:2px solid var(--tinta)"></div>
+              <p style="font-size:12.5px;margin-top:6px">Tu mentor te busca y ajustan la carga.</p>
+            </div>
+            <div style="flex:1;text-align:center">
+              <div style="height:34px;background:#E4242B;border:2px solid var(--tinta)"></div>
+              <p style="font-size:12.5px;margin-top:6px">Se activa el protocolo. No te quedas solo.</p>
+            </div>
+          </div>
+          <p class="mano" style="font-size:22px;margin-top:10px">lo declaras tú, cada módulo, sin castigo</p>
+        </div>
+
+        <div class="ficha" style="transform:rotate(-.7deg);margin-top:16px">
+          <div class="rotulo">Lo que firmas antes de entrar</div>
+          <ol style="margin:11px 0 0 20px">
+            <li style="font-size:14.5px;margin-bottom:5px">Carta responsiva y liberación de responsabilidad.</li>
+            <li style="font-size:14.5px;margin-bottom:5px">Cesión de derechos de imagen y material audiovisual.</li>
+            <li style="font-size:14.5px">Aviso de privacidad simplificado (LFPDPPP).</li>
+          </ol>
+          <p style="font-size:13px;margin-top:9px"><b>Flujo:</b> formulario → validación de edad (menores de 18 requieren datos del tutor) → firma digital → PDF automático → kárdex validado.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sello rosa" style="top:44px;right:64px;transform:rotate(8deg);font-size:24px">Sin excepciones</div>
+  </div>
+
+  <div class="notas-fuente">
+    <h3>Slide 5 · Blindaje y seguridad</h3>
+    <h4>INTENCIÓN</h4>
+    <p>Es la slide que convence a la dirección del IAJU y tranquiliza a los padres. El tono se endurece a propósito: menos garabato, más ficha. El caos diseñado baja aquí y sube otra vez en la slide 8.</p>
+    <h4>TRATAMIENTO</h4>
+    <ul>
+      <li>Barra lateral neón para la fase táctica y cyan para la de seguimiento: el color codifica el 80 y el 20.</li>
+      <li>Bloque de prohibiciones en negativo (fondo tinta, texto papel). Es el único bloque invertido de toda la presentación, por eso pesa.</li>
+    </ul>
+    <h4>STICKERS Y SELLOS</h4>
+    <ul><li>Sello magenta «SIN EXCEPCIONES» rotado 8°, esquina superior derecha.</li>
+    <li>Opcional: sello «VALIDADO» sobre el bloque de documentos legales.</li></ul>
+    <h4>GARABATOS A MANO</h4>
+    <ul><li>Doble subrayado a mano bajo «máximo una falta». Es el dato que más reclamos genera; conviene que se vea marcado desde el día uno.</li></ul>
+    <h4>NOTA DE MANEJO</h4>
+    <p>El semáforo se presenta como herramienta de autocuidado, nunca como evaluación. Si se expone ante jóvenes, decir explícitamente que declarar amarillo o rojo no afecta la calificación.</p>
+  </div>
+</section>
+
+<!-- ============================ SLIDE 6 · EL EQUIPO ============================ -->
+<section class="slide">
+  <div class="perfos"><i style="top:88px"></i><i style="top:238px"></i><i style="top:388px"></i><i style="top:538px"></i><i style="top:660px"></i></div>
+  <div class="lienzo" style="padding-top:36px">
+
+    <h2 class="titulazo" style="font-size:64px">Quién te cuida</h2>
+    <p class="mano" style="font-size:29px;margin-top:2px">Tres roles, límites escritos. Cada quien sabe qué sí y qué no.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px">
+
+      <div class="ficha" style="transform:rotate(-.6deg)">
+        <div style="font-family:var(--marker);font-size:23px">Coordinador general</div>
+        <p style="font-size:14px;margin-top:7px">Control operativo, reglamento, logística, gestión de crisis y auditoría.</p>
+        <p style="font-size:13.5px;margin-top:10px"><b style="color:#2E9E3E">SÍ:</b> sanciona y valida justificantes.</p>
+        <p style="font-size:13.5px;margin-top:4px"><b style="color:var(--rosa)">NO:</b> altera la metodología sin autorización.</p>
+      </div>
+
+      <div class="ficha" style="transform:rotate(.5deg)">
+        <div style="font-family:var(--marker);font-size:23px">Facilitador de aula</div>
+        <p style="font-size:14px;margin-top:7px">Conducción pedagógica 70/20/10, manejo de tiempos y evaluación técnica.</p>
+        <p style="font-size:13.5px;margin-top:10px"><b style="color:#2E9E3E">SÍ:</b> reordena dinámicas sobre la marcha.</p>
+        <p style="font-size:13.5px;margin-top:4px"><b style="color:var(--rosa)">NO:</b> exime faltas ni da prórrogas ilimitadas.</p>
+      </div>
+
+      <div class="ficha" style="transform:rotate(-.4deg)">
+        <div style="font-family:var(--marker);font-size:23px">Mentor</div>
+        <p style="font-size:14px;margin-top:7px">Triaje del semáforo personal, contención y seguimiento a 90 días.</p>
+        <p style="font-size:13.5px;margin-top:10px"><b style="color:#2E9E3E">SÍ:</b> aplica grounding y reajusta a micro-acciones.</p>
+        <p style="font-size:13.5px;margin-top:4px"><b style="color:var(--rosa)">NO:</b> da terapia clínica, ni guarda confidencialidad en código rojo.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:22px;display:grid;grid-template-columns:1.35fr .65fr;gap:24px">
+      <div>
+        <div class="rotulo">Quién responde por cada cosa <span style="font-family:var(--cuerpo);font-size:12px;font-weight:600">(A = aprueba · R = ejecuta · C = consultado · I = informado)</span></div>
+        <table style="width:100%;border-collapse:collapse;margin-top:9px;font-size:13px">
+          <tr style="background:var(--tinta);color:var(--papel)">
+            <th style="text-align:left;padding:6px 8px">Tarea</th><th style="padding:6px">A</th><th style="padding:6px">R</th><th style="padding:6px">C</th><th style="padding:6px">I</th>
+          </tr>
+          <tr style="background:#fff"><td style="padding:5px 8px;border:1px solid #ccc">Logística y materiales</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Coord.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Coord.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Facil.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Mentor</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #ccc">Ejecución de clase 70/20/10</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Facil.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Facil.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Mentor</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Coord.</td></tr>
+          <tr style="background:#fff"><td style="padding:5px 8px;border:1px solid #ccc">Evaluación de entregables</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Facil.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Facil.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Mentor</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Coord.</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #ccc">Asistencia y reglamento</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Coord.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Coord.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Facil.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Mentor</td></tr>
+          <tr style="background:#fff"><td style="padding:5px 8px;border:1px solid #ccc">Llamadas de mentoría</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Mentor</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Mentor</td><td style="padding:5px;border:1px solid #ccc;text-align:center">—</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Coord.</td></tr>
+          <tr style="background:rgba(255,0,127,.14)"><td style="padding:5px 8px;border:1px solid #ccc"><b>Código rojo (emergencias)</b></td><td style="padding:5px;border:1px solid #ccc;text-align:center">Coord.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Coord./Mentor</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Facil.</td><td style="padding:5px;border:1px solid #ccc;text-align:center">Dirección</td></tr>
+        </table>
+      </div>
+
+      <div class="hueco-libre" style="height:100%;min-height:190px;transform:rotate(2deg)">
+        <span>FOTO REAL 3<br>Mentor y joven conversando de lado, banca de Plaza Patria o pasillo del IAJU.<br>Horizontal, con marco de Polaroid y cinta.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="notas-fuente">
+    <h3>Slide 6 · El equipo detrás</h3>
+    <h4>INTENCIÓN</h4>
+    <p>El MOF se traduce a lenguaje de joven: no «funciones y atribuciones», sino «qué sí puede hacer y qué no puede hacer contigo». El verde y el magenta hacen todo el trabajo de lectura rápida.</p>
+    <h4>FOTOGRAFÍA A SUSTITUIR</h4>
+    <ul><li><b>Foto 3:</b> mentor y joven conversando de perfil, en banca de Plaza Patria o pasillo del IAJU. Distancia media, ambiente informal. Montarla como Polaroid con cinta diagonal.</li></ul>
+    <h4>TRATAMIENTO DE LA MATRIZ RACI</h4>
+    <ul>
+      <li>Encabezado en negativo. Filas alternadas para escaneo.</li>
+      <li>La fila de código rojo va tintada en magenta al 14%: es la única que debe recordarse de memoria.</li>
+      <li>La leyenda A/R/C/I va inline en el rótulo, no como nota al pie.</li>
+    </ul>
+    <h4>GARABATOS A MANO</h4>
+    <ul><li>Tres retratos-monigote a mano alzada sobre cada ficha de rol (mono de palitos con un rasgo distintivo: clipboard, plumón, taza).</li>
+    <li>Flecha desde la fila de código rojo hacia el margen con la nota «esta se aprende de memoria».</li></ul>
+  </div>
+</section>
+
+<!-- ============================ SLIDE 7 · CONTROL Y CALIDAD ============================ -->
+<section class="slide">
+  <div class="perfos"><i style="top:88px"></i><i style="top:238px"></i><i style="top:388px"></i><i style="top:538px"></i><i style="top:660px"></i></div>
+  <div class="lienzo" style="padding-top:34px">
+
+    <h2 class="titulazo" style="font-size:60px">La máquina por detrás</h2>
+    <p class="mano" style="font-size:28px;margin-top:2px">Nada depende de que alguien se acuerde.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:20px">
+
+      <div class="ficha" style="transform:rotate(-.5deg)">
+        <div class="rotulo">Kárdex centralizado</div>
+        <p style="font-size:14px;margin-top:8px">Un expediente por participante, cinco bloques:</p>
+        <ul style="list-style:none;margin-top:8px;font-size:13.5px">
+          <li style="margin-bottom:4px"><b>A ·</b> Datos del alumno, mentor y par asignado</li>
+          <li style="margin-bottom:4px"><b>B ·</b> Asistencia (0 falta / 0.5 retardo / 1 asistencia) → mínimo 83.3%</li>
+          <li style="margin-bottom:4px"><b>C ·</b> Productos tácticos en escala 0–100 → mínimo 80</li>
+          <li style="margin-bottom:4px"><b>D ·</b> Histórico del semáforo personal</li>
+          <li><b>E ·</b> <span class="res">Dictamen automático:</span> acreditado, en riesgo o baja</li>
+        </ul>
+      </div>
+
+      <div class="ficha" style="transform:rotate(.6deg)">
+        <div class="rotulo">Suplencia express · 15 minutos</div>
+        <p style="font-size:14px;margin-top:8px">Si falta el facilitador, la clase no se cancela ni baja de nivel:</p>
+        <ol style="margin:9px 0 0 20px;font-size:13.5px">
+          <li style="margin-bottom:4px">Escaneo de la tríada del módulo</li>
+          <li style="margin-bottom:4px">Entrega del kit físico</li>
+          <li style="margin-bottom:4px">Sincronización con el mentor del grupo</li>
+          <li>Estructura de 120 minutos lista para ejecutar</li>
+        </ol>
+      </div>
+
+      <div class="ficha" style="transform:rotate(.4deg)">
+        <div class="rotulo">Ruta de incidencias</div>
+        <div style="margin-top:9px;padding-left:11px;border-left:5px solid #3FBF4F">
+          <b style="font-size:14px">Nivel 1 · </b><span style="font-size:13.5px">roces leves o distracciones. Se resuelve en el momento, mentor o facilitador.</span>
+        </div>
+        <div style="margin-top:8px;padding-left:11px;border-left:5px solid var(--postit)">
+          <b style="font-size:14px">Nivel 2 · </b><span style="font-size:13.5px">ansiedad o desinterés. Mentoría y escalamiento al coordinador en menos de 24 horas.</span>
+        </div>
+        <div style="margin-top:8px;padding-left:11px;border-left:5px solid #E4242B">
+          <b style="font-size:14px">Nivel 3 · código rojo. </b><span style="font-size:13.5px">Crisis grave. Acompañamiento discreto fuera del aula, activación inmediata de servicios de emergencia y de la Línea de la Vida, contacto con la red familiar y notificación a coordinación.</span>
+        </div>
+      </div>
+
+      <div class="ficha" style="transform:rotate(-.6deg)">
+        <div class="rotulo">Mejora entre cohortes</div>
+        <p style="font-size:14px;margin-top:8px">Auditoría docente en aula: rúbrica que mide cumplimiento del 70/20/10, manejo del tiempo y control grupal.</p>
+        <p style="font-size:14px;margin-top:9px">Bucle PHVA al cerrar el ciclo: encuestas → análisis de 5 porqués → <span class="res-cyan">plan de acciones correctoras obligatorio</span> antes de abrir la siguiente generación.</p>
+        <p class="mano" style="font-size:22px;margin-top:9px">ninguna cohorte repite el error de la anterior</p>
+      </div>
+    </div>
+
+    <div class="sello tinta" style="top:40px;right:60px;transform:rotate(-7deg);font-size:22px">Todo queda escrito</div>
+  </div>
+
+  <div class="notas-fuente">
+    <h3>Slide 7 · Control y calidad</h3>
+    <h4>INTENCIÓN</h4>
+    <p>Cuadrícula de cuatro fichas, todas del mismo peso: son cuatro sistemas independientes, no una secuencia. Por eso aquí no hay numeración.</p>
+    <h4>TRATAMIENTO DEL CÓDIGO ROJO</h4>
+    <p>Se describe el protocolo institucional en términos de acción del equipo, sin detallar situaciones concretas. Si la presentación se proyecta ante jóvenes y no ante personal, esta ficha se recomienda simplificar a: «hay un protocolo, hay adultos capacitados y no te dejamos solo», y dejar el detalle operativo para el manual interno del equipo.</p>
+    <h4>STICKERS Y SELLOS</h4>
+    <ul><li>Sello «TODO QUEDA ESCRITO» rotado −7° en la esquina superior derecha.</li>
+    <li>Opcional: sticker de carpeta o folder engrapado a la ficha del kárdex.</li></ul>
+    <h4>GARABATOS A MANO</h4>
+    <ul><li>Flecha circular cerrada (ciclo) dibujada alrededor de la ficha del bucle PHVA.</li>
+    <li>Cronómetro a mano junto al «15 minutos» de la suplencia express.</li></ul>
+  </div>
+</section>
+
+<!-- ============================ SLIDE 8 · PRÓXIMOS PASOS ============================ -->
+<section class="slide">
+  <div class="perfos"><i style="top:88px"></i><i style="top:238px"></i><i style="top:388px"></i><i style="top:538px"></i><i style="top:660px"></i></div>
+  <div class="lienzo">
+
+    <div class="cinta" style="top:-8px;left:340px;transform:rotate(3deg)"></div>
+
+    <h2 class="titulazo" style="font-size:76px;line-height:.88">Tu lugar se<br>cierra el 19<br>de septiembre</h2>
+    <p class="mano" style="font-size:32px;margin-top:8px">Cuatro pasos. Ninguno te toma más de diez minutos.</p>
+
+    <div style="display:flex;gap:14px;margin-top:26px;max-width:790px">
+      <div class="ficha" style="flex:1;transform:rotate(-1deg)">
+        <div style="font-family:var(--display);font-size:30px">01</div>
+        <p style="font-size:14px;margin-top:5px"><b>Llenas el formulario.</b> Datos básicos y contacto de emergencia.</p>
+      </div>
+      <div class="ficha" style="flex:1;transform:rotate(.8deg)">
+        <div style="font-family:var(--display);font-size:30px">02</div>
+        <p style="font-size:14px;margin-top:5px"><b>Firmas los tres documentos.</b> Digital. Si eres menor de 18, con tu tutor.</p>
+      </div>
+      <div class="ficha" style="flex:1;transform:rotate(-.7deg)">
+        <div style="font-family:var(--display);font-size:30px">03</div>
+        <p style="font-size:14px;margin-top:5px"><b>Recibes tu kit.</b> Libreta del programa, credencial y acceso al chat de tu cohorte.</p>
+      </div>
+      <div class="ficha" style="flex:1;transform:rotate(.9deg);border-width:3px">
+        <div style="font-family:var(--display);font-size:30px">04</div>
+        <p style="font-size:14px;margin-top:5px"><b>Llegas el sábado 19.</b> Sin preparar nada. Solo llegas.</p>
+      </div>
+    </div>
+
+    <p style="font-size:22px;margin-top:28px;max-width:640px;font-weight:600">
+      <span class="res">Cupo limitado por cohorte.</span> El registro cierra cuando arranca el módulo 1, sin lista de espera.
+    </p>
+
+    <p class="mano" style="font-size:30px;margin-top:12px">Instituto Aguascalentense de la Juventud · Aguascalientes, Ags.</p>
+
+    <div class="hueco-libre" style="position:absolute;top:150px;right:70px;width:200px;height:200px;transform:rotate(3deg);z-index:6">
+      <span>CÓDIGO QR<br>Enlace al formulario de registro.<br>Generarlo con dominio institucional del IAJU, no acortador externo.</span>
+    </div>
+    <div class="cinta" style="top:140px;right:150px;transform:rotate(-14deg);width:90px"></div>
+
+    <div class="postit" style="bottom:40px;right:66px;transform:rotate(-4deg);width:236px;min-height:150px;font-size:23px">
+      Escanea, regístrate y nos vemos el sábado 19.<br><span style="font-family:var(--cuerpo);font-size:13px;font-weight:700">@IAJU_Ags</span>
+    </div>
+
+    <div class="sello rosa" style="bottom:200px;left:140px;transform:rotate(-8deg);font-size:26px">Te esperamos</div>
+  </div>
+
+  <div class="notas-fuente">
+    <h3>Slide 8 · Kit de bienvenida y próximos pasos</h3>
+    <h4>INTENCIÓN</h4>
+    <p>Cierre con fecha límite en el titular, no en letra pequeña. Los cuatro pasos usan numeración porque sí son una secuencia. El caos visual vuelve a subir aquí para cerrar con la misma energía de la portada.</p>
+    <h4>ELEMENTOS A SUSTITUIR</h4>
+    <ul>
+      <li><b>Código QR:</b> generarlo apuntando a dominio institucional del IAJU. Evitar acortadores externos por trazabilidad y por el aviso de privacidad.</li>
+      <li><b>Redes:</b> confirmar el usuario real de la cuenta institucional antes de publicar.</li>
+    </ul>
+    <h4>STICKERS Y POST-ITS</h4>
+    <ul>
+      <li>Sello magenta «TE ESPERAMOS» rotado −8° a la izquierda, pisando ligeramente el texto.</li>
+      <li>Post-it amarillo con el llamado a la acción y el usuario de redes.</li>
+      <li>Cinta adhesiva sujetando el QR en diagonal.</li>
+    </ul>
+    <h4>GARABATOS A MANO</h4>
+    <ul><li>Círculo doble a mano alrededor de «19 de septiembre» en el titular.</li>
+    <li>Flecha gruesa desde el paso 04 hacia el QR.</li></ul>
+    <h4>PENDIENTE DE VALIDAR</h4>
+    <p>El contenido del kit de bienvenida (libreta, credencial, chat de cohorte) es una propuesta: el dataset no lo especifica. Confirmar con logística antes de imprimir.</p>
+  </div>
+</section>
+
+</div>
+
+<!-- ---------- CONTROLES ---------- -->
+<div id="barra">
+  <button id="prev" aria-label="Diapositiva anterior">◀ Anterior</button>
+  <span id="contador">1 / 8</span>
+  <button id="next" aria-label="Diapositiva siguiente">Siguiente ▶</button>
+  <button id="toggle-notas" aria-label="Mostrar u ocultar notas de diseño">Notas de diseño (N)</button>
+</div>
+
+<aside id="notas" aria-live="polite">
+  <button class="cerrar" id="cerrar-notas" aria-label="Cerrar notas">✕</button>
+  <div id="notas-contenido"></div>
+</aside>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = 0;
+  var contador = document.getElementById('contador');
+  var panel = document.getElementById('notas');
+  var contenido = document.getElementById('notas-contenido');
+  var escenario = document.getElementById('escenario');
+
+  function pintarNotas(){
+    var f = slides[i].querySelector('.notas-fuente');
+    contenido.innerHTML = f ? f.innerHTML : '<p>Sin notas.</p>';
+  }
+  function ir(n){
+    slides[i].classList.remove('activa');
+    i = (n + slides.length) % slides.length;
+    slides[i].classList.add('activa');
+    contador.textContent = (i+1) + ' / ' + slides.length;
+    pintarNotas();
+  }
+  function escalar(){
+    var margen = panel.classList.contains('abierto') ? 460 : 60;
+    var k = Math.min((window.innerWidth - margen)/1280, (window.innerHeight - 120)/720);
+    escenario.style.transform = 'scale(' + k + ')';
+  }
+
+  document.getElementById('next').addEventListener('click', function(){ ir(i+1); });
+  document.getElementById('prev').addEventListener('click', function(){ ir(i-1); });
+  document.getElementById('toggle-notas').addEventListener('click', function(){
+    panel.classList.toggle('abierto'); escalar();
+  });
+  document.getElementById('cerrar-notas').addEventListener('click', function(){
+    panel.classList.remove('abierto'); escalar();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' '){ e.preventDefault(); ir(i+1); }
+    if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); ir(i-1); }
+    if(e.key === 'Home'){ ir(0); }
+    if(e.key === 'End'){ ir(slides.length-1); }
+    if(e.key === 'n' || e.key === 'N'){ panel.classList.toggle('abierto'); escalar(); }
+    if(e.key === 'Escape'){ panel.classList.remove('abierto'); escalar(); }
+  });
+
+  window.addEventListener('resize', escalar);
+  pintarNotas();
+  escalar();
+})();
+</script>
+</body>
+</html>

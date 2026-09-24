@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Encuesta de plataforma · {{ module.title }}{% endblock %}
+{% block content %}
+<div class="page narrowPage platformSurveyPage">
+  <a href="{{ url_for('module_detail', module_id=module.id) }}#encuesta-plataforma">← Volver a {{ module.title }}</a>
+  <div class="instrumentHero platformHero"><span class="eyebrow">EXPERIENCIA DIGITAL · {{ module.title }}</span><h1>¿Cómo te funcionó la plataforma?</h1><p>Son cinco preguntas rápidas para mejorar +Q1LÍDER módulo a módulo.</p></div>
+  {% if existing %}
+  <div class="panel completedInstrument"><div class="resultCheck">✓</div><h2>Gracias por tu opinión</h2><p>Ya respondiste la encuesta de plataforma de este módulo.</p><a class="primaryButton linkAsButton" href="{{ url_for('module_detail', module_id=module.id) }}#encuesta-plataforma">Volver al módulo</a></div>
+  {% else %}
+  <form class="panel integralEvaluationForm" method="post">
+    {% for q in questions %}
+      {% set q_index = loop.index %}
+      <fieldset class="surveyQuestion instrumentQuestion"><legend><b>{{ loop.index }}.</b> {{ q }}</legend><div class="ratingScale ratingScale5">{% for n in range(1,6) %}<label class="ratingChoice"><input type="radio" name="q_{{ q_index }}" value="{{ n }}" required><span>{{ n }}</span></label>{% endfor %}</div><div class="scaleLegend"><span>1 · Muy en desacuerdo</span><span>5 · Muy de acuerdo</span></div></fieldset>
+    {% endfor %}
+    <label class="qualitativeComment"><b>¿Qué mejorarías de la plataforma?</b><textarea name="comment" rows="4" placeholder="Opcional: cuéntanos qué te hizo batallar o qué te gustaría encontrar más fácil"></textarea></label>
+    <button class="primaryButton fullButton">Enviar encuesta de plataforma</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

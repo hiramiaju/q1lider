@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Resultados integrales · {{ module.title }}{% endblock %}
+{% block content %}
+<div class="page">
+  <div class="titleRow"><div><a href="{{ url_for('module_detail', module_id=module.id) }}#evaluaciones-integrales">← Volver al módulo</a><span class="eyebrow">RESULTADOS · {{ module.title }}</span><h1>Evaluaciones integrales</h1><p>Resumen de los instrumentos oficiales del programa y de la experiencia de plataforma.</p></div></div>
+  <div class="integralResultsGrid">
+  {% for row in rows %}
+    <article class="panel resultInstrumentCard"><div class="resultInstrumentHead"><div><small>{{ row.evaluatedBy }}</small><h2>{{ row.title }}</h2></div><div class="resultMetric"><b>{{ row.average if row.average is not none else '—' }}</b><span>/5</span></div></div><p>{{ row.responseCount }} respuesta(s)</p>
+      <details><summary>Ver respuestas</summary>{% for r in row.responses %}<div class="responseMini"><b>{{ r.respondent }}</b><span>Promedio {{ r.average if r.average is not none else '—' }}/5</span>{% if r.comment %}<p>{{ r.comment }}</p>{% endif %}</div>{% else %}<div class="empty compact">Sin respuestas todavía.</div>{% endfor %}</details>
+    </article>
+  {% endfor %}
+  </div>
+  <section class="panel platformResultsPanel"><span class="eyebrow">PLATAFORMA</span><h2>Encuesta corta de experiencia digital</h2><div class="resultMetric"><b>{{ platform_average if platform_average is not none else '—' }}</b><span>/5</span></div><p>{{ platform_responses|length }} respuesta(s)</p>{% for r in platform_responses %}{% if r.comment %}<div class="responseMini"><p>{{ r.comment }}</p></div>{% endif %}{% endfor %}</section>
+</div>
+{% endblock %}

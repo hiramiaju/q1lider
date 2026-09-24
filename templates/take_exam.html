@@ -1,8 +1,29 @@
-{% extends 'base.html' %}{% block title %}{{ exam.title }} · +Q1LÍDER{% endblock %}{% block content %}
+{% extends 'base.html' %}
+{% block title %}{{ exam.title }} · +Q1LÍDER{% endblock %}
+{% block content %}
 <div class="page examTakePage"><a href="{{ url_for('module_detail', module_id=exam.moduleId) }}#evaluaciones">← Volver al módulo</a>
   <div class="examTakeHero"><span class="eyebrow">{{ assessment_type_labels.get(exam.type,exam.type) }} · {{ module.title if module else '' }}</span><h1>{{ exam.title }}</h1><p>{{ exam.description }}</p><div class="attemptWarning">⚠ Tienes un solo intento. Al enviar tus respuestas la evaluación se cerrará y ya no podrás volver a abrirla.</div></div>
   <form class="examForm" method="post" action="{{ url_for('submit_exam', exam_id=exam.id) }}" onsubmit="return confirm('¿Enviar evaluación? Después de enviarla ya no podrás volver a entrar ni cambiar tus respuestas.')">
-    {% for q in exam.questions %}<section class="questionCard"><span>Pregunta {{ loop.index }}</span><h3>{{ q.text }}</h3>{% for option in q.options %}<label class="answerOption"><input type="radio" name="q_{{ q.id }}" value="{{ loop.index0 }}" required><span>{{ option }}</span></label>{% endfor %}</section>{% endfor %}
+    {% for q in exam.questions %}
+      {% set qtype=q.type or 'choice' %}
+      <section class="questionCard questionType-{{ qtype }}">
+        <div class="questionCardTop"><span>Pregunta {{ loop.index }}</span><small>{{ {'choice':'Opción simple','boolean':'Verdadero / Falso','scale':'Escala','open':'Respuesta abierta','multi':'Selección múltiple'}.get(qtype,'Opción simple') }}</small></div>
+        <h3>{{ q.text }}</h3>
+        {% if qtype=='scale' %}
+          <div class="ratingScale dynamicScale">
+            {% for n in range(q.min|int, (q.max|int)+1) %}<label class="ratingChoice"><input type="radio" name="q_{{ q.id }}" value="{{ n }}" required><span>{{ n }}</span></label>{% endfor %}
+          </div>
+        {% elif qtype=='open' %}
+          <textarea name="q_{{ q.id }}" rows="5" required placeholder="Escribe tu respuesta aquí..."></textarea>
+        {% elif qtype=='multi' %}
+          <p class="questionHint">Puedes seleccionar más de una opción.</p>
+          {% for option in q.options %}<label class="answerOption checkboxAnswer"><input type="checkbox" name="q_{{ q.id }}" value="{{ loop.index0 }}"><span>{{ option }}</span></label>{% endfor %}
+        {% else %}
+          {% for option in q.options %}<label class="answerOption"><input type="radio" name="q_{{ q.id }}" value="{{ loop.index0 }}" required><span>{{ option }}</span></label>{% endfor %}
+        {% endif %}
+      </section>
+    {% endfor %}
     <button class="primaryButton">Enviar evaluación definitivamente</button>
   </form>
-</div>{% endblock %}
+</div>
+{% endblock %}

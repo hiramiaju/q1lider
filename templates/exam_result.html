@@ -2,12 +2,8 @@
 <div class="page examResultPage">
   <a href="{{ url_for('module_detail', module_id=exam.moduleId) }}#evaluaciones">← Volver a evaluaciones del módulo</a>
   <div class="resultHero">
-    <div class="resultCheck">✓</div>
-    <span class="eyebrow">EVALUACIÓN ENVIADA</span>
-    <h1>{{ exam.title }}</h1>
-    <p>Tu respuesta fue registrada correctamente. Esta evaluación ya no puede volver a abrirse ni modificarse.</p>
-    <div class="resultScore"><b>{{ attempt.score }}</b><span>/100</span></div>
-    <div class="resultStats"><span><b>{{ attempt.correct }}</b> respuestas correctas</span><span><b>{{ attempt.total }}</b> preguntas</span><span>Enviada {{ attempt.createdAt[:16].replace('T',' ') }}</span></div>
+    <div class="resultCheck">✓</div><span class="eyebrow">EVALUACIÓN ENVIADA</span><h1>{{ exam.title }}</h1><p>Tu respuesta fue registrada correctamente. Esta evaluación ya no puede volver a abrirse ni modificarse.</p>
+    {% if attempt.score is not none %}<div class="resultScore"><b>{{ attempt.score }}</b><span>/100</span></div><div class="resultStats"><span><b>{{ attempt.correct }}</b> respuestas correctas</span><span><b>{{ attempt.gradableTotal if attempt.gradableTotal is defined else attempt.total }}</b> reactivos calificables</span><span>Enviada {{ attempt.createdAt[:16].replace('T',' ') }}</span></div>{% else %}<div class="ungradedResult">✓ Respuestas registradas <small>Este instrumento contiene preguntas sin calificación automática.</small></div>{% endif %}
     <a class="primaryButton linkAsButton resultReturn" href="{{ url_for('module_detail', module_id=exam.moduleId) }}#evaluaciones">Regresar a la asignación de evaluaciones</a>
   </div>
 </div>

@@ -254,3 +254,43 @@ Cada uno de los 6 módulos incluye ahora la encuesta oficial de satisfacción co
 - En los módulos 3 y 6, evaluación adicional del mentor en escala 1–5.
 
 Las respuestas se guardan por alumno y por módulo en `surveyResponses`. La actualización usa `schemaVersion: 2`; respuestas de la encuesta anterior no cuentan como completadas para esta nueva versión, por lo que el alumno deberá responder el formato actualizado antes del examen final.
+
+## v5.7 · Documentos previos + evaluación integral + preguntas flexibles
+
+Esta versión agrega:
+
+- Sección **Documentos y recursos del programa** antes de los seis módulos, con:
+  - Presentación general IAJU 2026.
+  - Expediente de Salvaguarda, Privacidad y Deslinde de Responsabilidad.
+  - Reglamento Interno y Código de Convivencia.
+- Los **7 instrumentos del Sistema de Evaluación Integral** dentro de cada módulo, visibles según el rol que corresponde al evaluador.
+- Respuestas por módulo y bloqueo de duplicados para cada instrumento.
+- Resultados resumidos para Docente/Admin.
+- Encuesta corta de **experiencia de la plataforma** en cada módulo.
+- Nuevo tipo de instrumento: **Evaluación**, además de Autoevaluación y Examen final.
+- Sintaxis flexible de preguntas, manteniendo el formato clásico.
+
+### Sintaxis de preguntas
+
+Formato clásico (sigue funcionando):
+
+```text
+Pregunta|Opción A|Opción B|Opción C|2
+```
+
+Nuevos formatos:
+
+```text
+ESCALA|¿Qué tan claro fue el tema?|1|5
+ESCALA|Selecciona el nivel correcto|1|5|4
+VF|La escucha activa es parte del liderazgo|V
+ABIERTA|Explica con tus palabras qué aprendiste
+MULTI|Selecciona dos acciones|Escuchar|Interrumpir|Preguntar|Ignorar|1,3
+```
+
+- `ESCALA`: rango numérico configurable. Si agregas un último valor, se toma como respuesta correcta; si no, queda como pregunta de valoración sin calificación automática.
+- `VF`: Verdadero/Falso (`V` o `F`).
+- `ABIERTA`: texto libre sin calificación automática.
+- `MULTI`: selección múltiple; el último campo indica las opciones correctas separadas por coma.
+
+Las preguntas abiertas y las escalas sin respuesta correcta se almacenan en el intento, pero no afectan el cálculo automático de la calificación.

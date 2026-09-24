@@ -26,6 +26,8 @@ from db import (
     UPLOAD_DIR,
     STUDENT_SHARED_PASSWORD,
     STUDENT_PASSWORD_POLICY_VERSION,
+    INTEGRAL_EVALUATION_INSTRUMENTS,
+    PLATFORM_SURVEY_QUESTIONS,
     canonical_role,
     check_password,
     ensure_seed,
@@ -63,7 +65,7 @@ MATERIAL_TYPES = {
     "master_class": "Master class / clase grabada",
     "resource": "Recurso complementario",
 }
-ASSESSMENT_TYPES = {"self_assessment": "Autoevaluación", "final_exam": "Examen final"}
+ASSESSMENT_TYPES = {"self_assessment": "Autoevaluación", "evaluation": "Evaluación", "final_exam": "Examen final"}
 BLOCK_AFTER_ABSENCES = 3
 PROGRAM_WEEKS = 12
 
@@ -219,6 +221,29 @@ def survey_completed(db: dict[str, Any], module_id: str, user_id: str) -> bool:
         and int(r.get("surveyVersion") or 1) >= required_version
         for r in db["surveyResponses"]
     )
+
+
+def integral_evaluation_response(db: dict[str, Any], module_id: str, instrument_id: str, user_id: str) -> dict[str, Any] | None:
+    return next((
+        r for r in db.get("integralEvaluationResponses", [])
+        if r.get("moduleId") == module_id and r.get("instrumentId") == instrument_id and r.get("userId") == user_id
+    ), None)
+
+
+def platform_survey_response(db: dict[str, Any], module_id: str, user_id: str) -> dict[str, Any] | None:
+    return next((
+        r for r in db.get("platformSurveyResponses", [])
+        if r.get("moduleId") == module_id and r.get("userId") == user_id
+    ), None)
+
+
+def available_integral_instruments(user: dict[str, Any] | None) -> list[dict[str, Any]]:
+    role = role_of(user)
+    items = []
+    for instrument in INTEGRAL_EVALUATION_INSTRUMENTS:
+        if role in set(instrument.get("roles") or []):
+            items.append(instrument)
+    return items
 
 
 def grade_for_item(db: dict[str, Any], grade_item_id: str, user_id: str) -> float | None:
@@ -581,7 +606,10 @@ def modules_page():
         attempts = [a for a in db["assessmentAttempts"] if a.get("userId") == uid and any(x.get("id") == a.get("assessmentId") for x in assessments)]
         survey_done = survey_completed(db, module["id"], uid) if role_of(g.user) == "participant" else False
         mg = module_grade(db, module["id"], uid) if role_of(g.user) == "participant" else {"grade": None}
-        cards.append({**module, "materialsCount": materials_count, "assessmentCount": len(assessments), "attemptCount": len(attempts), "surveyDone": survey_done, "grade": mg.get("grade")})
+        available = available_integral_instruments(g.user)
+        integral_done = sum(1 for item in available if integral_evaluation_response(db, module["id"], item["id"], uid))
+        platform_done = bool(platform_survey_response(db, module["id"], uid)) if role_of(g.user) == "participant" else False
+        cards.append({**module, "materialsCount": materials_count, "assessmentCount": len(assessments), "attemptCount": len(attempts), "surveyDone": survey_done, "grade": mg.get("grade"), "integralDone": integral_done, "integralTotal": len(available), "platformSurveyDone": platform_done})
     return render_template("modules.html", modules=cards)
 
 
@@ -619,10 +647,15 @@ def module_detail(module_id: str):
     survey_done = survey_completed(db, module_id, uid)
     submission = next((s for s in db["submissions"] if s.get("moduleId") == module_id and s.get("userId") == uid), None)
     grade_data = module_grade(db, module_id, uid) if role_of(g.user) == "participant" else None
+    integral_instruments = []
+    for instrument in available_integral_instruments(g.user):
+        integral_instruments.append({**instrument, "completed": bool(integral_evaluation_response(db, module_id, instrument["id"], uid))})
+    platform_done = bool(platform_survey_response(db, module_id, uid)) if role_of(g.user) == "participant" else False
     return render_template(
         "module_detail.html", module=module, grouped=grouped, posts=posts, assessments=assessments,
         attempts_by_exam=attempts_by_exam, survey=survey, survey_done=survey_done, submission=submission,
-        grouped_comments=grouped_comments, grade_data=grade_data,
+        grouped_comments=grouped_comments, grade_data=grade_data, integral_instruments=integral_instruments,
+        platform_survey_done=platform_done, platform_survey_questions=PLATFORM_SURVEY_QUESTIONS,
     )
 
 
@@ -853,6 +886,105 @@ def survey_results(module_id: str):
     return render_template("survey_results.html", module=module, survey=survey, rows=rows, summary=summary)
 
 
+
+@app.route("/modulos/<module_id>/evaluacion-integral/<instrument_id>", methods=["GET", "POST"])
+@login_required
+def integral_evaluation(module_id: str, instrument_id: str):
+    db = read_db()
+    module = get_module(db, module_id)
+    instrument = next((i for i in INTEGRAL_EVALUATION_INSTRUMENTS if i.get("id") == instrument_id), None)
+    if not module or not instrument:
+        abort(404)
+    if role_of(g.user) not in set(instrument.get("roles") or []):
+        abort(403)
+    existing = integral_evaluation_response(db, module_id, instrument_id, g.user["id"])
+    if request.method == "POST":
+        if existing:
+            flash("Esta evaluación integral ya fue respondida en este módulo.", "success")
+            return redirect(url_for("module_detail", module_id=module_id) + "#evaluaciones-integrales")
+        answers = []
+        for idx, question in enumerate(instrument.get("questions") or [], start=1):
+            value = request.form.get(f"q_{idx}", "").strip()
+            if value not in {"1", "2", "3", "4", "5"}:
+                flash("Responde todos los criterios usando la escala de 1 a 5.", "error")
+                return redirect(url_for("integral_evaluation", module_id=module_id, instrument_id=instrument_id))
+            answers.append({"question": question, "value": int(value)})
+        comment = request.form.get("comment", "").strip()[:5000]
+        evaluated_name = request.form.get("evaluatedName", "").strip()[:180]
+        evaluator_name = request.form.get("evaluatorName", "").strip()[:180]
+        generation = request.form.get("generation", "").strip()[:120]
+        db["integralEvaluationResponses"].append({
+            "id": new_id(), "moduleId": module_id, "moduleNumber": module.get("number"),
+            "instrumentId": instrument_id, "instrumentTitle": instrument.get("title"),
+            "userId": g.user["id"], "role": role_of(g.user), "anonymous": bool(instrument.get("anonymous")),
+            "evaluatedName": evaluated_name, "evaluatorName": evaluator_name,
+            "generation": generation, "answers": answers, "comment": comment,
+            "createdAt": now_iso(),
+        })
+        write_db(db)
+        flash("Evaluación integral enviada correctamente.", "success")
+        return redirect(url_for("module_detail", module_id=module_id) + "#evaluaciones-integrales")
+    return render_template("integral_evaluation.html", module=module, instrument=instrument, existing=existing)
+
+
+@app.route("/modulos/<module_id>/evaluaciones-integrales/resultados")
+@roles_required("admin", "teacher")
+def integral_evaluation_results(module_id: str):
+    db = read_db()
+    module = get_module(db, module_id)
+    if not module:
+        abort(404)
+    rows = []
+    users = {u.get("id"): u for u in db["users"]}
+    for instrument in INTEGRAL_EVALUATION_INSTRUMENTS:
+        responses = [r for r in db.get("integralEvaluationResponses", []) if r.get("moduleId") == module_id and r.get("instrumentId") == instrument["id"]]
+        values = [a.get("value") for r in responses for a in (r.get("answers") or []) if isinstance(a.get("value"), (int, float))]
+        avg = round(sum(values) / len(values), 2) if values else None
+        detailed = []
+        for response in sorted(responses, key=lambda r: r.get("createdAt", ""), reverse=True):
+            user = users.get(response.get("userId"), {})
+            detailed.append({
+                **response,
+                "respondent": "Anónimo" if response.get("anonymous") else (user.get("fullName") or f"{user.get('name','')} {user.get('lastName','')}").strip() or "Usuario",
+                "average": round(sum(a.get("value", 0) for a in response.get("answers", [])) / len(response.get("answers", [])), 2) if response.get("answers") else None,
+            })
+        rows.append({**instrument, "responseCount": len(responses), "average": avg, "responses": detailed})
+    platform_responses = [r for r in db.get("platformSurveyResponses", []) if r.get("moduleId") == module_id]
+    platform_values = [a.get("value") for r in platform_responses for a in (r.get("answers") or []) if isinstance(a.get("value"), (int, float))]
+    platform_average = round(sum(platform_values) / len(platform_values), 2) if platform_values else None
+    return render_template("integral_results.html", module=module, rows=rows, platform_responses=platform_responses, platform_average=platform_average)
+
+
+@app.route("/modulos/<module_id>/encuesta-plataforma", methods=["GET", "POST"])
+@roles_required("participant")
+def platform_survey(module_id: str):
+    db = read_db()
+    module = get_module(db, module_id)
+    if not module:
+        abort(404)
+    existing = platform_survey_response(db, module_id, g.user["id"])
+    if request.method == "POST":
+        if existing:
+            flash("Ya respondiste la encuesta de plataforma de este módulo.", "success")
+            return redirect(url_for("module_detail", module_id=module_id) + "#encuesta-plataforma")
+        answers = []
+        for idx, question in enumerate(PLATFORM_SURVEY_QUESTIONS, start=1):
+            value = request.form.get(f"q_{idx}", "").strip()
+            if value not in {"1", "2", "3", "4", "5"}:
+                flash("Responde todas las preguntas de la plataforma del 1 al 5.", "error")
+                return redirect(url_for("platform_survey", module_id=module_id))
+            answers.append({"question": question, "value": int(value)})
+        db["platformSurveyResponses"].append({
+            "id": new_id(), "moduleId": module_id, "moduleNumber": module.get("number"),
+            "userId": g.user["id"], "answers": answers,
+            "comment": request.form.get("comment", "").strip()[:5000], "createdAt": now_iso(),
+        })
+        write_db(db)
+        flash("Gracias. Tu opinión sobre la plataforma quedó registrada.", "success")
+        return redirect(url_for("module_detail", module_id=module_id) + "#encuesta-plataforma")
+    return render_template("platform_survey.html", module=module, questions=PLATFORM_SURVEY_QUESTIONS, existing=existing)
+
+
 # --------------------------- MATERIALS ---------------------------
 @app.route("/material")
 @login_required
@@ -994,11 +1126,90 @@ def delete_material_comment(comment_id: str):
 
 # --------------------------- EXAMS / ASSESSMENTS ---------------------------
 def parse_questions(raw: str) -> list[dict[str, Any]]:
-    """Format: question|option A|option B|option C|correct option number (1-3)."""
-    questions = []
-    for line in raw.splitlines():
+    """Parse simple pipe syntax while preserving the original multiple-choice format.
+
+    Supported examples:
+      Pregunta|Opción A|Opción B|Opción C|2
+      ESCALA|¿Qué tan claro fue el tema?|1|5
+      ESCALA|Selecciona el nivel correcto|1|5|4
+      VF|El liderazgo implica escuchar activamente|V
+      ABIERTA|Explica con tus palabras qué aprendiste
+      MULTI|Selecciona dos elementos|A|B|C|D|1,3
+    """
+    questions: list[dict[str, Any]] = []
+    for raw_line in raw.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
         parts = [p.strip() for p in line.split("|")]
-        if len(parts) < 5 or not parts[0]:
+        tag = parts[0].upper() if parts else ""
+
+        if tag in {"ESCALA", "RANGO", "LIKERT", "LIKERT5"}:
+            if len(parts) < 4 or not parts[1]:
+                continue
+            try:
+                minimum = int(parts[2])
+                maximum = int(parts[3])
+            except ValueError:
+                continue
+            if maximum < minimum or maximum - minimum > 20:
+                continue
+            correct_value = None
+            if len(parts) >= 5 and parts[4]:
+                try:
+                    candidate = int(parts[4])
+                    if minimum <= candidate <= maximum:
+                        correct_value = candidate
+                except ValueError:
+                    pass
+            questions.append({
+                "id": new_id(), "type": "scale", "text": parts[1],
+                "min": minimum, "max": maximum, "correctValue": correct_value,
+            })
+            continue
+
+        if tag in {"VF", "VERDADERO_FALSO", "TRUE_FALSE"}:
+            if len(parts) < 3 or not parts[1]:
+                continue
+            raw_correct = parts[2].strip().lower()
+            true_values = {"v", "verdadero", "true", "1", "si", "sí"}
+            false_values = {"f", "falso", "false", "2", "no"}
+            if raw_correct in true_values:
+                correct = 0
+            elif raw_correct in false_values:
+                correct = 1
+            else:
+                continue
+            questions.append({
+                "id": new_id(), "type": "boolean", "text": parts[1],
+                "options": ["Verdadero", "Falso"], "correctIndex": correct,
+            })
+            continue
+
+        if tag in {"ABIERTA", "TEXTO", "OPEN"}:
+            if len(parts) < 2 or not parts[1]:
+                continue
+            questions.append({"id": new_id(), "type": "open", "text": parts[1]})
+            continue
+
+        if tag in {"MULTI", "MULTIPLE", "MULTISELECCION"}:
+            if len(parts) < 5 or not parts[1]:
+                continue
+            options = parts[2:-1]
+            try:
+                indexes = sorted({int(x.strip()) - 1 for x in parts[-1].split(",") if x.strip()})
+            except ValueError:
+                continue
+            if not options or not indexes or any(i < 0 or i >= len(options) for i in indexes):
+                continue
+            questions.append({
+                "id": new_id(), "type": "multi", "text": parts[1],
+                "options": options, "correctIndexes": indexes,
+            })
+            continue
+
+        # Original syntax remains valid and is the default.
+        if len(parts) < 4 or not parts[0]:
             continue
         options = parts[1:-1]
         try:
@@ -1007,8 +1218,32 @@ def parse_questions(raw: str) -> list[dict[str, Any]]:
             continue
         if not options or correct < 0 or correct >= len(options):
             continue
-        questions.append({"id": new_id(), "text": parts[0], "options": options, "correctIndex": correct})
+        questions.append({
+            "id": new_id(), "type": "choice", "text": parts[0],
+            "options": options, "correctIndex": correct,
+        })
     return questions
+
+
+def serialize_question(q: dict[str, Any]) -> str:
+    qtype = q.get("type") or "choice"
+    text = str(q.get("text", ""))
+    if qtype == "scale":
+        parts = ["ESCALA", text, str(q.get("min", 1)), str(q.get("max", 5))]
+        if q.get("correctValue") is not None:
+            parts.append(str(q.get("correctValue")))
+        return "|".join(parts)
+    if qtype == "boolean":
+        return "|".join(["VF", text, "V" if int(q.get("correctIndex", 0)) == 0 else "F"])
+    if qtype == "open":
+        return "|".join(["ABIERTA", text])
+    if qtype == "multi":
+        options = [str(o) for o in q.get("options", [])]
+        correct = ",".join(str(int(i) + 1) for i in q.get("correctIndexes", []))
+        return "|".join(["MULTI", text, *options, correct])
+    options = [str(o) for o in q.get("options", [])]
+    correct_number = int(q.get("correctIndex", 0)) + 1
+    return "|".join([text, *options, str(correct_number)])
 
 
 @app.route("/examenes")
@@ -1019,7 +1254,8 @@ def exams_page():
     for exam in db["assessments"]:
         module = get_module(db, exam.get("moduleId"))
         attempts = [a for a in db["assessmentAttempts"] if a.get("assessmentId") == exam.get("id")]
-        avg = round(sum(float(a.get("score") or 0) for a in attempts) / len(attempts), 1) if attempts else None
+        scored = [float(a.get("score")) for a in attempts if a.get("score") is not None]
+        avg = round(sum(scored) / len(scored), 1) if scored else None
         exams.append({**exam, "moduleTitle": module.get("title") if module else "Sin módulo", "attemptCount": len(attempts), "average": avg})
     exams.sort(key=lambda x: x.get("createdAt", ""), reverse=True)
     return render_template("exams.html", exams=exams, modules=db["modules"])
@@ -1112,11 +1348,7 @@ def edit_exam(exam_id: str):
         flash("Evaluación actualizada.", "success")
         return redirect(url_for("exams_page"))
     grade_item = next((i for i in db["gradeItems"] if i.get("id") == exam.get("gradeItemId")), None)
-    question_lines = []
-    for q in exam.get("questions", []):
-        options = [str(o) for o in q.get("options", [])]
-        correct_number = int(q.get("correctIndex", 0)) + 1
-        question_lines.append("|".join([str(q.get("text", "")), *options, str(correct_number)]))
+    question_lines = [serialize_question(q) for q in exam.get("questions", [])]
     return render_template(
         "edit_exam.html", exam=exam, modules=db["modules"], grade_item=grade_item,
         questions_text="\n".join(question_lines),
@@ -1186,27 +1418,76 @@ def submit_exam(exam_id: str):
         flash("Esta evaluación ya fue enviada y no puede volver a abrirse.", "error")
         return redirect(url_for("module_detail", module_id=exam.get("moduleId")) + "#evaluaciones")
     correct = 0
-    answers = {}
+    gradable_total = 0
+    answers: dict[str, Any] = {}
     questions = exam.get("questions", [])
     for q in questions:
-        raw = request.form.get(f"q_{q['id']}")
+        qtype = q.get("type") or "choice"
+        field = f"q_{q['id']}"
+        if qtype == "open":
+            value = request.form.get(field, "").strip()
+            if not value:
+                flash("Responde todas las preguntas antes de enviar.", "error")
+                return redirect(url_for("take_exam", exam_id=exam_id))
+            answers[q["id"]] = value[:5000]
+            continue
+        if qtype == "multi":
+            raw_values = request.form.getlist(field)
+            try:
+                selected = sorted({int(v) for v in raw_values})
+            except ValueError:
+                selected = []
+            if not selected:
+                flash("Responde todas las preguntas antes de enviar.", "error")
+                return redirect(url_for("take_exam", exam_id=exam_id))
+            answers[q["id"]] = selected
+            gradable_total += 1
+            if selected == sorted(int(i) for i in q.get("correctIndexes", [])):
+                correct += 1
+            continue
+        if qtype == "scale":
+            raw = request.form.get(field, "").strip()
+            try:
+                value = int(raw)
+            except (TypeError, ValueError):
+                value = None
+            minimum, maximum = int(q.get("min", 1)), int(q.get("max", 5))
+            if value is None or value < minimum or value > maximum:
+                flash("Responde todas las preguntas antes de enviar.", "error")
+                return redirect(url_for("take_exam", exam_id=exam_id))
+            answers[q["id"]] = value
+            if q.get("correctValue") is not None:
+                gradable_total += 1
+                if value == int(q.get("correctValue")):
+                    correct += 1
+            continue
+
+        raw = request.form.get(field)
         try:
             answer = int(raw)
         except (TypeError, ValueError):
             answer = -1
+        if answer < 0:
+            flash("Responde todas las preguntas antes de enviar.", "error")
+            return redirect(url_for("take_exam", exam_id=exam_id))
         answers[q["id"]] = answer
+        gradable_total += 1
         if answer == int(q.get("correctIndex", -2)):
             correct += 1
-    score = round(correct * 100 / len(questions), 1) if questions else 0
+
+    score = round(correct * 100 / gradable_total, 1) if gradable_total else None
     attempt = {
         "id": new_id(), "assessmentId": exam_id, "userId": g.user["id"], "answers": answers,
-        "correct": correct, "total": len(questions), "score": score, "createdAt": now_iso(),
+        "correct": correct, "total": len(questions), "gradableTotal": gradable_total, "score": score, "createdAt": now_iso(),
     }
     db["assessmentAttempts"].append(attempt)
-    if exam.get("gradeItemId"):
+    if exam.get("gradeItemId") and score is not None:
         upsert_grade(db, exam["gradeItemId"], g.user["id"], score, g.user["id"])
     write_db(db)
-    flash(f"Evaluación enviada. Calificación: {score}/100. Tu intento quedó cerrado definitivamente.", "success")
+    if score is None:
+        flash("Evaluación enviada correctamente. Tu intento quedó cerrado definitivamente.", "success")
+    else:
+        flash(f"Evaluación enviada. Calificación: {score}/100. Tu intento quedó cerrado definitivamente.", "success")
     return redirect(url_for("module_detail", module_id=exam.get("moduleId")) + "#evaluaciones")
 
 

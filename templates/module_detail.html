@@ -49,7 +49,7 @@
   {% endif %}
 
   <nav class="moduleTabs">
-    <a href="#contenido">Contenido</a><a href="#caso">Caso práctico</a><a href="#foro">Foro</a><a href="#evaluaciones">Evaluaciones</a>
+    <a href="#contenido">Contenido</a><a href="#caso">Caso práctico</a><a href="#foro">Foro</a><a href="#evaluaciones">Evaluaciones</a><a href="#evaluaciones-integrales">Encuestas del programa</a><a href="#encuesta-plataforma">Plataforma</a>
   </nav>
 
   <section id="contenido" class="moduleSection">
@@ -136,7 +136,7 @@
           <span>{{ assessment_type_labels.get(exam.type,exam.type) }}</span><h3>{{ exam.title }}</h3><p>{{ exam.description }}</p>
           {% if current_user.role=='participant' %}
             {% if tries %}
-              <div class="submittedAssessment">✓ Evaluación enviada <b>{{ tries[-1].score }}/100</b><small>Tu intento quedó cerrado.</small></div>
+              <div class="submittedAssessment">✓ Evaluación enviada {% if tries[-1].score is not none %}<b>{{ tries[-1].score }}/100</b>{% else %}<b>Registrada</b>{% endif %}<small>Tu intento quedó cerrado.</small></div>
               <a class="secondaryButton linkAsButton" href="{{ url_for('exam_result', exam_id=exam.id) }}">Ver resultado</a>
             {% elif exam.type=='final_exam' and not survey_done %}
               <div class="lockedExam">🔒 Completa la encuesta para desbloquear</div>
@@ -148,6 +148,37 @@
           {% endif %}
         </article>
       {% else %}<div class="empty compact">No hay evaluaciones publicadas todavía.</div>{% endfor %}
+    </div>
+  </section>
+
+  <section id="evaluaciones-integrales" class="moduleSection integralModuleSection">
+    <div class="sectionHead">
+      <div><span class="eyebrow">SISTEMA DE EVALUACIÓN INTEGRAL</span><h2>Encuestas oficiales del programa</h2><p>Estos instrumentos provienen del documento oficial de evaluaciones. En cada módulo respondes los que correspondan a tu rol usando escala de 1 a 5.</p></div>
+      {% if current_user.role in ['admin','teacher'] %}<a class="secondaryButton" href="{{ url_for('integral_evaluation_results', module_id=module.id) }}">Ver resultados</a>{% endif %}
+    </div>
+    <div class="integralInstrumentGrid">
+      {% for item in integral_instruments %}
+      <article class="integralInstrumentCard {{ 'done' if item.completed else '' }}">
+        <div class="instrumentCardTop"><span class="instrumentNumber">{{ loop.index }}</span><span class="pill">1–5</span></div>
+        <h3>{{ item.title }}</h3><p><b>Evaluado por:</b> {{ item.evaluatedBy }}</p>
+        {% if item.anonymous %}<small>🔒 Respuesta anónima en reportes</small>{% endif %}
+        {% if item.completed %}<div class="completedMini">✓ Respondida en este módulo</div>{% else %}<a class="primaryButton linkAsButton" href="{{ url_for('integral_evaluation', module_id=module.id, instrument_id=item.id) }}">Responder evaluación</a>{% endif %}
+      </article>
+      {% else %}
+      <div class="empty compact">No hay instrumentos asignados a tu rol en este módulo.</div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="encuesta-plataforma" class="moduleSection platformSurveyModuleSection">
+    <div class="platformSurveyCallout">
+      <div class="platformSurveyIcon">⌘</div>
+      <div><span class="eyebrow">ENCUESTA RÁPIDA · 1 MINUTO</span><h2>¿Cómo te funcionó la plataforma en este módulo?</h2><p>Cinco preguntas cortas para detectar qué tan fácil fue encontrar materiales, entregar actividades y navegar +Q1LÍDER.</p></div>
+      {% if current_user.role=='participant' %}
+        {% if platform_survey_done %}<div class="completedMini large">✓ Contestada</div>{% else %}<a class="primaryButton linkAsButton" href="{{ url_for('platform_survey', module_id=module.id) }}">Responder encuesta</a>{% endif %}
+      {% else %}
+        <a class="secondaryButton linkAsButton" href="{{ url_for('integral_evaluation_results', module_id=module.id) }}">Ver resultados</a>
+      {% endif %}
     </div>
   </section>
 

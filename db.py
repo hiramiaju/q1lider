@@ -53,6 +53,8 @@ def base_db() -> dict[str, Any]:
         "assessmentAttempts": [],
         "surveys": [],
         "surveyResponses": [],
+        "integralEvaluationResponses": [],
+        "platformSurveyResponses": [],
         "gradeItems": [],
         "grades": [],
         "submissions": [],
@@ -200,6 +202,117 @@ def ensure_roster_seed(db: dict[str, Any]) -> bool:
 
 
 SATISFACTION_SURVEY_SCHEMA_VERSION = 2
+
+
+INTEGRAL_EVALUATION_INSTRUMENTS = [
+    {
+        "id": "coordinators",
+        "title": "Evaluación para Coordinadores",
+        "evaluatedBy": "Mentores, Facilitadores y Dirección",
+        "roles": ["teacher", "admin"],
+        "questions": [
+            "Logística y Recursos: Garantizó la disponibilidad oportuna de materiales, espacios e insumos antes de cada sesión.",
+            "Comunicación Operativa: Transmitió lineamientos, horarios y cambios de forma clara y con suficiente anticipación.",
+            "Respaldo al Equipo: Brindó contención y apoyo inmediato ante dudas o situaciones de crisis en el aula/seguimiento.",
+            "Gestión de Incidencias: Resolvió contratiempos con criterio estratégico y sin trasladar tensión al equipo operativo.",
+            "Liderazgo y Clima: Promovió un ambiente de trabajo colaborativo, respetuoso y orientado a objetivos.",
+        ],
+        "commentPrompt": "¿Qué acción concreta del coordinador facilitó o dificultó tu labor en este ciclo?",
+    },
+    {
+        "id": "mentors",
+        "title": "Evaluación para Mentores",
+        "evaluatedBy": "Alumnos asignados y Coordinación",
+        "roles": ["participant", "admin"],
+        "questions": [
+            "Empatía y Escucha Activa: Demostró apertura y escucha libre de juicios durante el acompañamiento.",
+            "Manejo de Protocolos: Aplicó correctamente el triaje emocional, la validación y las herramientas de contención (Grounding).",
+            "Puntualidad y Disponibilidad: Cumplió con el calendario de llamadas de 15 min y el seguimiento al Semáforo Personal.",
+            "Límites Profesionales: Se mantuvo en el rol de mentor sin emitir diagnósticos clínicos ni sobrepasar el alcance.",
+            "Acompañamiento Táctico: Ayudó a destrabar bloqueos mediante la definición de micro-acciones alcanzables.",
+        ],
+        "commentPrompt": "¿En qué momento específico el acompañamiento de tu mentor marcó una diferencia en tu proceso?",
+    },
+    {
+        "id": "participants",
+        "title": "Evaluación para Alumnos / Participantes",
+        "evaluatedBy": "Autoevaluación y Par de Rendición de Cuentas",
+        "roles": ["participant"],
+        "questions": [
+            "Compromiso y Asistencia: Mantuvo una participación constante en las 6 semanas de taller y en el acompañamiento posterior.",
+            "Apertura al Aprendizaje: Mostró disposición para salir de la zona de confort en las dinámicas vivenciales (70/20/10).",
+            "Responsabilidad entre Pares: Cumplió con las llamadas quincenales de rendición de cuentas con su Par asignado.",
+            "Entrega de Productos: Desarrolló y entregó sus herramientas tácticas (Semáforo, Carta de Propósito, Pitch Final).",
+            "Autorregulación Emocional: Identificó sus niveles de sobrecarga y comunicó su estado a tiempo usando el Semáforo.",
+        ],
+        "commentPrompt": "¿Cuál es la habilidad principal que desarrollaste y cuál sigue siendo tu mayor reto?",
+    },
+    {
+        "id": "program",
+        "title": "Evaluación del Programa",
+        "evaluatedBy": "Todos los participantes al concluir la fase de 90 días",
+        "roles": ["participant"],
+        "questions": [
+            "Estructura Metodológica: La secuencia de temas (semanas 1 a 6) tuvo lógica progresiva y utilidad práctica real.",
+            "Herramientas Tácticas: Los instrumentos (Tarjetas de Bolsillo, Semáforo de Sobrecarga) fueron fáciles de usar y aplicables.",
+            "Sistema a 90 Días: El esquema de acompañamiento entre pares ayudó a dar continuidad al aprendizaje tras el taller.",
+            "Cumplimiento de Promesa: El programa cumplió con las expectativas generadas al inicio del proceso.",
+            "Recomendación: Recomendarías esta experiencia formativa a otros jóvenes o miembros de tu organización.",
+        ],
+        "commentPrompt": "¿Qué módulo o componente eliminarías, ajustarías o reforzarías para la siguiente edición?",
+    },
+    {
+        "id": "facilitators",
+        "title": "Evaluación para Maestros / Facilitadores",
+        "evaluatedBy": "Alumnos y Coordinación",
+        "roles": ["participant", "admin"],
+        "questions": [
+            "Dominio Metodológico: Demostró manejo absoluto de los temas y guió las dinámicas con soltura y claridad.",
+            "Gestión de Tiempos: Cumplió con la agenda programada sin recortar los espacios de interacción o reflexión.",
+            "Manejo del Aula: Controló perfiles disruptivos (dominantes, apáticos) manteniendo el orden sin autoritarismo.",
+            "Conexión y Rigor: Mantuvo un balance entre cercanía empática y exigencia técnica en la entrega de productos.",
+            "Uso de la Regla 70/20/10: Priorizó la práctica vivencial y la discusión por sobre la cátedra teórica expositiva.",
+        ],
+        "commentPrompt": "¿Qué fortaleza destacan del facilitador en el manejo de grupo y qué aspecto puede pulir?",
+    },
+    {
+        "id": "speakers",
+        "title": "Evaluación para Conferencistas / Ponentes Invitados",
+        "evaluatedBy": "Alumnos y Facilitadores",
+        "roles": ["participant", "teacher"],
+        "questions": [
+            "Relevancia del Contenido: El tema expuesto aportó valor directo y estuvo alineado al objetivo del módulo.",
+            "Oratoria y Enganche: Logró captar la atención del grupo, manteniendo un tono dinámico e inspirador.",
+            "Practicidad: Compartió experiencias, casos reales o herramientas aplicables, evitando la teoría abstracta.",
+            "Manejo de Preguntas: Respondió a las dudas del grupo con claridad, respeto y dentro del tiempo asignado.",
+            "Ajuste al Tiempo: Respetó la duración pactada para la ponencia y el espacio de interacción (Q&A).",
+        ],
+        "commentPrompt": "¿Qué fue lo más valioso o aplicable que rescatas de esta conferencia?",
+    },
+    {
+        "id": "classroom",
+        "title": "Evaluación del Ambiente en el Aula / Clima de Aprendizaje",
+        "evaluatedBy": "Alumnos y Mentores de manera anónima",
+        "roles": ["participant", "teacher"],
+        "anonymous": True,
+        "questions": [
+            "Seguridad Psicológica: Me sentí seguro para expresar mis opiniones, equivocarme y mostrar vulnerabilidad sin ser juzgado.",
+            "Cohesión Grupal: Existió un ambiente de colaboración, respeto mutuo y apoyo constante entre los participantes.",
+            "Nivel de Energía: La atmósfera del aula fue activa, motivadora y propicia para la participación en cada sesión.",
+            "Equidad e Inclusión: Se respetaron todas las voces y se promovió la participación justa de todos los integrantes.",
+            "Infraestructura Física: El espacio (iluminación, ventilación, mobiliario, acústica) facilitó el trabajo en equipo.",
+        ],
+        "commentPrompt": "¿Qué factor del entorno ayudó o perjudicó tu concentración y confianza durante las sesiones?",
+    },
+]
+
+PLATFORM_SURVEY_QUESTIONS = [
+    "La plataforma fue fácil de entender y navegar durante este módulo.",
+    "Encontré rápidamente los materiales, actividades y evaluaciones que necesitaba.",
+    "Las instrucciones y estados (pendiente, entregado, bloqueado, completado) fueron claros.",
+    "La plataforma funcionó correctamente en el dispositivo que utilicé.",
+    "La plataforma me ayudó a organizar mejor mi participación en +Q1LÍDER.",
+]
 
 
 def build_satisfaction_survey(module: dict[str, Any], admin_id: str | None = None, survey_id: str | None = None, created_at: str | None = None) -> dict[str, Any]:

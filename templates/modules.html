@@ -1,4 +1,67 @@
-{% extends 'base.html' %}{% block title %}Módulos · +Q1LÍDER{% endblock %}{% block content %}
-<div class="page"><div class="titleRow"><div><span class="eyebrow">RUTA FORMATIVA · 12 SEMANAS</span><h1>Módulos +Q1LÍDER</h1><p>6 módulos de trabajo. Entra a cada uno para consultar materiales, casos prácticos, master class, foro, autoevaluaciones, encuesta y examen final.</p></div></div>
-<div class="moduleRoadmap">{% for m in modules %}<a class="moduleCard" href="{{ url_for('module_detail', module_id=m.id) }}"><div class="moduleNumber">{{ m.number }}</div><div class="moduleCardBody"><span class="moduleWeeks">Semanas {{ m.startWeek }}–{{ m.endWeek }}</span><h2>{{ m.title }}</h2><p>{{ m.description }}</p><div class="moduleMetrics"><span>▤ {{ m.materialsCount }} materiales</span><span>✎ {{ m.assessmentCount }} evaluaciones</span>{% if current_user.role=='participant' %}<span>{{ '✓ Encuesta' if m.surveyDone else '○ Encuesta pendiente' }}</span>{% if m.grade is not none %}<b>{{ m.grade }}</b>{% endif %}{% endif %}</div></div><span class="moduleArrow">→</span></a>{% endfor %}</div>
-</div>{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Módulos · +Q1LÍDER{% endblock %}
+{% block content %}
+<div class="page modulesLanding">
+  <div class="titleRow">
+    <div>
+      <span class="eyebrow">RUTA FORMATIVA · 12 SEMANAS</span>
+      <h1>Módulos +Q1LÍDER</h1>
+      <p>Antes de entrar a los módulos consulta los documentos base del programa. Después podrás avanzar por los 6 módulos con materiales, evaluaciones, encuestas y seguimiento.</p>
+    </div>
+  </div>
+
+  <section class="programDocsSection">
+    <div class="sectionHead">
+      <div>
+        <span class="eyebrow">ANTES DEL MÓDULO 1</span>
+        <h2>Documentos y recursos del programa</h2>
+        <p>Tenlos a la mano durante toda la cohorte. Se abren en una pestaña nueva y no necesitas salir de la plataforma.</p>
+      </div>
+    </div>
+    <div class="programDocsGrid">
+      <a class="programDocCard doc-presentation" href="{{ url_for('static', filename='program_docs/IAJU_2026_Liderazgo_Juvenil.html') }}" target="_blank">
+        <span class="programDocIcon">▶</span>
+        <div><small>PROGRAMA GENERAL</small><h3>Presentación IAJU 2026</h3><p>Ruta del programa, módulos, metodología y operación general.</p></div>
+        <b>Abrir ↗</b>
+      </a>
+      <a class="programDocCard doc-safeguard" href="{{ url_for('static', filename='program_docs/Expediente_Salvaguarda_Privacidad_Deslinde.docx') }}" target="_blank">
+        <span class="programDocIcon">▣</span>
+        <div><small>INGRESO Y PRIVACIDAD</small><h3>Expediente de Salvaguarda</h3><p>Responsiva, privacidad, uso de imagen y deslinde de responsabilidad.</p></div>
+        <b>Abrir documento ↗</b>
+      </a>
+      <a class="programDocCard doc-rules" href="{{ url_for('static', filename='program_docs/Reglamento_Interno_Codigo_Convivencia.docx') }}" target="_blank">
+        <span class="programDocIcon">✓</span>
+        <div><small>REGLAS DEL PROGRAMA</small><h3>Reglamento y Código de Convivencia</h3><p>Asistencia, puntualidad, convivencia, incidencias y criterios de permanencia.</p></div>
+        <b>Abrir documento ↗</b>
+      </a>
+    </div>
+  </section>
+
+  <section class="modulesRoadmapSection">
+    <div class="sectionHead"><div><span class="eyebrow">TU RUTA</span><h2>6 módulos · 12 semanas</h2></div></div>
+    <div class="moduleRoadmap">
+      {% for m in modules %}
+      <a class="moduleCard" href="{{ url_for('module_detail', module_id=m.id) }}">
+        <div class="moduleNumber">{{ m.number }}</div>
+        <div class="moduleCardBody">
+          <span class="moduleWeeks">Semanas {{ m.startWeek }}–{{ m.endWeek }}</span>
+          <h2>{{ m.title }}</h2>
+          <p>{{ m.description }}</p>
+          <div class="moduleMetrics">
+            <span>▤ {{ m.materialsCount }} materiales</span>
+            <span>✎ {{ m.assessmentCount }} evaluaciones</span>
+            {% if current_user.role=='participant' %}
+              <span>{{ '✓ Encuesta cierre' if m.surveyDone else '○ Encuesta cierre' }}</span>
+              <span>{{ m.integralDone }}/{{ m.integralTotal }} integrales</span>
+              <span>{{ '✓ Plataforma' if m.platformSurveyDone else '○ Plataforma' }}</span>
+              {% if m.grade is not none %}<b>{{ m.grade }}</b>{% endif %}
+            {% endif %}
+          </div>
+        </div>
+        <span class="moduleArrow">→</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}
