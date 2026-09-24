@@ -1,0 +1,3096 @@
+{
+  "users": [
+    {
+      "id": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "name": "Administrador",
+      "lastName": "+Q1LÍDER",
+      "email": "admin@q1lider.local",
+      "passwordHash": "$2b$10$JMkaw4EBGJIlByUosfbiJeRJGMwY8uZkPfObhLC4/eIYH8JE7zEvO",
+      "role": "admin",
+      "status": "active",
+      "theme": "dark",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-23T12:14:20-06:00",
+      "username": "Admin+q1",
+      "mustChangePassword": false
+    },
+    {
+      "id": "54b0c6de-1b48-4957-88b8-ce7a78d13e62",
+      "name": "Docente",
+      "lastName": "Demo",
+      "email": "docente@q1lider.local",
+      "passwordHash": "$2b$10$aGEVjT3Yz3at9hMuE6mwseqSq8jIAe7gan7R4Mg14XX85cNle93ku",
+      "role": "teacher",
+      "status": "active",
+      "theme": "light",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00",
+      "username": "Docente+q1",
+      "mustChangePassword": false
+    },
+    {
+      "id": "9b16ee8c-d7ce-4ad8-9a77-344d8a143d16",
+      "name": "Ana",
+      "lastName": "Martínez",
+      "email": "ana@q1lider.local",
+      "passwordHash": "$2b$10$Tns5eGQcngCzpbV8VCVlBuS/O6IIdz4APog5s6WQCGzQzar8vSLLS",
+      "role": "participant",
+      "status": "inactive",
+      "theme": "dark",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-23T12:15:49-06:00",
+      "username": "AnaMartinez+q1",
+      "mustChangePassword": false,
+      "phone": "",
+      "instagram": "",
+      "birthDate": "",
+      "address": "",
+      "expectations": "",
+      "ambitions": ""
+    },
+    {
+      "id": "b27adc55-2ef5-4ff6-82e4-7c109b69d9e9",
+      "name": "Diego",
+      "lastName": "López",
+      "email": "diego@q1lider.local",
+      "passwordHash": "$2b$10$WSC1zAoeoZbGnR3CCR6yR.aqmbdbIqux0cvRkDb2H9GordP7KwMZq",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00",
+      "username": "DiegoLopez+q1",
+      "mustChangePassword": false
+    },
+    {
+      "id": "247993a2-9976-4f62-a616-ef97247a7de5",
+      "name": "Sofía",
+      "lastName": "Ramírez",
+      "email": "sofia@q1lider.local",
+      "passwordHash": "$2b$10$yFa8P4BSUjeCGwItaeF.TepBKbI2Qz1DBq0fs55qqLaMWhplXQV.q",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00",
+      "username": "SofiaRamirez+q1",
+      "mustChangePassword": false
+    },
+    {
+      "username": "AbrahamHernandez+q1",
+      "name": "Abraham",
+      "lastName": "Hernández Valenciano",
+      "fullName": "Abraham Hernández Valenciano",
+      "email": "2335000421@utna.edu.mx",
+      "passwordHash": "$2y$10$TDrt6JgqFURcLPWB5SJVzeFbMK/aAFV9Ne7sskgnCA0TSyYUEHif.",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2005-12-07",
+      "phone": "4651124401",
+      "instagram": "abrahamvalenciano0",
+      "address": "Morelos, Benito Juárez, SN, Rincón de Romos",
+      "expectations": "Crecimiento y desarrollo de liderazgo",
+      "ambitions": "Formarme académicamente… posteriormente emprender en algo afín",
+      "sourceTimestamp": "2026-09-09 21:29:52",
+      "id": "24a8409e-6491-4501-b452-eeeb41ac00fa",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "AdrianaMartinez+q1",
+      "name": "Adriana",
+      "lastName": "Jazmin Martínez Martínez",
+      "fullName": "Adriana Jazmin Martínez Martínez",
+      "email": "adrjazm06@outlook.com",
+      "passwordHash": "$2y$10$QnJeyV.DgO1bVBLMRAijLuRsx9yvN3PJYvPBUonDL7pugYSPOI7.q",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2007-07-09",
+      "phone": "4491025604",
+      "instagram": "Adriana.mttz",
+      "address": "Carlos Nájera rivera #112",
+      "expectations": "Que nos ayuden a crecer",
+      "ambitions": "Me gustaría ser una profesional y tener buenos contactos para poder ayudar a la ciudad de Aguascalientes para seguir con la calidad de vida que tienen los de aquí",
+      "sourceTimestamp": "2026-09-09 16:48:32",
+      "id": "f954d59c-1315-4940-8db5-6b89cdd6f015",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "AimeVega+q1",
+      "name": "Aime",
+      "lastName": "Livier Vega Roque",
+      "fullName": "Aime Livier Vega Roque",
+      "email": "aimelivier@outlook.com",
+      "passwordHash": "$2y$10$AoLSAQN7PfROg/kAwplb6OdEjuNadlkawq5i3DFN067ePfsdQ8cIq",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2002-03-03",
+      "phone": "4491796503",
+      "instagram": "aime_livier",
+      "address": "San José de Buenavista, Francisco Romo Jiménez 235, San Francisco de los Romo, Ags.",
+      "expectations": "Espero que Más Que un Líder me permita seguir creciendo, adquirir nuevos aprendizajes y desarrollar herramientas que pueda aplicar tanto en mi vida personal como en los proyectos que realizo. Sobre todo, quiero generar un impacto positivo en mi comunidad, conectar con personas con las mismas ganas de transformar y aprender de sus experiencias. Me gustaría que juntos podamos construir una generación destacada de Aguascalientes, reconocida no solo por lo que piensa, sino por lo que hace y el impacto que genera.",
+      "ambitions": "Soy una persona a la que le gusta aprender, asumir nuevos retos y buscar constantemente maneras de aportar a los demás. Mi mayor ambición es crecer como persona y como líder, pero también utilizar ese crecimiento para generar un impacto real en mi comunidad. Me interesa especialmente la filantropía y la creación de proyectos que puedan ayudar, inspirar y dejar una huella positiva. Meta a corto plazo: Quiero fortalecer mis habilidades de liderazgo, adquirir nuevas herramientas y participar en proyectos que generen cambios tangibles en Aguascalientes. Meta a largo plazo: Desarrollar y consolidar proyectos grandes y enriquecedores, capaces de trascender y generar oportunidades para más personas. Aspiro a seguir creciendo, rodearme de personas que compartan esta visión y formar parte de una generación destacada de Aguascalientes, no solo por nuestros logros individuales, sino por todo lo que seamos capaces de construir y transformar juntos.",
+      "sourceTimestamp": "2026-09-10 00:49:22",
+      "id": "b175b82e-656e-4ff8-9468-bcb0859897bc",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "AldoJuarez+q1",
+      "name": "Aldo",
+      "lastName": "cristofer Juárez hernandez",
+      "fullName": "Aldo cristofer Juárez hernandez",
+      "email": "micuentaapplehdz@gmail.com",
+      "passwordHash": "$2y$10$i/vdz2xNO8ihRX8IvWiDhuiQdWeM/4Qf.pAcq66xNiv/DcunnIw6m",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2002-09-09",
+      "phone": "4493296720",
+      "instagram": "icris_j",
+      "address": "Csan Luis de letras 503 Emiliano zapata ags",
+      "expectations": "Oportunidades reales para desarrollar proyectos menos ponencias de experiencias personales y llevar acabo proyectos más grandes",
+      "ambitions": "Tengo un sueño y ese sueño es demostrar de lo que soy capaz ante el mundo enseñar a las personas a vivir su mejor vida actual mente e trabajado mi físico mi mente y estoy mejorando mi economía quiero demostrarle al mundo que la clase trabajadora puede vivir sus sueños no solo los de otros",
+      "sourceTimestamp": "2026-09-09 21:21:34",
+      "id": "773887e5-ebbd-4518-a0ef-3dd512e57629",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "AlejandraHernandez+q1",
+      "name": "Alejandra",
+      "lastName": "Valeria Hernández García",
+      "fullName": "Alejandra Valeria Hernández García",
+      "email": "valhdzg.18@gmail.com",
+      "passwordHash": "$2y$10$BUvEXyDinHHHQFI23yLjLuVaHF.o/rL88uPv2VT1q/WdRIZX37aKa",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2005-07-31",
+      "phone": "4494264189",
+      "instagram": "vaal_garciaa",
+      "address": "Hacienda el mezquite #109, Haciendas de Aguascalientes",
+      "expectations": "Realizar diferentes actividades, que me ayuden a lograr un buen desempeño, aplicarlo en mi día a día, aprender nuevas cosas y que tenga un valor en el currículum",
+      "ambitions": "Soy una persona muy apasionada, me gusta ayudar siempre que puedo, soy organizada y creativa, me gustaría principalmente graduarme de la universidad y a largo plazo poder tener mi emprendimiento ya bien establecido",
+      "sourceTimestamp": "2026-09-09 20:23:05",
+      "id": "07646f31-afb7-4812-ba4e-5c24ada91594",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "AmbarCastro+q1",
+      "name": "Ambar",
+      "lastName": "Elena Castro Loera",
+      "fullName": "Ambar Elena Castro Loera",
+      "email": "a.castroloera12@gmail.com",
+      "passwordHash": "$2y$10$oDq6vpFukJ3iH6CeB3/sru1Yqhgq2WU1U88DigsQ5wQO.HupBS1tK",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2001-12-25",
+      "phone": "4492441207",
+      "instagram": "Ambar.elena.c",
+      "address": "Minas de la plata 126 paso de argenta",
+      "expectations": "Espero poder desarrollar más mis habilidades en liderazgo",
+      "ambitions": "Soy artista visual , desarrolló mi propia imagen como artista ante redes sociales además de una marca propia sigo creciendo y a la par desarrollando mis aptitudes en ámbitos educativos",
+      "sourceTimestamp": "2026-09-09 12:04:26",
+      "id": "ae958bd9-9875-4c56-b630-a868029d49e3",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "AnahiTabuyo+q1",
+      "name": "Anahi",
+      "lastName": "Tabuyo Reyes",
+      "fullName": "Anahi Tabuyo Reyes",
+      "email": "reyesanahi626@gmail.com",
+      "passwordHash": "$2y$10$5nNNpoB1Ki.amZ1/N9CRPefTnZGOO3u1/Nkb2P.lfLYgOcIHLPUPm",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2002-06-06",
+      "phone": "4493638860",
+      "instagram": "anahireyes",
+      "address": "Bosques del prado sur, San José de los Reynoso 326, Aguascalientes",
+      "expectations": "Herramientas para la vida profesional y personal",
+      "ambitions": "Viajar por el mundo y ser empresaria",
+      "sourceTimestamp": "2026-09-09 20:05:36",
+      "id": "8b50b12d-67dd-495c-ba82-5547fae46ef7",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "AndreMacias+q1",
+      "name": "André",
+      "lastName": "Macias Robles",
+      "fullName": "André Macias Robles",
+      "email": "andremacias124@gmail.com",
+      "passwordHash": "$2y$10$X5LmjDAg158aIwn/A/v0Oee2PS.I.G3C6AYlUkUNn2jLT2jq3ZWC.",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2006-06-24",
+      "phone": "4493975039",
+      "instagram": "the_andre2406",
+      "address": "guillermo prieto #82, col. 5 de mayo, pabellón de arteaga",
+      "expectations": "desarrollar habilidades de liderazgo, gestión de proyectos y comunicación con otras personas que busquen lo mismo",
+      "ambitions": "me gustaría dejar un impacto positivo y medible en la sociedad, en especial en temas medioambientales y energéticos",
+      "sourceTimestamp": "2026-09-09 17:22:24",
+      "id": "a60ae635-314e-4b04-8640-d6b105b0f343",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "AndreaAguilar+q1",
+      "name": "Andrea",
+      "lastName": "Aguilar junco",
+      "fullName": "Andrea Aguilar junco",
+      "email": "agukarandrea@gmail.com",
+      "passwordHash": "$2y$10$P0An/BXYoJULhidfoKUWguxW7tZibsAKF0lUE/ghvXROzNT7/3uk.",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-03-10",
+      "phone": "5562469466",
+      "instagram": "Andy.junco.a",
+      "address": "Lomas de oriente Juan José Arreola 814",
+      "expectations": "Espero adquirir herramientas sólidas de liderazgo, comunicación estratégica y gestión de proyectos para complementar mi perfil analítico de ingeniería.",
+      "ambitions": "Soy estudiante de ingeniería enfocada en automatización y manufactura, A corto plazo: Concluir con excelencia mi formación universitaria, A largo plazo: Liderar proyectos de modernización industrial sustentable en la región, impulsar iniciativas sociales con base tecnológica que optimicen recursos locales y participar activamente en espacios donde la innovación técnica se convierta en una palanca de bienestar social",
+      "sourceTimestamp": "2026-09-09 13:48:09",
+      "id": "d75f9201-7423-49f8-b2de-4a69bbb2276d",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "ArelyVazquez+q1",
+      "name": "Arely",
+      "lastName": "Montserrat Vázquez farias",
+      "fullName": "Arely Montserrat Vázquez farias",
+      "email": "vazquezarely694@gmail.com",
+      "passwordHash": "$2y$10$SvMSXCEPtg5HXp/y7I1OfuNv0GTZXEmO96FsuyMeDeCzE34mUuhw.",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2002-05-24",
+      "phone": "4493440255",
+      "instagram": "Arely.lake",
+      "address": "Pozo bravo , Pánfilo natera 903 Ags",
+      "expectations": "Aprender nuevas cosas y conocer a las personas y juntos lograr grandes proyectos",
+      "ambitions": "Invitar a que más jóvenes se unan al proyecto o los proyectos que vayan saliendo",
+      "sourceTimestamp": "2026-09-09 22:04:14",
+      "id": "e5eeb02c-db5c-4975-a55d-6592f4a8f329",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "BlancaDiaz+q1",
+      "name": "Blanca",
+      "lastName": "Nayeli Díaz de León salas",
+      "fullName": "Blanca Nayeli Díaz de León salas",
+      "email": "bdiazdeleon@ieeags.mx",
+      "passwordHash": "$2y$10$jxyPteXt2Nny8IzggSH9.OQCIwFNAuWGGW33vj/O60lUVM/drgLFy",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "1998-04-28",
+      "phone": "4492243885",
+      "instagram": "Diazdeleonnay",
+      "address": "Bosques del Prado Oriente, calle paseo de los Bosques 301, ags",
+      "expectations": "Impulsar una generación de líderes",
+      "ambitions": "Soy Nayeli Díaz de León, politóloga con formación en Marketing Electoral y Comunicación Política en España, y experiencia en los ámbitos electoral, parlamentario y de comunicación pública. A lo largo de mi trayectoria he encontrado en la participación, el liderazgo y la comunicación herramientas para transformar mi entorno y abrir oportunidades para otros jóvenes. A corto y mediano plazo, quiero seguir creciendo profesionalmente, desarrollar proyectos que fortalezcan las capacidades y la participación de las nuevas generaciones y, especialmente, inspirar a otros jóvenes a reconocer el valor de su propia voz. A través de mi conferencia “El Poder de tu Voz”, busco compartir mi experiencia y demostrar que aprender a comunicar nuestras ideas, defender lo que pensamos y atrevernos a ocupar espacios también puede ser el primer paso para transformar nuestra realidad.",
+      "sourceTimestamp": "2026-09-09 13:32:33",
+      "id": "6dbde0db-5f11-4c1c-8353-d0b8f1500bc9",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "CamilaFernanda+q1",
+      "name": "Camila",
+      "lastName": "Fernanda",
+      "fullName": "Camila Fernanda",
+      "email": "camila.dlg29@gmail.com",
+      "passwordHash": "$2y$10$Scy6kWcH97BqgDDVeWaWneXqq7kwhxgVgphe5LCRL35hBFb0RW2OC",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-05-29",
+      "phone": "4493499044",
+      "instagram": "camila_fernandaaa0",
+      "address": "And. Del chorro 170 Fidel Velázquez. Aguascalientes, Ags",
+      "expectations": "Espero conocer personas que me inspiren y crean nuevas bonitas experiencias",
+      "ambitions": "Soy Licenciada en Psicología, soy una persona que le gusta a aprender de todo, y una meta que tengo es crear algún programa social con personas que me acompañen en este proceso",
+      "sourceTimestamp": "2026-09-09 12:46:05",
+      "id": "c5df413f-672d-47b2-b711-e73fb2e49d65",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "CarlosAlamillo+q1",
+      "name": "Carlos",
+      "lastName": "Oswaldo Alamillo Pérez",
+      "fullName": "Carlos Oswaldo Alamillo Pérez",
+      "email": "wualyindustres@gmail.com",
+      "passwordHash": "$2y$10$KE7Jt5UXw0AEYB/EysGOae1c3xL2zk1lNS8LF2lqSjA61e/bBjcPW",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2005-10-01",
+      "phone": "4493537833",
+      "instagram": "urlove.wualy",
+      "address": "Calle primavera 217 fraccionamiento arboledas",
+      "expectations": "Espero que esta nueva etapa de Más que un Líder me permita fortalecer mis habilidades de liderazgo, comunicación y toma de decisiones, pero sobre todo llevarlas a situaciones reales. Busco aprender de personas con experiencia, trabajar con otros jóvenes con objetivos similares y ampliar mi perspectiva sobre cómo generar impacto desde mi formación en Derecho. También espero construir relaciones y herramientas que pueda aplicar en proyectos universitarios, profesionales y de participación juvenil.",
+      "ambitions": "Soy estudiante de Derecho en la Universidad Autónoma de Aguascalientes y tengo un interés particular en la argumentación, la oratoria, el liderazgo y la tecnología. He buscado complementar mi formación universitaria participando en espacios como Toastmasters, modelos de Naciones Unidas, concursos de oratoria y actividades de formación profesional. A corto plazo, mi objetivo es consolidar un perfil académico sólido, desarrollar competencias de comunicación, negociación y pensamiento crítico, y participar activamente en proyectos y organizaciones donde pueda asumir responsabilidades y generar conexiones profesionales. A largo plazo, quiero construir una carrera vinculada con el ámbito jurídico y la procuración de justicia, incorporando también conocimientos tecnológicos y de ciberseguridad. Mi meta es convertirme en un profesional capaz de combinar Derecho, comunicación y tecnología para asumir posiciones de mayor responsabilidad y contribuir de manera concreta a mi entorno.",
+      "sourceTimestamp": "2026-09-09 13:53:23",
+      "id": "49cc69dc-f708-43e6-9b83-283194e4fbb0",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "CesarAlonso+q1",
+      "name": "César",
+      "lastName": "David Alonso Reyes",
+      "fullName": "César David Alonso Reyes",
+      "email": "alonsoreyescesar96@gmail.com",
+      "passwordHash": "$2y$10$ixjyP7/S1XDzJFDbikd9BugILjlwA.bVOnfGnxPqZU8ddIcKixQBW",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-04-26",
+      "phone": "4491130014",
+      "instagram": "soycesaralonso",
+      "address": "Circuito Laurel #107 Fraccionamiento Arboledas Paso Blanco",
+      "expectations": "Espero que este programa pueda dar signos de estabilidad, que tengamos certidumbre en la directriz de nuestro trabajo y acumular experiencias gratas e inolvidables.",
+      "ambitions": "Soy un jóven qué inicie mi trayectoria desde muy temprana edad. Me apasiona poner todo lo que se al servicio de la sociedad, que ama profundamente a su estado y que siempre agradece cada gesto pequeño y oportunidad de rodearme de gente exitosa. Mis metas a corto plazo es poder poco a poco hacerme de prestigio y construir mi vida, a largo plazo me gustaría tener un negocio propio y una fundación para la gente que más lo necesita.",
+      "sourceTimestamp": "f",
+      "id": "c40dce17-a322-44d6-9e06-705752675c8a",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "DanielaPadilla+q1",
+      "name": "Daniela",
+      "lastName": "Padilla del Alto",
+      "fullName": "Daniela Padilla del Alto",
+      "email": "danielapadillauniversidad@gmail.com",
+      "passwordHash": "$2y$10$.LF3yuq0mikz9VMFzGE8IuykxmlC3vlSWrcDukM.Ey5cFu.Y7uo7G",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2002-04-22",
+      "phone": "4499906175",
+      "instagram": "que.onda.soy.daniela",
+      "address": "Prolongación Adoratrices 1129",
+      "expectations": "Aprender a desenvolverme",
+      "ambitions": "Me acabo de recibir de la carrera de biología, y me veo en un corto plazo teniendo muchas ventas en mis emprendimientos y ser una gran líder!",
+      "sourceTimestamp": "2026-09-11 16:52:43",
+      "id": "cd138e91-1908-45f6-87c0-a061109b1044",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "DanielaPalomino+q1",
+      "name": "Daniela",
+      "lastName": "Yaneth Palomino Elias",
+      "fullName": "Daniela Yaneth Palomino Elias",
+      "email": "palominodaniela898@gmail.com",
+      "passwordHash": "$2y$10$LHPWYLCkFAzYYr1FRJ7mveTl2sJR52PI7KTlZZJAZWaXjbZcjmw1y",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-05-23",
+      "phone": "4961070493",
+      "instagram": "danipqdani",
+      "address": "San Gerardo, Paseo de San Gerardo, 206, Aguascalientes",
+      "expectations": "Conocer y aprender",
+      "ambitions": "Crear un proyecto de impacto social, específicamente para apoyar mujeres y niños",
+      "sourceTimestamp": "2026-09-10 13:47:11",
+      "id": "c5cddc13-79e7-4579-a1c3-10ff07477eaa",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "DavidZamarripa+q1",
+      "name": "David",
+      "lastName": "Isaí Zamarripa Hernandez",
+      "fullName": "David Isaí Zamarripa Hernandez",
+      "email": "davidzamarripa039@gmail.com",
+      "passwordHash": "$2y$10$zNbNh4oMtqg8lQlJo9yS3.eM8KUxmf6cAEw3uU.4i.YUnX8L0p3ku",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-07-02",
+      "phone": "4492193676",
+      "instagram": "Iszatbh",
+      "address": "Fraccionamiento Morelos uno, Calle México libre 401 Ags",
+      "expectations": "Crecer como persona y aprender a ser un líder nato.",
+      "ambitions": "Crecer totalmente, acercarme al ámbito político. Me gustaría alcanzar metas a corto plazo en el término de conocer más personas en el giro político e ir creciendo como persona :)",
+      "sourceTimestamp": "2026-09-09 12:05:50",
+      "id": "e7500b99-0511-48ac-a844-4808b522c430",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "DelaneyGomez+q1",
+      "name": "Delaney",
+      "lastName": "Abril Gómez Díaz",
+      "fullName": "Delaney Abril Gómez Díaz",
+      "email": "delaneyabril.gomezdiaz@gmail.com",
+      "passwordHash": "$2y$10$seYPTFp7eRxTwIzj281jXeLPx/AiNOWMlm1v.tYlr1BlGg7bjzgL.",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2007-04-28",
+      "phone": "4491138757",
+      "instagram": "abii_ab2",
+      "address": "Lomas de Vistabella, Vista del Atardecer #211 Aguascalientes Aguascalientes",
+      "expectations": "Conocer personas, hacer contactos y participar en eventos",
+      "ambitions": "Soy estudiante en la Universidad Autónoma de Aguascalientes en la carrera de Comunicación Corporativa Estratégica, me fascina el arte, toco algunos instrumentos, he formado parte de una orquesta sinfónica y una Big band jazz; me gusta mucho dibujar y participar en concursos de dibujo. Una de mis metas es hacer conocer mucho más mi trabajo en la fotografía, así como cubrir eventos importantes. Más que nada me interesa seguir desarrollandome en ámbitos que aporten a mi carrera.",
+      "sourceTimestamp": "2026-09-09 13:59:14",
+      "id": "40cc0293-2a11-4c1c-9a34-34fc30f1a8c3",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "DulceRodriguez+q1",
+      "name": "Dulce",
+      "lastName": "María Rodríguez Marín",
+      "fullName": "Dulce María Rodríguez Marín",
+      "email": "marindulce757@gmail.com",
+      "passwordHash": "$2y$10$Axr7SLJeH9oKW6OlpGOl..y2I2IuBLpDj3fSg99vwBG8FSVbRqLQq",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2001-05-23",
+      "phone": "4492044247",
+      "instagram": "sweetcherrydrm",
+      "address": "Haciendas de Aguascalientes, Haciendas San Blas 139B, Aguascalientes, Ags.",
+      "expectations": "Un programa estructurado, que nos enseñe sobre liderazgo, emprendimiento, educación financiera, como ser un joven líder.",
+      "ambitions": "Actualmente estudio Arquitectura y me considero una persona emprendedora, responsable y con muchas ganas de seguir aprendiendo y creciendo. Una de mis principales ambiciones es desarrollarme profesionalmente, pero también crear proyectos propios que tengan un impacto positivo en otras personas. A corto plazo quiero terminar mi carrera, fortalecer mi agencia de cuidado infantil y seguir participando en proyectos de liderazgo y labor social que me permitan adquirir experiencia. A largo plazo, me gustaría consolidar mis propios proyectos, ejercer como arquitecta y alcanzar estabilidad económica e independencia, sin dejar de involucrarme en iniciativas que aporten algo a mi comunidad.",
+      "sourceTimestamp": "2026-09-09 17:57:29",
+      "id": "83b82fa3-fb95-487e-82b6-7ff72ccfd0e0",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "ElianGonzalez+q1",
+      "name": "Elián",
+      "lastName": "Roberto González Hernández",
+      "fullName": "Elián Roberto González Hernández",
+      "email": "eliaangzless.mavk@gmail.com",
+      "passwordHash": "$2y$10$2jSOt/rtvydxiDTt1L9PLOcIJSEGH.74P9CmnAeKuJZktV3On2J4S",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2007-10-01",
+      "phone": "4495490529",
+      "instagram": "eliaangzless",
+      "address": "Real del Sol, Oswaldo Mooser Barandum 231, Aguascalientes, Ags.",
+      "expectations": "Certificación oficial en liderazgo(capacitación avalada), organización, contactos, nuevos amigos, crear proyectos en equipo, mayor formalidad y estructura, espacios que me saquen de mi zona de confort.",
+      "ambitions": "Soy una persona apasionada por el aprendizaje, el liderazgo y la creación de proyectos que generen un impacto positivo en los demás. A corto plazo, mi meta es continuar fortaleciendo mi formación universitaria, obtener experiencia profesional y desarrollar habilidades que me permitan asumir mayores responsabilidades. También deseo seguir participando en proyectos de liderazgo/emprendimiento. A largo plazo, deseo construir una trayectoria profesional que combine tecnología y liderazgo para desarrollar grandes proyectos en grupos como Apple, Google o Meta. Además de hacer una maestría en el MIT, ser completamente autosuficiente y libre financieramente.",
+      "sourceTimestamp": "1900-01-01 00:00:00",
+      "id": "9ee46425-987f-475b-bd72-692b9ec3e0fd",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "EnriqueEsparza+q1",
+      "name": "Enrique",
+      "lastName": "Esparza Montoya",
+      "fullName": "Enrique Esparza Montoya",
+      "email": "enriqueesmon@gmail.com",
+      "passwordHash": "$2y$10$QrcH0wYqt./CXaVZkH9LPOwQme1AnxA566VY6iKAGppGc5E8a5z5.",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-11-01",
+      "phone": "4491080131",
+      "instagram": "e.n.r.y.q.u.e",
+      "address": "Haciendas de Aguascalientes, Hacienda Paredes 154 - A, Aguascalientes",
+      "expectations": "Una organización más estable y actividades para desarrollar mis habilidades",
+      "ambitions": "Me gustaría desarrollar las habilidades que tengo para ser líder de manera general. Ya sea para dirigir gente o proyectos, o para poder tener una presencia más fuerte ante un público. Saber venderme y ser buen negociante",
+      "sourceTimestamp": "2026-09-09 14:49:02",
+      "id": "fcc7bdce-3d0e-4105-901b-ba3a8ff03062",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "FatimaZapata+q1",
+      "name": "Fátima",
+      "lastName": "Janeth Zapata Montenegro",
+      "fullName": "Fátima Janeth Zapata Montenegro",
+      "email": "fatimajazamo@gmail.com",
+      "passwordHash": "$2y$10$sxCD7Pw2LDIdbBoxkqAU/.wuM/GdV4nv0TemAo2tLxwPdbaEat2hW",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-09-12",
+      "phone": "4581102373",
+      "instagram": "fatima.zapata.1612",
+      "address": "C Manuel García Martínez #507, Col Nazario Ortiz Garza, Aguascalientes",
+      "expectations": "Espero desarrollar una mentalidad de liderazgo integral que me permita conocerme mejor, conectar con los demás y transformar ideas en acciones reales. Asimismo, busco asumir un compromiso bilateral de crecimiento mutuo con el programa, estando totalmente abierto a aprender y aplicar cada una de las herramientas que se me brinden.",
+      "ambitions": "Desarrollar mayor confianza al tomar decisiones clave. ​Empezar a liderar pequeños proyectos o iniciativas propias.",
+      "sourceTimestamp": "2026-09-09 17:49:50",
+      "id": "89f4ba36-3a70-483c-af6f-1446a352c947",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "FernandaVeloz+q1",
+      "name": "Fernanda",
+      "lastName": "Sanjuana Veloz Rosas",
+      "fullName": "Fernanda Sanjuana Veloz Rosas",
+      "email": "fernandasanjuana73@gmail.com",
+      "passwordHash": "$2y$10$LwgG/rP7yTAoO9ScfaUqD.RdoEgVFBbUGyedSzKRpIW3fAuBJ4ZHu",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2005-09-01",
+      "phone": "4493428648",
+      "instagram": "Ferchita7w7",
+      "address": "Narcizo perales Ávila 1309, pabellón de Arteaga Aguascalientes",
+      "expectations": "Espero que este programa me brinde las herramientas, conocimientos y perspectivas necesarias para generar un cambio positivo en mi comunidad. Me interesa aprender a identificar necesidades, proponer soluciones y desarrollar habilidades de liderazgo que me permitan contribuir de manera significativa a mi entorno. Confío en que esta experiencia me ayudará a crecer tanto personal como profesionalmente, fortaleciendo mi compromiso de participar activamente en iniciativas que generen un impacto real y beneficien a más personas.",
+      "ambitions": "Soy estudiante de Ingeniería Biomédica y una de mis principales ambiciones es utilizar mis conocimientos para contribuir al bienestar de las personas a través de la tecnología y la innovación. Me considero una persona comprometida con su crecimiento personal y profesional, siempre buscando nuevas oportunidades para aprender, desarrollarme y generar un impacto positivo en mi entorno. A corto plazo, mi meta es continuar fortaleciendo mi formación académica, mejorar mis habilidades profesionales y aprovechar experiencias que me permitan crecer como líder. También busco mantener un equilibrio entre mis estudios, mi trabajo y los proyectos en los que participo. A mediano plazo, deseo adquirir experiencia profesional en el área biomédica, participar en proyectos que aporten soluciones reales a problemáticas de salud y seguir desarrollando habilidades de liderazgo, trabajo en equipo y gestión de proyectos. A largo plazo, aspiro a convertirme en una profesionista capaz de generar un cambio positivo en mi comunidad y en el sector de la salud. Me gustaría liderar iniciativas que contribuyan al desarrollo de tecnologías o proyectos con impacto social, ayudando a mejorar la calidad de vida de las personas y dejando una huella positiva a través de mi trabajo. Mi mayor motivación es crecer constantemente, superar nuevos retos y utilizar mis capacidades para generar cambios significativos que beneficien a quienes me rodean.",
+      "sourceTimestamp": "2026-09-09 19:15:52",
+      "id": "b5684ee2-d58d-4a79-97d3-814eae23bdb0",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "FlavioPadilla+q1",
+      "name": "Flavio",
+      "lastName": "Eduardo Padilla Gómez",
+      "fullName": "Flavio Eduardo Padilla Gómez",
+      "email": "flaviopadilla10@gmail.com",
+      "passwordHash": "$2y$10$eB//VNgnfyZiXwkmUKdQ9.FVglHsM97pWvamnRhqeCp.tOeb2yRJG",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2001-03-10",
+      "phone": "4491818521",
+      "instagram": "flavio_ingenioyfuturo",
+      "address": "Canteras de San José, Talpa #258, Aguascalientes",
+      "expectations": "Crecer y desarrollar una comunidad",
+      "ambitions": "a corto plazo ayudar a todos con lo que tenga en mis manos a acercarlos un poco mas a sus propositos y a largo plazo ser presidente de la republica",
+      "sourceTimestamp": "2026-09-09 12:24:19",
+      "id": "8fab8d2e-ee5b-4b95-96af-8bb300894821",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "FranciscoChavez+q1",
+      "name": "Francisco",
+      "lastName": "David Chávez González",
+      "fullName": "Francisco David Chávez González",
+      "email": "fcoenlace2024@gmail.com",
+      "passwordHash": "$2y$10$pJ6hVsqow97Kfi.O7V0LKO8HyvuSr3K6MsRBYdCEJCxHehvNcch8a",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-01-10",
+      "phone": "4494347650",
+      "instagram": "fcdavid_0104",
+      "address": "Casa Blanca, caudillos 147, Aguascalientes",
+      "expectations": "Espero mejorar mi habilidades de liderazgo, principalmente la comunicación",
+      "ambitions": "Soy estudiante de ingeniería mecánica, estoy aplicando lo aprendido en el programa para mejorar mis habilidades de liderazgo",
+      "sourceTimestamp": "2026-09-09 17:20:42",
+      "id": "3c4b6ab5-3371-4943-b38d-b49c640e3e06",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "GaelTovar+q1",
+      "name": "Gael",
+      "lastName": "Iñaki Tovar Cortes",
+      "fullName": "Gael Iñaki Tovar Cortes",
+      "email": "tovarcortesgaelinaki@gmail.com",
+      "passwordHash": "$2y$10$z6QtLGUpQfUd7WFh3gpQRu/3vIAHgzFx3wM2SsubBwCzbMgPUJcvO",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-08-31",
+      "phone": "449491717",
+      "instagram": "tovarrgael",
+      "address": "Calle salvador Martinez #321 Colonia Cartagena",
+      "expectations": "convertirme en una figura publica",
+      "ambitions": "Soy dedicado, con ambiciones a corto y largo plazo con ganas de ser empresario",
+      "sourceTimestamp": "",
+      "id": "dc94a89f-6fb9-4bfa-a73c-be6571a75069",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "GeovaniCruz+q1",
+      "name": "Geovani",
+      "lastName": "Alejandro Cruz López Velarde",
+      "fullName": "Geovani Alejandro Cruz López Velarde",
+      "email": "cruzgeovani269@gmail.com",
+      "passwordHash": "$2y$10$hRE8O6NmXC40KZrhjpO8teXmP3RPdv.5KrrtY878cq1mAN44KA0A2",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2006-05-23",
+      "phone": "4651170022",
+      "instagram": "lex_21._",
+      "address": "Calle sexta #109. Colonia popular. Pabellón de Arteaga",
+      "expectations": "Espero encontrar un espacio de crecimiento integral donde pueda potenciar mis habilidades de liderazgo y gestión para traducirlas en proyectos de alto impacto social en mi comunidad. Busco adquirir herramientas prácticas para coordinar equipos multidisciplinarios, fortalecer la empatía y la resiliencia, y conectar con jóvenes que compartan la misma visión de transformar nuestro entorno a través de la innovación y la participación ciudadana.",
+      "ambitions": "Soy un joven comprometido con el desarrollo de mi comunidad, actualmente estudiante de Ingeniería en Robótica en la Universidad Autónoma de Aguascalientes y miembro del Consejo de la Juventud en Pabellón de Arteaga. Mis principales ambiciones se centran en fusionar la tecnología, la ingeniería y el liderazgo social para impulsar iniciativas que beneficien a sectores locales, como el apoyo al emprendimiento y la educación juvenil. ​A corto plazo: Concluir con excelencia mis estudios universitarios, consolidar proyectos de impacto social y emprendimiento dentro del Consejo de la Juventud de Pabellón de Arteaga, y seguir fortaleciendo mi formación técnica y humana. ​A largo plazo: Consolidarme como un líder capaz de dirigir proyectos tecnológicos e industriales de gran escala, fundar iniciativas que generen empleos y oportunidades en mi región, y demostrar que desde los municipios se puede impulsar un desarrollo innovador y sostenible para la sociedad.",
+      "sourceTimestamp": "2026-09-09 19:58:24",
+      "id": "8e532dd3-6699-49f4-89f7-a62e205efb01",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "IrisBarba+q1",
+      "name": "Iris",
+      "lastName": "Valeria Barba Gómez",
+      "fullName": "Iris Valeria Barba Gómez",
+      "email": "irisirisbago@gmail.com",
+      "passwordHash": "$2y$10$B2JeIChMWOFs5ca.dkwatehkgJm0uJ6tKfBDPQZoe09tX6HmuKFzy",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "1999-11-01",
+      "phone": "4741424962",
+      "instagram": "iris_bago",
+      "address": "Calle F #505",
+      "expectations": "Lo prometido en el flayer. Una estructura; planeación, calendario, respeto al tiempo, esfuerzo y dinero de cada integrante. Coordinadores de fijos.",
+      "ambitions": "Seguir capacitándome en mis respectivas profesiones. Hacer de los proyectos sociales una oportunidad de crecimiento para la juventud, las familias y organizaciones. Encontrar mi bienestar biopsicosocial.",
+      "sourceTimestamp": "2026-09-09 13:06:02",
+      "id": "aef5a6c8-dd9d-4de6-8bc4-dd03892822c4",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "IsaacMarquez+q1",
+      "name": "Isaac",
+      "lastName": "Mateo Márquez Ramírez",
+      "fullName": "Isaac Mateo Márquez Ramírez",
+      "email": "isaac.28mqz@gmail.com",
+      "passwordHash": "$2y$10$hlJ39M/sjpDBWOacvAWYV.LEdumP.Cosv3Rc0YBFCvfJEhQuwalNu",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2005-06-28",
+      "phone": "4631060086",
+      "instagram": "I_mmqz._",
+      "address": "San Gerardo. Muro Lucano 211 interior 30A Aguascalientes, Ags.",
+      "expectations": "Menos cambios y poder seguir haciendo un cambio.",
+      "ambitions": "Profesionalmente, quisiera terminar mi carrera, trabajar y hacer diplomados. Y en un futuro tomar una oportunidad laboral fuera del país.",
+      "sourceTimestamp": "2026-09-09 20:09:39",
+      "id": "4c062258-f0b2-4991-9740-94c3e8dbf7dd",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "IsaacRamos+q1",
+      "name": "Isaac",
+      "lastName": "Ramos Valenzuela",
+      "fullName": "Isaac Ramos Valenzuela",
+      "email": "ramos.isaac.v@gmail.com",
+      "passwordHash": "$2y$10$8RTaf48LDTKeubSAHkgoDOsHiu/aZkYPPbVPsF/SMQl80Qj0.iYqS",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "1997-11-19",
+      "phone": "4495373058",
+      "instagram": "No suelo usar",
+      "address": "Las Cuevas #109 Ojocaliente 3",
+      "expectations": "Espero que este programa me brinde herramientas y conocimientos prácticos para fortalecer mis habilidades de liderazgo, tanto a nivel personal como profesional. Me interesa aprender de la experiencia de otros jóvenes y de los facilitadores, así como generar una red de contactos que me permita colaborar en proyectos que impacten positivamente a mi comunidad y a Aguascalientes.",
+      "ambitions": "A corto plazo, mi meta es fortalecer mis capacidades de gestión, comunicación y toma de decisiones, aplicándolas en mi trabajo diario dentro del ámbito jurídico. A largo plazo, aspiro a asumir roles de mayor responsabilidad, ya sea impulsando proyectos propios o participando activamente en iniciativas que contribuyan al desarrollo social y al fortalecimiento institucional desde mi área de especialización.",
+      "sourceTimestamp": "2026-09-09 12:47:59",
+      "id": "e06ebf12-476b-4997-ba96-50448a45ddb7",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "JonathanReyes+q1",
+      "name": "Jonathan",
+      "lastName": "Reyes Reyes",
+      "fullName": "Jonathan Reyes Reyes",
+      "email": "jonathan.reyes.reyes.18@gmail.com",
+      "passwordHash": "$2y$10$rNl3o9RxzfxOTYwTrgmefews9L/nabvrWFxpEPFsDjoDb2gz/pad2",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2026-06-18",
+      "phone": "4498685175",
+      "instagram": "No tengo",
+      "address": "Los Sauces, bahía de banderas 122, Aguascalientes",
+      "expectations": "Qué no lo vuelvan a cambiar",
+      "ambitions": "Estoy emprendiendo un restaurante, quiero abrir antes de que termine octubre",
+      "sourceTimestamp": "2026-09-09 12:50:30",
+      "id": "155c56b8-b892-4628-a93e-792e4a795f55",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "JoseRivera+q1",
+      "name": "José",
+      "lastName": "Alejandro Rivera Velasco",
+      "fullName": "José Alejandro Rivera Velasco",
+      "email": "alejandrorive75@gmail.com",
+      "passwordHash": "$2y$10$MIHF1RgACcQdHOTKuk5/s.NY4Lg07XQDxH4IPKrR5yX9xWLhvIhUy",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2005-06-25",
+      "phone": "4951090136",
+      "instagram": "alex_rivela",
+      "address": "Parque de los naranjos 310, Trojes del sur, 20280, Aguascalientes",
+      "expectations": "Espero adquirir herramientas para aplicar en mi vida y hacer un impacto positivo en la sociedad de Aguascalientes y de México.",
+      "ambitions": "A corto plazo me gustaría adentrarme en el sector turístico y a largo plazo me visualizo dando a conocer la grandeza de aguascalientes con el mundo, demostrando el potencial que tiene nuestro estado",
+      "sourceTimestamp": "2026-09-09 12:29:32",
+      "id": "b187732f-dc68-429b-88f6-07f543c07242",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "JosueVelasco+q1",
+      "name": "Josué",
+      "lastName": "Daniel Velasco García",
+      "fullName": "Josué Daniel Velasco García",
+      "email": "jdanielvelasco.jdvg@gmail.com",
+      "passwordHash": "$2y$10$azChkMzSo4hK9ErnBIvSSe31Ni79s0sa/.50CYkpJIvc6oLRAYSOu",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2005-02-02",
+      "phone": "4499993605",
+      "instagram": "josue_daniel_22",
+      "address": "Ojocaliente I los negritos #203 Aguascalientes",
+      "expectations": "Formar un equipo de trabajo y buena relaciones",
+      "ambitions": "Soy amante de la producción audiovisual, me fascina hablar en público y tratar con las personas, las habilidades sociales son mi fuerte y disfruto mucho de llevarlas a cabo, soy alguien muy relajado.",
+      "sourceTimestamp": "2026-09-09 12:48:02",
+      "id": "31861ce0-1b4f-4ca3-96ba-4208b522c809",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "JuditSantos+q1",
+      "name": "Judit",
+      "lastName": "Santos Martínez",
+      "fullName": "Judit Santos Martínez",
+      "email": "juditsantosmartinez@gmail.com",
+      "passwordHash": "$2y$10$9H6N9xrvYorjxY6q3T52F.7fFPfHkBGNag6VMrEaY2YgQaa/1lhP.",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2001-03-04",
+      "phone": "4493961745",
+      "instagram": "Judit_sanez",
+      "address": "Vivero del jazmín #238 casa blanca",
+      "expectations": "Aprendizaje, crecimiento personal y profesional",
+      "ambitions": "Emprender mi negocio",
+      "sourceTimestamp": "2026-09-09 12:53:04",
+      "id": "eb15cb03-6449-4ce5-9120-caa52bb6d395",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "JudithGarcia+q1",
+      "name": "JUDITH",
+      "lastName": "GUADALUPE GARCIA JIMENEZ",
+      "fullName": "JUDITH GUADALUPE GARCIA JIMENEZ",
+      "email": "judithjimenez103@gmail.com",
+      "passwordHash": "$2y$10$oWZsktrCuv.fKagNsvoj0.VY5g06wXnPKtVbsOMivoIWcGhvXeYTe",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2003-12-12",
+      "phone": "3461120432",
+      "instagram": "jimenez_judith03",
+      "address": "MANZANO 201, JARDINES DE LA CRUZ, C.P. 20250, AGUASCALIENTES, AGS",
+      "expectations": "Desarrollar nuevas habilidades, aprender nuevas cosas, ser parte de una comunidad que te permita desarrollarte aprendiendo de cada uno, crear proyectos que generen un impacto en la comunidad nos rodea.",
+      "ambitions": "Soy una chica de 22 años, que busca crecer de manera profesional pero también de manera personal, busco poder emplear herramientas efectivas en mi entono de trabajo para crear relaciones solidas, buenos equipos de trajo, adquirir nuevas habilidades como por ejemplo de emprendimiento que me permita desarrollar mi idea de negocio y solo eso, involucrar a más personas.",
+      "sourceTimestamp": "2026-09-10 17:19:48",
+      "id": "4aca0c8e-6992-4c84-8934-1b5c6503cc0e",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "JulietaZavala+q1",
+      "name": "Julieta",
+      "lastName": "Zahiri Zavala Pedroza",
+      "fullName": "Julieta Zahiri Zavala Pedroza",
+      "email": "julieta.zavala86@gmail.com",
+      "passwordHash": "$2y$10$jd61YKuwuqL1iKEgGdlWTulF0rB5pKrPHRIT46bz9utM6X0GW3s6m",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2006-03-08",
+      "phone": "4494756608",
+      "instagram": "zahiri_of",
+      "address": "Cto del angel #167, av australis",
+      "expectations": "Que se cumpla con lo prometido en un principio, que las capacitaciones si sean dinamicas y algo que de verdad aporte a cada equipo ya sea que se extienda o no el programa",
+      "ambitions": "Soy una persona creativa, curiosa y muy apasionada por aprender y crear nuevas oportunidades. Me gusta involucrarme en proyectos donde pueda aportar ideas, conectar con otras personas y, al mismo tiempo, seguir descubriendo todo lo que soy capaz de hacer. Una de mis grandes pasiones es el mundo artístico, especialmente la actuación, el teatro musical y el cine, por lo que uno de mis objetivos es seguir preparándome y adquiriendo experiencia para poder desarrollarme profesionalmente en este ámbito. Al mismo tiempo, me interesa mucho el trabajo con jóvenes, la educación y la creación de proyectos que generen un impacto positivo en mi comunidad. A corto plazo, quiero seguir fortaleciendo mis habilidades, participar en nuevos proyectos, ganar experiencia y aprovechar las oportunidades que me permitan crecer tanto personal como profesionalmente. A mediano plazo, me gustaría consolidarme en el ámbito artístico, continuar preparándome y comenzar a construir una trayectoria que me permita combinar mi creatividad, mi formación y mi interés por generar un impacto en los demás. Mi mayor ambición es no limitarme a un solo camino, sino construir una vida profesional en la que pueda hacer cosas que realmente me apasionen, seguir aprendiendo y demostrar que es posible convertir distintas habilidades e intereses en proyectos con propósito.",
+      "sourceTimestamp": "2026-09-09 12:17:02",
+      "id": "53b8953c-0f0c-41b5-a26d-b8b95f480319",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "KarolSanchez+q1",
+      "name": "Karol",
+      "lastName": "Yatziry Sánchez Rodríguez",
+      "fullName": "Karol Yatziry Sánchez Rodríguez",
+      "email": "lic.karolrdz.28@gmail.com",
+      "passwordHash": "$2y$10$5YFQjfHxCGK9WLKkp5TtT.a6YZ5Xcd8uPqm.DT9GHeIAXKYCQCuam",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2003-09-28",
+      "phone": "WhatsApp 4497566396 Tel 4495441373",
+      "instagram": "aro28098",
+      "address": "Agroindustria 600 San Jose del Barranco San Francisco de los Romo, Aguascalientes",
+      "expectations": "Que nos dejen avanzar con nuestros proyectos y que sea más dinámico",
+      "ambitions": "Me fascina siempre aprender algo nuevo, y mi meta a mediano plazo es terminar mi segunda licenciatura, aprender un poco de periodismo, estar en todo el mundo de la comunicación social y política",
+      "sourceTimestamp": "2026-09-09 12:08:54",
+      "id": "aa507b36-c835-486f-b8cc-b69d99f59b0d",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "KevinAguilar+q1",
+      "name": "Kevin",
+      "lastName": "Daniel Aguilar Junco",
+      "fullName": "Kevin Daniel Aguilar Junco",
+      "email": "juncokevin@hotmail.com",
+      "passwordHash": "$2y$10$D/lLbPXS.vgK0B6.ys.i4eTwb9Lxcyd422K8UbeaNbbjDgpd41TbG",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2005-08-29",
+      "phone": "5535464080",
+      "instagram": "https://www.instagram.com/danii_juncoo?stkn=MTZzNGh5NXgzY2Fmbg==",
+      "address": "Juan Jose Arreola 814, lomas de oriente, Aguascalientes",
+      "expectations": "Seguir desarrollando mis habilidades y destrezas, además que el programa me ha funcionado",
+      "ambitions": "Mi principal ambición es poder ayudar a las personas que me rodean con las máximas posibilidades que tengo a mi alcance. Con mi conocimiento me he dedicado gran parte de mi vida a desarrollarme, y he alcanzado a conocer gente de distintos lugares. He conocido lugares que antes no creía que los podría conocer, y he desarrollado experiencias internacionales que quiero traer a mi México y Aguascalientes.",
+      "sourceTimestamp": "2026-09-09 17:10:10",
+      "id": "448313b0-2c43-45d3-9298-fa15e30470b3",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "LizbethHernandez+q1",
+      "name": "Lizbeth",
+      "lastName": "Hernández Reyes",
+      "fullName": "Lizbeth Hernández Reyes",
+      "email": "lizaahernandez45@gmail.com",
+      "passwordHash": "$2y$10$1n4hsVBrHzcXGnQzpQ3Dtur4/jCOMyf6rhKebrpUtxmSJG6CkIpHG",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "1999-09-28",
+      "phone": "4491136233",
+      "instagram": "lizabeth _reyes_20",
+      "address": "Paseos de las haciendas,Paseos del sauce 821, jesús María",
+      "expectations": "Horarios fijos, organización y oportunidades de crecimiento.",
+      "ambitions": "Terminar la maestría, proseguir al doctora y abrir mi propio negocio. Viajar al extranjero",
+      "sourceTimestamp": "2026-09-09 12:11:25",
+      "id": "7fbe9a54-8006-41f1-abcd-20f8544b6483",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "LucianoRamirez+q1",
+      "name": "Luciano",
+      "lastName": "Sebastián Ramirez patiño",
+      "fullName": "Luciano Sebastián Ramirez patiño",
+      "email": "lucianopatino11@gmail.com",
+      "passwordHash": "$2y$10$gP8kbc5URiv/sxFzh9toLuaBUl.cnCt5anRHfViVRB3rIqLW319Qi",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "1997-12-18",
+      "phone": "3315641009",
+      "instagram": "Luciano patino",
+      "address": "La noria 113 lomas del campestre",
+      "expectations": "Crecer profesionalmente",
+      "ambitions": "Crecer p",
+      "sourceTimestamp": "2026-09-09 12:16:18",
+      "id": "0b614a95-2457-4671-91bc-d5890da9b8f2",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "LuisLuna+q1",
+      "name": "Luis",
+      "lastName": "Fernando Luna Pérez",
+      "fullName": "Luis Fernando Luna Pérez",
+      "email": "luis.luna.07@outlook.com",
+      "passwordHash": "$2y$10$Onhwlng/VWLmGVdtYZTFCeS3AxNQaULWwiUlN2v2IujSfEhealo/e",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-07-24",
+      "phone": "4494938039",
+      "instagram": "https://www.instagram.com/luis.lunita?stkn=MWsydnA2azh6cWU0ag==",
+      "address": "Pocitos, av la querencia 134-7 Aguascalientes",
+      "expectations": "Mejorar como persona, contribuir a la sociedad y ser más que un lider",
+      "ambitions": "Contador Público, maestro en fiscal. Trabajar en ámbito gubernamental. Metas a corto plazo estudiar un doctorado fuera del país, largo plazo ser un servidor público gubernamental",
+      "sourceTimestamp": "2026-09-09 15:42:31",
+      "id": "aba9389d-330b-41a8-b3e7-012153c14c72",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "MariaGallegos+q1",
+      "name": "Maria",
+      "lastName": "Estephani Gallegos Jauregui",
+      "fullName": "Maria Estephani Gallegos Jauregui",
+      "email": "fanigallegos73@gmail.com",
+      "passwordHash": "$2y$10$z1c3xPf7fYtqOR488CQIp.NtcVh4JARm0L6.iWFkqY3zkDItY/iPK",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2002-11-12",
+      "phone": "4492886911",
+      "instagram": "musicaparaestudiantea",
+      "address": "Francisco Javier Martínez #226, San José de Buena Vista, San Francisco de los Romo.",
+      "expectations": "Aprender de los ponentes que nos lleven, claridad y precisión con los horarios, anticipación de avisos para cambios de horario importantes, fechas de pago claras y contundentes, consenso y acuerdos por ambas partes y quede en documentos además de acuerdos verbales",
+      "ambitions": "Me gustaría seguir en este programa, seguir aprendiendo de mis compañeros, coordinadores y líderes de este programa Terminar el proyecto con mi equipo, que sea un programa que avance durante los años y no sea un proyecto que quede en “piloto”",
+      "sourceTimestamp": "2026-09-09 14:00:57",
+      "id": "71f4e9d7-d079-4392-9c25-0d48a6ee1aa1",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "MariaTorres+q1",
+      "name": "María",
+      "lastName": "Esther Torres Méndez",
+      "fullName": "María Esther Torres Méndez",
+      "email": "titatorres10000@gmail.com",
+      "passwordHash": "$2y$10$fFwrG4Fb.TrPilUYjUFxFeRjOlsN60hihsb.G0BuLaglzncGEW8H2",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-10-20",
+      "phone": "4491801260",
+      "instagram": "esther.cermundista",
+      "address": "POZO DEL ORO 115, POZO BRAVO SUR",
+      "expectations": "Apoyo en recursos materiales y monetarios para realización de proyectos, asesorías con expertos, vinculación con instituciones gubernamentales y empresas, networking.",
+      "ambitions": "Actualmente soy Presidenta de IMEF Universitario, realizo eventos de diferentes áreas a nivel local, estatal e inclusive regional. Como meta a corto plazo está terminar mi gestión con la mayor vinculación y alianzas posibles, así como realizar eventos de alto impacto estatal, aperturar oportunidades para jovenes estudiantes, etc. Como largo plazo, sería tener una empresa propia, pero aparte de eso seguir con iniciativas sociales que eliminen brechas y puedan brindar más oportunidades a mi comunidad.",
+      "sourceTimestamp": "2026-09-09 12:41:23",
+      "id": "2b7cefed-6008-4676-baba-f272ad35e383",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "MarianaArroyo+q1",
+      "name": "Mariana",
+      "lastName": "Arroyo",
+      "fullName": "Mariana Arroyo",
+      "email": "marianaarroyop@gmail.com",
+      "passwordHash": "$2y$10$0LNiAseSlMFtn9knq8.zx.Crzp1lk.Fh/XYmhGC6.Zv9PbJJ4QLqy",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2000-06-30",
+      "phone": "449201551",
+      "instagram": "Marianaarroyo.-",
+      "address": "San Ignacio 158",
+      "expectations": "Que me ayuden a generar cambios y me ayuden a darle las herramientas a mis personas cercanas y personas que viven cerca de mi para que sumemos y aportemos lo mejor para la ciudad.",
+      "ambitions": "Seguir aprendiendo y lidereando mientras cambiamos y ponemos un granito de arena",
+      "sourceTimestamp": "2026-09-09 19:48:44",
+      "id": "8d155231-ef98-4ef0-bd25-0eac1d2ddb64",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "MarianaMedina+q1",
+      "name": "Mariana",
+      "lastName": "Medina Ruiz",
+      "fullName": "Mariana Medina Ruiz",
+      "email": "marianarue21@icloud.com",
+      "passwordHash": "$2y$10$IRk1MAsQQ63lRlv5GohOz.r2uSfSlQ.bYH1iPMBEcmvbQvCjv0Ze6",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2001-03-21",
+      "phone": "4771457740",
+      "instagram": "Mar_medinar21",
+      "address": "Reserva Santa Mónica 3 av san Antonio",
+      "expectations": "Crecimiento profesional",
+      "ambitions": "Crecimiento personal y profesional Poder contribuir de forma integral y positiva a mi ciudad y estado",
+      "sourceTimestamp": "2026-09-09 21:53:57",
+      "id": "86374a8d-d8bb-4abc-9860-e690acd73d19",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "MarianaGarcia+q1",
+      "name": "Mariana",
+      "lastName": "Venecia García Ortíz",
+      "fullName": "Mariana Venecia García Ortíz",
+      "email": "veneciauniicorn@gmail.com",
+      "passwordHash": "$2y$10$BRzVjIsrMK5RRgfhqq5mceII481rJFg1DXfo.asUV2e.cTLN0BLae",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2002-04-14",
+      "phone": "4494755779",
+      "instagram": "venecia_ortiz",
+      "address": "Cultura Yumana 304 Mirador de las culturas, Aguascalientes, Aguascalientes",
+      "expectations": "Formarme como líder, aprender y desarrollar habilidades de oratoria, educación financiera, imagen personal, comunicación, hacer actividades sociales, conocer personas, aportar mis conocimientos, obtener el apoyo económico.",
+      "ambitions": "Soy una persona sensible que se interesa por las causas sociales, quiero crecer como persona, aprender todo lo que pueda, ayudar a las personas, formarme profesionalmente.",
+      "sourceTimestamp": "2026-09-09 16:09:12",
+      "id": "c72cd12b-01cb-452a-87b0-dc3f0059eea9",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "MelanyEspinoza+q1",
+      "name": "Melany",
+      "lastName": "Guadalupe Espinoza Delgado",
+      "fullName": "Melany Guadalupe Espinoza Delgado",
+      "email": "melany291106@gmail.com",
+      "passwordHash": "$2y$10$ewiK5wpsdVADUxg55Cah2ORttmZkjhEII7S7SM/I6zhkNhn7QtyQu",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2006-11-29",
+      "phone": "4493734383",
+      "instagram": "melanydelgado.29",
+      "address": "Vistas del Sol 3, Nadir 233, Aguascalientes.",
+      "expectations": "Espero seguir desarrollando mis habilidades de liderazgo, comunicación y toma de decisiones y también conocer nuevas perspectivas y aprender de las experiencias de los demás. Quiero aprovechar el programa para salir de mi zona de confort, fortalecer mi confianza y adquirir herramientas que pueda aplicar tanto en mi vida personal como profesional. También me gustaría aportar desde mi experiencia, crear conexiones y crecer junto con otros jóvenes con ganas de generar un impacto positivo.",
+      "ambitions": "Soy una joven responsable, perseverante y con muchas ganas de crecer. Me considero sociable, empática y con iniciativa; disfruto trabajar con otras personas, asumir retos y buscar oportunidades para aprender. Una de mis principales ambiciones es convertirme en una mujer preparada, segura y capaz de liderar proyectos. A corto plazo, quiero fortalecer mis habilidades de liderazgo, comunicación y desarrollo profesional. A largo plazo, quiero consolidarme profesionalmente, emprender y participar en proyectos donde pueda representar, inspirar y abrir oportunidades para otras personas.",
+      "sourceTimestamp": "2026-09-09 16:21:00",
+      "id": "0d7b2911-f49e-43b9-894a-4ea40af2ec8d",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "MelisaReyes+q1",
+      "name": "Melisa",
+      "lastName": "Reyes Montenegro",
+      "fullName": "Melisa Reyes Montenegro",
+      "email": "meli08_rep@hotmail.com",
+      "passwordHash": "$2y$10$d57XBGfxY3Fz8QEahroG3uk4oG25mzzxteFpGGq/lork7fneb5/Km",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "1998-07-21",
+      "phone": "4495773231",
+      "instagram": "meli_montenegro98",
+      "address": "Antonio de luna #110 los pocitos, Aguascalientes",
+      "expectations": "Capacitaciones que pueda poner en práctica",
+      "ambitions": "Estoy trabajando en proyectos relacionados a cultura urbana quiero que lleguen a tener mayor alcance",
+      "sourceTimestamp": "2026-09-09 12:43:57",
+      "id": "4a60b252-1bee-4890-b9f2-b2665ce50ed9",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "MinaPerez+q1",
+      "name": "Mina",
+      "lastName": "Mariana Pérez Soto",
+      "fullName": "Mina Mariana Pérez Soto",
+      "email": "mariana.perezs0708@gmail.com",
+      "passwordHash": "$2y$10$BIotBNJ2PAgdPWQD.gEqmOvsJSNj4tA0GxGLZcYetxhZ/wl0s9buS",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2007-08-01",
+      "phone": "4495785823",
+      "instagram": "Mar_pperezz",
+      "address": "El redondel 128, trojes de oriente l",
+      "expectations": "Aprender mucho, conocer muchas personas y espero haya un mejor trabajo colaborativo",
+      "ambitions": "Uno de mis mayores proyectos a corto plazo es concluir mi licenciatura en Diseño de Interiores e involucrarme en proyectos altamente creativos. En este mismo periodo, aspiro a ser consejera de mi centro universitario para generar un impacto real, implementar cambios significativos y fortalecer mi trayectoria dentro de la institución. A futuro, busco consolidar un emprendimiento enfocado en el diseño floral mediante la apertura de mi propia florería. Asimismo, planeo cursar una maestría en Arquitectura para complementar mi formación integral y, eventualmente, transmitir mis conocimientos a través de la docencia.",
+      "sourceTimestamp": "2026-09-09 21:39:53",
+      "id": "50c4f0ac-d009-4dce-9051-6282d47dd097",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "PaolaRamirez+q1",
+      "name": "Paola",
+      "lastName": "Elizabeth Ramírez López",
+      "fullName": "Paola Elizabeth Ramírez López",
+      "email": "paoloprmz@gmail.com",
+      "passwordHash": "$2y$10$SKq0GVjjmzF4FH.2R.NuNetvImAIcTI.cKnfgZTUN4vii4iJychoe",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2003-01-02",
+      "phone": "4494322499",
+      "instagram": "paolop_02",
+      "address": "Río pirules #120b col. San Pablo. Ags",
+      "expectations": "Espero fortalecer más mis conocimientos y poder demostrar mis habilidades en cuanto a temas sociales, políticos, ambientales y culturales, para accionar en algo que deje huella en la sociedad hidrocálida. Asimismo abrir las posibilidades a encontrar un espacio laboral.",
+      "ambitions": "Lo dije en la pregunta anterior, pero a corto plazo espero ayudar a mi comunidad y obtener apoyo para mi próximo proyecto (contactos, algún tipo de apoyo económico). Y, a largo plazo espero abrir una oportunidad de tipo laboral, ya que soy egresada de la carrera de ciencias políticas y administración pública de la UAA.",
+      "sourceTimestamp": "2026-09-09 22:58:43",
+      "id": "08fc02b8-7f8b-4dc1-9363-cf89b30e491f",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "PiaTrejo+q1",
+      "name": "Pia",
+      "lastName": "Najla Trejo Herández",
+      "fullName": "Pia Najla Trejo Herández",
+      "email": "piatrj@gmail.com",
+      "passwordHash": "$2y$10$u4VFDwLi.gR2WdtqCWj43eUEokFG92LpRHVNA3QkjG5XFjsRdMf1e",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "1998-05-21",
+      "phone": "4493729366",
+      "instagram": "khaliwo / najlatrejo_producer",
+      "address": "Napoles #1107. Residencial del Valle II",
+      "expectations": "tener herramientas de liderazgo para gestionar, coordinar y vincular proyectos artisticos con sector privado a institucional. Así como contar con compañeros que llevan la misma visión en el Arte y Cultura de Aguascalientes.",
+      "ambitions": "Mi nombre es Najla Trejo, soy productora de cine de Aguascalientes y mis ambiciones dentro del medio es que haya no hay industria en el cine, no solo de financiamiento de proyectos, si no de profesionalización para contar con gente capacitada para albergar grandes producciones dentro de la ciudad. Contamos con espacios, instituciones nomas faltan tener mejor profesionalización",
+      "sourceTimestamp": "2026-09-09 14:39:51",
+      "id": "14bdd94a-9762-4f8f-962e-7539810f84b4",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "RobertoMejia+q1",
+      "name": "Roberto",
+      "lastName": "Mejia Ramirez",
+      "fullName": "Roberto Mejia Ramirez",
+      "email": "mejiar077@gmail.com",
+      "passwordHash": "$2y$10$pRNAsL4ulXbF52ZHa2D6ouYQi0dHTUPqGH/sYzLXBZ08mDMIYl/pe",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2002-02-12",
+      "phone": "4493862783",
+      "instagram": "robertoo.mejia",
+      "address": "Mujeres ilustres, Calle carmen macías peña 209, Aguascalientes",
+      "expectations": "Adquirir herramientas que me sirvan para desarrollar proyectos",
+      "ambitions": "Mi ambición principal: Ser un agente de cambio social capaz de combinar la empatía humana con la gestión institucional, dejando una huella positiva en la comunidad y demostrando un liderazgo firme pero cercano. Como estudiante de la licenciatura en trabajo social mis metas a corto plazo están enfocadas totalmente en eso, culminar mi carrera de una manera óptima. Para después en una vida laboral ejercer de la mejor manera",
+      "sourceTimestamp": "2026-09-09 16:50:50",
+      "id": "079771a2-aed4-45e8-8776-93274b043589",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "VictorFlores+q1",
+      "name": "Víctor",
+      "lastName": "Fabián Flores Flores",
+      "fullName": "Víctor Fabián Flores Flores",
+      "email": "victorfabian780@gmail.com",
+      "passwordHash": "$2y$10$noKPWRDqz06wVyug4hvo5e2obnZllyZ6ri5JndhCdEBXkmZV2uEBK",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2004-01-23",
+      "phone": "4497273408",
+      "instagram": "Victorenproceso",
+      "address": "Av perseo 555",
+      "expectations": "Que tenga un buen lineamiento y orden!",
+      "ambitions": "Crecer profesionalmente",
+      "sourceTimestamp": "2026-09-09 18:29:03",
+      "id": "009e4163-a769-4151-9478-a69cfd1938cf",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "VictoriaAcevedo+q1",
+      "name": "Victoria",
+      "lastName": "Edith Acevedo Delgado",
+      "fullName": "Victoria Edith Acevedo Delgado",
+      "email": "victoria.acevedo.prod@gmail.com",
+      "passwordHash": "$2y$10$jCO9qNvpbY8541BDdYuT6uPUZ9QlkH/pdXCdxAj/RggWd4Y9NV9s6",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "1997-01-06",
+      "phone": "4492865331",
+      "instagram": "Victoria.acevedo.prod",
+      "address": "Calzada Santa Fe 136, Santa Fe, Aguascalientes, Ags. CP 20116",
+      "expectations": "Fortalecer mis habilidades de liderazgo. Desarrollar con apoyo del estado de Aguascalientes un proyecto de innovación social.",
+      "ambitions": "Crecer en políticas públicas en cultura y medio ambiente.",
+      "sourceTimestamp": "2026-09-10 12:20:16",
+      "id": "27dcf411-1e6e-4e85-ba3f-1452230b6c0d",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "WendyFlores+q1",
+      "name": "Wendy",
+      "lastName": "Jaqueline Flores Flores",
+      "fullName": "Wendy Jaqueline Flores Flores",
+      "email": "wf7541466@gmail.com",
+      "passwordHash": "$2y$10$gtG5MuZMDcdiIIgTCe.jMufqQ9xGdvQ6EMwGscrIiunn9iOm.Ytym",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2006-05-18",
+      "phone": "4921754812",
+      "instagram": "Jaqueline Flores",
+      "address": "Perseo 555",
+      "expectations": "Espero obtener conocimiento, y ampliar mis habilidades",
+      "ambitions": "Me gustaría mejorar como persona y ampliar mis conocimientos",
+      "sourceTimestamp": "2026-09-09 21:46:46",
+      "id": "339c8ed1-e4fc-43bd-87c8-1fe8aa339917",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "username": "YahairaOrtiz+q1",
+      "name": "Yahaira",
+      "lastName": "Nicole Ortiz Romo",
+      "fullName": "Yahaira Nicole Ortiz Romo",
+      "email": "romojuliana9@gmail.com",
+      "passwordHash": "$2y$10$NrR.5ZWoLDFlKNBmPfMldOk5J1BIDKNh3AYTClSzDP.SS1GTiwgRO",
+      "role": "participant",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "birthDate": "2005-06-03",
+      "phone": "4492659041",
+      "instagram": "iinicxolw",
+      "address": "Edmundo Gamez Orozco #345 Las cañadas c.p:20320 ags, ags",
+      "expectations": "Espero que se nos brinden conocimientos acerca de liderazgo, trabajo en equipo, toma de decisiones, creaciones de proyectos, finanzas, pero que sean capaces de poder capacitarnos lo mejor posible llevando las cosas a la práctica y que siempre se nos escuche y considere",
+      "ambitions": "Me gustaría expandir mis conocimientos acerca de lo que el programa me puede ofrecer y así lograr nuevas habilidades en mí para cumplir mis metas",
+      "sourceTimestamp": "",
+      "id": "7abc22ed-0877-4ab1-8800-39bdc6cbb63d",
+      "createdAt": "2026-09-23T12:09:11-06:00",
+      "updatedAt": "2026-09-23T12:09:11-06:00"
+    },
+    {
+      "id": "ed7d88db-ca91-4e8b-8fe4-8a16396a98bb",
+      "username": "miguellomeli+q1",
+      "name": "miguel",
+      "lastName": "lomeli",
+      "email": "miguelangellomelialonso@gmail.com",
+      "passwordHash": "$2b$10$7bRGnwSYB2b229zxX2SpMOpl4Hyteh6rOCaipLabwtsTEGL41oNCC",
+      "role": "teacher",
+      "status": "active",
+      "theme": "light",
+      "mustChangePassword": true,
+      "createdAt": "2026-09-23T12:14:10-06:00",
+      "updatedAt": "2026-09-23T12:14:10-06:00"
+    }
+  ],
+  "events": [
+    {
+      "id": "330da699-c955-4c6e-941c-b73b57cb40f7",
+      "title": "Taller de Liderazgo",
+      "description": "Actividad de demostración +Q1LÍDER",
+      "date": "2026-09-23",
+      "startTime": "09:00",
+      "endTime": "11:00",
+      "place": "Auditorio",
+      "type": "official",
+      "status": "pending",
+      "priority": "medium",
+      "ownerId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "responsibleId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "participants": [],
+      "checklist": [],
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "3c7e1f46-2660-448d-b47d-f40a56b6e9cc",
+      "title": "Reunión de Coordinadores",
+      "description": "Actividad de demostración +Q1LÍDER",
+      "date": "2026-09-26",
+      "startTime": "16:00",
+      "endTime": "17:30",
+      "place": "Sala de juntas",
+      "type": "official",
+      "status": "pending",
+      "priority": "medium",
+      "ownerId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "responsibleId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "participants": [],
+      "checklist": [],
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "c3291529-1d80-44d9-ac32-8ae3c40412d8",
+      "title": "Actividad Comunitaria",
+      "description": "Actividad de demostración +Q1LÍDER",
+      "date": "2026-09-30",
+      "startTime": "08:00",
+      "endTime": "13:00",
+      "place": "Casa Blanca",
+      "type": "official",
+      "status": "pending",
+      "priority": "medium",
+      "ownerId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "responsibleId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "participants": [],
+      "checklist": [],
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "4e7cd093-1022-4cbe-b37f-f4eecd909fce",
+      "title": "Capacitación +Q1LÍDER",
+      "description": "Actividad de demostración +Q1LÍDER",
+      "date": "2026-10-04",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "place": "Sala de capacitación",
+      "type": "official",
+      "status": "pending",
+      "priority": "medium",
+      "ownerId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "responsibleId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "participants": [],
+      "checklist": [],
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "80502a6f-5090-43d9-9523-0c18ba61cfc9",
+      "title": "Entrega de Proyecto",
+      "description": "Actividad de demostración +Q1LÍDER",
+      "date": "2026-10-09",
+      "startTime": "18:00",
+      "endTime": "19:00",
+      "place": "En línea",
+      "type": "official",
+      "status": "pending",
+      "priority": "medium",
+      "ownerId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "responsibleId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "participants": [],
+      "checklist": [],
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "d02d19a9-490c-4d0e-9c23-1c3e3901af08",
+      "title": "Revisar material del taller",
+      "description": "Tarea demo",
+      "dueDate": "2026-09-22",
+      "priority": "high",
+      "status": "pending",
+      "ownerId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "personal": true,
+      "checklist": [],
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    }
+  ],
+  "materials": [
+    {
+      "id": "8328e500-2ee5-4361-87fe-37c93fe21de4",
+      "name": "Plan del Módulo 1",
+      "description": "Estructura y objetivos generales del módulo.",
+      "category": "Capacitaciones",
+      "contentType": "module_plan",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "authorId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "fileName": null,
+      "originalName": null,
+      "mime": null,
+      "url": null,
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "2bfaf87f-86fb-4b05-b27e-a7e8291d1354",
+      "name": "Guía de estudio complementaria",
+      "description": "Material guía para reforzar los temas principales.",
+      "category": "Capacitaciones",
+      "contentType": "study_guide",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "authorId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "fileName": null,
+      "originalName": null,
+      "mime": null,
+      "url": null,
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "56b84806-0343-4ab6-9239-09f036e12bc4",
+      "name": "Enunciado del caso práctico",
+      "description": "Caso de demostración listo para sustituirse por el contenido real.",
+      "category": "Capacitaciones",
+      "contentType": "case_statement",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "authorId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "fileName": null,
+      "originalName": null,
+      "mime": null,
+      "url": null,
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "936ce21b-cf9a-4b59-afad-c4429b13d11e",
+      "name": "Enunciado práctico para proyecto",
+      "description": "Indicaciones de demostración para el proyecto del módulo.",
+      "category": "Capacitaciones",
+      "contentType": "project_practical",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "authorId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "fileName": null,
+      "originalName": null,
+      "mime": null,
+      "url": null,
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "d9cedbce-5d15-40af-ad1b-ce1048270f3d",
+      "name": "Master class de demostración",
+      "description": "Espacio preparado para cargar o enlazar la clase grabada.",
+      "category": "Capacitaciones",
+      "contentType": "master_class",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "authorId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "fileName": null,
+      "originalName": null,
+      "mime": null,
+      "url": null,
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    }
+  ],
+  "notes": [],
+  "notifications": [
+    {
+      "id": "047332c3-590b-4fd8-a535-550fa0e7a2b8",
+      "userId": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "title": "Bienvenido a +Q1LÍDER",
+      "message": "Tu campus +Q1LÍDER está listo para navegar.",
+      "read": false,
+      "createdAt": "2026-09-21T23:15:04-06:00"
+    }
+  ],
+  "announcements": [
+    {
+      "id": "bb267464-8c1c-4472-acc9-695ba54e306d",
+      "title": "Plataforma lista",
+      "message": "Ya puedes organizar actividades, módulos, materiales, asistencia, exámenes y calificaciones.",
+      "createdAt": "2026-09-21T23:15:04-06:00"
+    }
+  ],
+  "categories": [],
+  "attendanceSessions": [
+    {
+      "id": "50755075-c885-4b98-8015-c0717726f85e",
+      "title": "modulo 1",
+      "date": "2026-09-23",
+      "eventId": null,
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "weekNumber": 1,
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:11:57-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "dbb40e5d-d4b7-4126-ada4-1ebc7cef46d7",
+      "title": "sabdo 26",
+      "date": "2026-09-26",
+      "eventId": null,
+      "moduleId": null,
+      "weekNumber": 1,
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:13:06-06:00",
+      "updatedAt": "2026-09-23T12:13:06-06:00"
+    }
+  ],
+  "attendanceRecords": [
+    {
+      "id": "ce0dee73-07bf-448f-a2a3-c37df424da83",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "49cc69dc-f708-43e6-9b83-283194e4fbb0",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "f9bfeb64-4e19-4abc-873d-bb47a8f93cdf",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "9ee46425-987f-475b-bd72-692b9ec3e0fd",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "39e84161-0ef4-4836-adfd-77f164e6bdd0",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "24a8409e-6491-4501-b452-eeeb41ac00fa",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "82f2c2e2-d433-468e-9862-27f210125f10",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "339c8ed1-e4fc-43bd-87c8-1fe8aa339917",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "3c7afc6e-4d50-4b1c-814c-7dfad387d79e",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "08fc02b8-7f8b-4dc1-9363-cf89b30e491f",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "e2e73aea-5a28-4588-8c73-a66fc11ea8ee",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "c5df413f-672d-47b2-b711-e73fb2e49d65",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "71a1672d-8d9a-4f0e-b48e-8c79cf4b4dc2",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "53b8953c-0f0c-41b5-a26d-b8b95f480319",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "b20f30b3-2e3d-42a0-8a27-e35f91c6a24e",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "079771a2-aed4-45e8-8776-93274b043589",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "fe4160b1-dc4e-4717-85d5-9500939f3101",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "d75f9201-7423-49f8-b2de-4a69bbb2276d",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "4d9e7268-ce03-4650-b3e6-5b8def393d7d",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "3c4b6ab5-3371-4943-b38d-b49c640e3e06",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "d215310a-328a-4a15-a216-3c68fca113ac",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "27dcf411-1e6e-4e85-ba3f-1452230b6c0d",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "9817ce3e-7bc3-4a42-b27d-d31e620dc393",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "e5eeb02c-db5c-4975-a55d-6592f4a8f329",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "7bf8fa53-dd75-4ccd-af06-8ff811eba808",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "dc94a89f-6fb9-4bfa-a73c-be6571a75069",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "13a4ecde-b571-4999-9fdd-16d04de9901e",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "14bdd94a-9762-4f8f-962e-7539810f84b4",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "6dd59ada-7a7f-45f6-9b8c-0ce93bd2c721",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "155c56b8-b892-4628-a93e-792e4a795f55",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "2c14fc61-3e47-458e-9038-8a34a707b0fc",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "a60ae635-314e-4b04-8640-d6b105b0f343",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "e47e12d1-45c8-4ce6-9361-e2318c6675ba",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "8fab8d2e-ee5b-4b95-96af-8bb300894821",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "c0195319-9c33-473b-a29c-4c3995fa559a",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "8b50b12d-67dd-495c-ba82-5547fae46ef7",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "7ef7ec48-3443-40c3-ae98-30561acecb0a",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "e06ebf12-476b-4997-ba96-50448a45ddb7",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "2b27bdfd-69fc-42d8-8142-193825086545",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "7abc22ed-0877-4ab1-8800-39bdc6cbb63d",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "864c0713-5844-4ec0-a724-d81ac07ae4d5",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "aa507b36-c835-486f-b8cc-b69d99f59b0d",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "cbc08099-2d73-4f89-9032-84741f93e127",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "448313b0-2c43-45d3-9298-fa15e30470b3",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "8a3805b5-10e3-4327-a0ff-2f0f73ad683c",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "fcc7bdce-3d0e-4105-901b-ba3a8ff03062",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "a183385b-3bb8-45f7-bee6-254456e9bdc3",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "b187732f-dc68-429b-88f6-07f543c07242",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "e08a7f2b-c175-41d4-8ab2-bb578c9c8943",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "8e532dd3-6699-49f4-89f7-a62e205efb01",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "de368a68-e5d9-44de-bccf-821368a72489",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "8d155231-ef98-4ef0-bd25-0eac1d2ddb64",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "8a236e81-06f2-4267-bd23-0ef8220da479",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "71f4e9d7-d079-4392-9c25-0d48a6ee1aa1",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "4660e86c-066c-4b56-8c3d-b8fa5a6607ad",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "31861ce0-1b4f-4ca3-96ba-4208b522c809",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "13fc7df5-ddb4-4702-9f9b-a317fa14daba",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "cd138e91-1908-45f6-87c0-a061109b1044",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "6a329a22-2958-49f3-8763-9309f13d5e57",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "89f4ba36-3a70-483c-af6f-1446a352c947",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "12f5dcea-7d03-4a29-98a2-72ba0965b6b1",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "eb15cb03-6449-4ce5-9120-caa52bb6d395",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "f802a021-6a7a-4480-8a67-27a690e53de5",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "0d7b2911-f49e-43b9-894a-4ea40af2ec8d",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "c350c033-0b0d-48eb-b2e8-5ca6d2b58963",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "2b7cefed-6008-4676-baba-f272ad35e383",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "d40e52e1-2b3c-4e74-b1d3-2f1acd67cb50",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "b175b82e-656e-4ff8-9468-bcb0859897bc",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "04cbd64e-d640-461f-a6ba-8067a7d2c153",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "773887e5-ebbd-4518-a0ef-3dd512e57629",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "c4a98981-6397-4bec-8aa1-91547c3de2dd",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "e7500b99-0511-48ac-a844-4808b522c430",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "e25659e4-9019-4ce4-8bae-224d87a2251c",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "4c062258-f0b2-4991-9740-94c3e8dbf7dd",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "18005d5e-d077-4343-878c-d4d059c0610f",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "4aca0c8e-6992-4c84-8934-1b5c6503cc0e",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "dec622ea-f4e5-4e8f-85db-0b3ed981d04c",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "c40dce17-a322-44d6-9e06-705752675c8a",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "2e98f0fd-f949-4065-980e-d945633c118a",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "0b614a95-2457-4671-91bc-d5890da9b8f2",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "b06081e3-75ec-4386-a50d-623b2ae7f2f8",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "aba9389d-330b-41a8-b3e7-012153c14c72",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "b0214e9d-3b73-4026-97e6-c491352c8345",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "86374a8d-d8bb-4abc-9860-e690acd73d19",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "cab63f3c-44de-4519-b5ee-2887e219f98c",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "83b82fa3-fb95-487e-82b6-7ff72ccfd0e0",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "34aa8844-11cf-4650-8ec8-cb36ecb2371e",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "aef5a6c8-dd9d-4de6-8bc4-dd03892822c4",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "82985572-0596-453f-9c45-f863427a1f7b",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "4a60b252-1bee-4890-b9f2-b2665ce50ed9",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "2b6f3c4d-65f3-44a5-a078-4a7807c76bbd",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "f954d59c-1315-4940-8db5-6b89cdd6f015",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "45de0a3b-4891-4fbf-b988-1e0e4b3e2682",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "ae958bd9-9875-4c56-b630-a868029d49e3",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "280b7b54-7bdc-4881-8634-cf27c96936c7",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "9b16ee8c-d7ce-4ad8-9a77-344d8a143d16",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "be067151-9ea9-468f-9f07-a150a0c9832b",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "247993a2-9976-4f62-a616-ef97247a7de5",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "3cedcd15-5954-4d94-9787-d1c6ba3d34a2",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "c5cddc13-79e7-4579-a1c3-10ff07477eaa",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "5fda8f0e-c71a-4897-a923-fd8bc10cf223",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "50c4f0ac-d009-4dce-9051-6282d47dd097",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "4b87ee24-58b3-4d7a-9941-ae3aef321193",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "b27adc55-2ef5-4ff6-82e4-7c109b69d9e9",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "098b8778-b4dc-4fd0-b00c-746d1d53f697",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "009e4163-a769-4151-9478-a69cfd1938cf",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "3b0375d4-e871-48cb-81a9-5082b222f3ab",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "6dbde0db-5f11-4c1c-8353-d0b8f1500bc9",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "d6921088-8122-4ab9-b8b7-6cedd2472683",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "7fbe9a54-8006-41f1-abcd-20f8544b6483",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "6127868d-8d83-408e-a054-b542056bf982",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "c72cd12b-01cb-452a-87b0-dc3f0059eea9",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "0e94b0a6-156d-4ded-8739-e2cb3958b87e",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "b5684ee2-d58d-4a79-97d3-814eae23bdb0",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "a50a8663-2ddd-4e57-8252-74cc92fd3a39",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "07646f31-afb7-4812-ba4e-5c24ada91594",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    },
+    {
+      "id": "c41f8f63-4556-4581-94b7-9f94e0b2e0ea",
+      "sessionId": "50755075-c885-4b98-8015-c0717726f85e",
+      "userId": "40cc0293-2a11-4c1c-9a34-34fc30f1a8c3",
+      "status": "present",
+      "note": "",
+      "takenBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-23T12:12:10-06:00",
+      "updatedAt": "2026-09-23T12:12:14-06:00"
+    }
+  ],
+  "materialComments": [],
+  "modules": [
+    {
+      "id": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "number": 1,
+      "title": "Módulo 1",
+      "subtitle": "Semanas 1 y 2",
+      "description": "Unidad formativa de +Q1LÍDER. Personaliza aquí objetivos, contenidos y actividades.",
+      "startWeek": 1,
+      "endWeek": 2,
+      "status": "published",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "0bcbe438-ca69-4237-b616-99f2b32c8124",
+      "number": 2,
+      "title": "Módulo 2",
+      "subtitle": "Semanas 3 y 4",
+      "description": "Unidad formativa de +Q1LÍDER. Personaliza aquí objetivos, contenidos y actividades.",
+      "startWeek": 3,
+      "endWeek": 4,
+      "status": "published",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "547f220a-864f-48fa-9135-4a9d449371f9",
+      "number": 3,
+      "title": "Módulo 3",
+      "subtitle": "Semanas 5 y 6",
+      "description": "Unidad formativa de +Q1LÍDER. Personaliza aquí objetivos, contenidos y actividades.",
+      "startWeek": 5,
+      "endWeek": 6,
+      "status": "published",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "b065cc55-347d-4c64-b51c-1b3fe28cdcc2",
+      "number": 4,
+      "title": "Módulo 4",
+      "subtitle": "Semanas 7 y 8",
+      "description": "Unidad formativa de +Q1LÍDER. Personaliza aquí objetivos, contenidos y actividades.",
+      "startWeek": 7,
+      "endWeek": 8,
+      "status": "published",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "6ef03530-6bdd-40c5-b284-b3df2681b386",
+      "number": 5,
+      "title": "Módulo 5",
+      "subtitle": "Semanas 9 y 10",
+      "description": "Unidad formativa de +Q1LÍDER. Personaliza aquí objetivos, contenidos y actividades.",
+      "startWeek": 9,
+      "endWeek": 10,
+      "status": "published",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "b17bf4a1-380e-46ad-bd4e-d10f011d7873",
+      "number": 6,
+      "title": "Módulo 6",
+      "subtitle": "Semanas 11 y 12",
+      "description": "Unidad formativa de +Q1LÍDER. Personaliza aquí objetivos, contenidos y actividades.",
+      "startWeek": 11,
+      "endWeek": 12,
+      "status": "published",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    }
+  ],
+  "forumPosts": [],
+  "assessments": [
+    {
+      "id": "47a428e0-7207-4724-8fb2-64191bc0e7db",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "title": "Autoevaluación 1",
+      "description": "Autoevaluación de demostración del primer módulo.",
+      "type": "self_assessment",
+      "questions": [
+        {
+          "id": "4ee21898-c716-4416-a33b-fd6e6a5e81bd",
+          "text": "¿Cuál es una característica esencial del liderazgo efectivo?",
+          "options": [
+            "Escucha activa",
+            "Evitar delegar",
+            "Trabajar sin objetivos"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "506438e8-6e11-4e42-962e-84a0470fcd4f",
+          "text": "¿Qué ayuda a organizar mejor un proyecto?",
+          "options": [
+            "No definir responsables",
+            "Definir objetivos y seguimiento",
+            "Cambiar metas diariamente"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "gradeItemId": "60b211e8-68fa-4286-a1cd-a9854d812cce",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "5c5c7d3f-ee36-4998-81cf-e3483e41fbcf",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "title": "Examen final · Módulo 1",
+      "description": "Se desbloquea después de contestar la encuesta del módulo.",
+      "type": "final_exam",
+      "questions": [
+        {
+          "id": "4ee21898-c716-4416-a33b-fd6e6a5e81bd",
+          "text": "¿Cuál es una característica esencial del liderazgo efectivo?",
+          "options": [
+            "Escucha activa",
+            "Evitar delegar",
+            "Trabajar sin objetivos"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "506438e8-6e11-4e42-962e-84a0470fcd4f",
+          "text": "¿Qué ayuda a organizar mejor un proyecto?",
+          "options": [
+            "No definir responsables",
+            "Definir objetivos y seguimiento",
+            "Cambiar metas diariamente"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "gradeItemId": "d89a4483-b0f0-47c4-86a3-4b011db8eecf",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    }
+  ],
+  "assessmentAttempts": [],
+  "surveys": [
+    {
+      "id": "0e2b6c2b-1083-4aeb-a7c0-3ed9be6870b4",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "title": "Encuesta de satisfacción · Módulo 1",
+      "description": "Tu respuesta es obligatoria al cierre de cada módulo y desbloquea el examen final. Contesta con base en tu experiencia real.",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "schemaVersion": 2,
+      "sections": [
+        {
+          "id": "impact",
+          "title": "Pregunta de Impacto Global",
+          "description": "Valora cada afirmación del 1 al 5. 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "questions": [
+            {
+              "id": "impact_transformacion",
+              "type": "likert5",
+              "text": "Transformación Personal: Este programa cambió positivamente la forma en que me comunico y ejecuto proyectos."
+            },
+            {
+              "id": "impact_aplicacion",
+              "type": "likert5",
+              "text": "Aplicación Real: Implementé en mi vida profesional/comunitaria al menos 3 herramientas aprendidas en los módulos."
+            },
+            {
+              "id": "impact_sostenibilidad",
+              "type": "likert5",
+              "text": "Sostenibilidad: Mi Carta a 90 Días sigue activa y mi Par de Rendición de Cuentas me ha ayudado a no abandonar."
+            },
+            {
+              "id": "impact_red",
+              "type": "likert5",
+              "text": "Red de Contactos: Construí alianzas de valor con otros jóvenes ejecutores de Aguascalientes."
+            },
+            {
+              "id": "impact_institucional",
+              "type": "likert5",
+              "text": "Percepción Institucional: Mi percepción sobre el impacto real del IAJU mejoró sustancialmente tras participar."
+            }
+          ]
+        },
+        {
+          "id": "nps",
+          "title": "Pregunta Clave de Recomendación",
+          "description": "0–6 = Detractores · 7–8 = Pasivos · 9–10 = Promotores.",
+          "questions": [
+            {
+              "id": "nps_recomendacion",
+              "type": "nps10",
+              "text": "En una escala de 0 a 10, ¿qué tan probable es que recomiendes este Programa de Liderazgo a un amigo o compañero universitario?"
+            }
+          ]
+        },
+        {
+          "id": "conference",
+          "title": "Evaluación de Conferencias y Masterclasses",
+          "description": "Aplicación inmediata al terminar una Keynote, Masterclass o Conferencia Magistral. Escala: 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "metaFields": [
+            {
+              "id": "conference_title",
+              "label": "Conferencia / ponencia",
+              "type": "text",
+              "placeholder": "Nombre de la ponencia",
+              "required": true
+            },
+            {
+              "id": "speaker_name",
+              "label": "Ponente",
+              "type": "text",
+              "placeholder": "Nombre del conferencista",
+              "required": true
+            },
+            {
+              "id": "conference_date",
+              "label": "Fecha",
+              "type": "date",
+              "required": true
+            }
+          ],
+          "questions": [
+            {
+              "id": "conference_utilidad",
+              "type": "likert5",
+              "text": "Utilidad y Relevancia: El tema expuesto aportó conocimientos novedosos y aplicables a mi liderazgo."
+            },
+            {
+              "id": "conference_dominio",
+              "type": "likert5",
+              "text": "Dominio del Ponente: El conferencista demostró solvencia técnica, preparación y manejo fluido del tema."
+            },
+            {
+              "id": "conference_claridad",
+              "type": "likert5",
+              "text": "Claridad y Dinamismo: La exposición fue ágil, estructurada, mantuvo mi atención y evitó el ‘choro’ acartonado."
+            },
+            {
+              "id": "conference_preguntas",
+              "type": "likert5",
+              "text": "Espacio de Preguntas: El ponente respondió con claridad, respeto y brevedad a las dudas de la audiencia."
+            },
+            {
+              "id": "conference_material",
+              "type": "likert5",
+              "text": "Calidad del Material: Las diapositivas, videos o recursos visuales fueron atractivos y profesionales."
+            },
+            {
+              "id": "conference_reinvitar",
+              "type": "yes_no",
+              "text": "Pregunta Directa: ¿Recomendarías volver a invitar a este ponente para futuras cohortes?"
+            }
+          ]
+        }
+      ],
+      "updatedAt": "2026-09-24T16:39:55+00:00"
+    },
+    {
+      "id": "b879e06f-1e92-43cd-87e5-d02c2e55fb58",
+      "moduleId": "0bcbe438-ca69-4237-b616-99f2b32c8124",
+      "title": "Encuesta de satisfacción · Módulo 2",
+      "description": "Tu respuesta es obligatoria al cierre de cada módulo y desbloquea el examen final. Contesta con base en tu experiencia real.",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "schemaVersion": 2,
+      "sections": [
+        {
+          "id": "impact",
+          "title": "Pregunta de Impacto Global",
+          "description": "Valora cada afirmación del 1 al 5. 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "questions": [
+            {
+              "id": "impact_transformacion",
+              "type": "likert5",
+              "text": "Transformación Personal: Este programa cambió positivamente la forma en que me comunico y ejecuto proyectos."
+            },
+            {
+              "id": "impact_aplicacion",
+              "type": "likert5",
+              "text": "Aplicación Real: Implementé en mi vida profesional/comunitaria al menos 3 herramientas aprendidas en los módulos."
+            },
+            {
+              "id": "impact_sostenibilidad",
+              "type": "likert5",
+              "text": "Sostenibilidad: Mi Carta a 90 Días sigue activa y mi Par de Rendición de Cuentas me ha ayudado a no abandonar."
+            },
+            {
+              "id": "impact_red",
+              "type": "likert5",
+              "text": "Red de Contactos: Construí alianzas de valor con otros jóvenes ejecutores de Aguascalientes."
+            },
+            {
+              "id": "impact_institucional",
+              "type": "likert5",
+              "text": "Percepción Institucional: Mi percepción sobre el impacto real del IAJU mejoró sustancialmente tras participar."
+            }
+          ]
+        },
+        {
+          "id": "nps",
+          "title": "Pregunta Clave de Recomendación",
+          "description": "0–6 = Detractores · 7–8 = Pasivos · 9–10 = Promotores.",
+          "questions": [
+            {
+              "id": "nps_recomendacion",
+              "type": "nps10",
+              "text": "En una escala de 0 a 10, ¿qué tan probable es que recomiendes este Programa de Liderazgo a un amigo o compañero universitario?"
+            }
+          ]
+        },
+        {
+          "id": "conference",
+          "title": "Evaluación de Conferencias y Masterclasses",
+          "description": "Aplicación inmediata al terminar una Keynote, Masterclass o Conferencia Magistral. Escala: 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "metaFields": [
+            {
+              "id": "conference_title",
+              "label": "Conferencia / ponencia",
+              "type": "text",
+              "placeholder": "Nombre de la ponencia",
+              "required": true
+            },
+            {
+              "id": "speaker_name",
+              "label": "Ponente",
+              "type": "text",
+              "placeholder": "Nombre del conferencista",
+              "required": true
+            },
+            {
+              "id": "conference_date",
+              "label": "Fecha",
+              "type": "date",
+              "required": true
+            }
+          ],
+          "questions": [
+            {
+              "id": "conference_utilidad",
+              "type": "likert5",
+              "text": "Utilidad y Relevancia: El tema expuesto aportó conocimientos novedosos y aplicables a mi liderazgo."
+            },
+            {
+              "id": "conference_dominio",
+              "type": "likert5",
+              "text": "Dominio del Ponente: El conferencista demostró solvencia técnica, preparación y manejo fluido del tema."
+            },
+            {
+              "id": "conference_claridad",
+              "type": "likert5",
+              "text": "Claridad y Dinamismo: La exposición fue ágil, estructurada, mantuvo mi atención y evitó el ‘choro’ acartonado."
+            },
+            {
+              "id": "conference_preguntas",
+              "type": "likert5",
+              "text": "Espacio de Preguntas: El ponente respondió con claridad, respeto y brevedad a las dudas de la audiencia."
+            },
+            {
+              "id": "conference_material",
+              "type": "likert5",
+              "text": "Calidad del Material: Las diapositivas, videos o recursos visuales fueron atractivos y profesionales."
+            },
+            {
+              "id": "conference_reinvitar",
+              "type": "yes_no",
+              "text": "Pregunta Directa: ¿Recomendarías volver a invitar a este ponente para futuras cohortes?"
+            }
+          ]
+        }
+      ],
+      "updatedAt": "2026-09-24T16:39:55+00:00"
+    },
+    {
+      "id": "54c02c06-6baf-4a17-bc2e-1eb92eec8a48",
+      "moduleId": "547f220a-864f-48fa-9135-4a9d449371f9",
+      "title": "Encuesta de satisfacción · Módulo 3",
+      "description": "Tu respuesta es obligatoria al cierre de cada módulo y desbloquea el examen final. Contesta con base en tu experiencia real.",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "schemaVersion": 2,
+      "sections": [
+        {
+          "id": "impact",
+          "title": "Pregunta de Impacto Global",
+          "description": "Valora cada afirmación del 1 al 5. 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "questions": [
+            {
+              "id": "impact_transformacion",
+              "type": "likert5",
+              "text": "Transformación Personal: Este programa cambió positivamente la forma en que me comunico y ejecuto proyectos."
+            },
+            {
+              "id": "impact_aplicacion",
+              "type": "likert5",
+              "text": "Aplicación Real: Implementé en mi vida profesional/comunitaria al menos 3 herramientas aprendidas en los módulos."
+            },
+            {
+              "id": "impact_sostenibilidad",
+              "type": "likert5",
+              "text": "Sostenibilidad: Mi Carta a 90 Días sigue activa y mi Par de Rendición de Cuentas me ha ayudado a no abandonar."
+            },
+            {
+              "id": "impact_red",
+              "type": "likert5",
+              "text": "Red de Contactos: Construí alianzas de valor con otros jóvenes ejecutores de Aguascalientes."
+            },
+            {
+              "id": "impact_institucional",
+              "type": "likert5",
+              "text": "Percepción Institucional: Mi percepción sobre el impacto real del IAJU mejoró sustancialmente tras participar."
+            }
+          ]
+        },
+        {
+          "id": "nps",
+          "title": "Pregunta Clave de Recomendación",
+          "description": "0–6 = Detractores · 7–8 = Pasivos · 9–10 = Promotores.",
+          "questions": [
+            {
+              "id": "nps_recomendacion",
+              "type": "nps10",
+              "text": "En una escala de 0 a 10, ¿qué tan probable es que recomiendes este Programa de Liderazgo a un amigo o compañero universitario?"
+            }
+          ]
+        },
+        {
+          "id": "conference",
+          "title": "Evaluación de Conferencias y Masterclasses",
+          "description": "Aplicación inmediata al terminar una Keynote, Masterclass o Conferencia Magistral. Escala: 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "metaFields": [
+            {
+              "id": "conference_title",
+              "label": "Conferencia / ponencia",
+              "type": "text",
+              "placeholder": "Nombre de la ponencia",
+              "required": true
+            },
+            {
+              "id": "speaker_name",
+              "label": "Ponente",
+              "type": "text",
+              "placeholder": "Nombre del conferencista",
+              "required": true
+            },
+            {
+              "id": "conference_date",
+              "label": "Fecha",
+              "type": "date",
+              "required": true
+            }
+          ],
+          "questions": [
+            {
+              "id": "conference_utilidad",
+              "type": "likert5",
+              "text": "Utilidad y Relevancia: El tema expuesto aportó conocimientos novedosos y aplicables a mi liderazgo."
+            },
+            {
+              "id": "conference_dominio",
+              "type": "likert5",
+              "text": "Dominio del Ponente: El conferencista demostró solvencia técnica, preparación y manejo fluido del tema."
+            },
+            {
+              "id": "conference_claridad",
+              "type": "likert5",
+              "text": "Claridad y Dinamismo: La exposición fue ágil, estructurada, mantuvo mi atención y evitó el ‘choro’ acartonado."
+            },
+            {
+              "id": "conference_preguntas",
+              "type": "likert5",
+              "text": "Espacio de Preguntas: El ponente respondió con claridad, respeto y brevedad a las dudas de la audiencia."
+            },
+            {
+              "id": "conference_material",
+              "type": "likert5",
+              "text": "Calidad del Material: Las diapositivas, videos o recursos visuales fueron atractivos y profesionales."
+            },
+            {
+              "id": "conference_reinvitar",
+              "type": "yes_no",
+              "text": "Pregunta Directa: ¿Recomendarías volver a invitar a este ponente para futuras cohortes?"
+            }
+          ]
+        },
+        {
+          "id": "mentor",
+          "title": "Evaluación del Mentor por el Alumno",
+          "description": "Aplicación especial del Módulo 3. Escala: 1 = Deficiente · 5 = Excelente.",
+          "metaFields": [
+            {
+              "id": "mentor_name",
+              "label": "Mentor evaluado",
+              "type": "text",
+              "placeholder": "Nombre del mentor",
+              "required": true
+            }
+          ],
+          "questions": [
+            {
+              "id": "mentor_disponibilidad",
+              "type": "likert5",
+              "text": "Disponibilidad y Puntualidad: ¿El mentor estuvo presente y accesible en los horarios pactados?"
+            },
+            {
+              "id": "mentor_escucha",
+              "type": "likert5",
+              "text": "Escucha Activa y Empatía: ¿Sentiste un espacio seguro, libre de juicio y de confidencialidad para expresar tus límites?"
+            },
+            {
+              "id": "mentor_retroalimentacion",
+              "type": "likert5",
+              "text": "Calidad de la Retroalimentación: ¿Las observaciones del mentor te ayudaron a destrabar problemas reales de tus proyectos?"
+            },
+            {
+              "id": "mentor_autonomia",
+              "type": "likert5",
+              "text": "Respeto a la Autonomía: ¿Te orientó mediante preguntas y herramientas sin imponerte sus decisiones personales?"
+            }
+          ]
+        }
+      ],
+      "updatedAt": "2026-09-24T16:39:55+00:00"
+    },
+    {
+      "id": "9d5ea88c-9fb7-4e1a-a40c-c20f61f37e16",
+      "moduleId": "b065cc55-347d-4c64-b51c-1b3fe28cdcc2",
+      "title": "Encuesta de satisfacción · Módulo 4",
+      "description": "Tu respuesta es obligatoria al cierre de cada módulo y desbloquea el examen final. Contesta con base en tu experiencia real.",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "schemaVersion": 2,
+      "sections": [
+        {
+          "id": "impact",
+          "title": "Pregunta de Impacto Global",
+          "description": "Valora cada afirmación del 1 al 5. 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "questions": [
+            {
+              "id": "impact_transformacion",
+              "type": "likert5",
+              "text": "Transformación Personal: Este programa cambió positivamente la forma en que me comunico y ejecuto proyectos."
+            },
+            {
+              "id": "impact_aplicacion",
+              "type": "likert5",
+              "text": "Aplicación Real: Implementé en mi vida profesional/comunitaria al menos 3 herramientas aprendidas en los módulos."
+            },
+            {
+              "id": "impact_sostenibilidad",
+              "type": "likert5",
+              "text": "Sostenibilidad: Mi Carta a 90 Días sigue activa y mi Par de Rendición de Cuentas me ha ayudado a no abandonar."
+            },
+            {
+              "id": "impact_red",
+              "type": "likert5",
+              "text": "Red de Contactos: Construí alianzas de valor con otros jóvenes ejecutores de Aguascalientes."
+            },
+            {
+              "id": "impact_institucional",
+              "type": "likert5",
+              "text": "Percepción Institucional: Mi percepción sobre el impacto real del IAJU mejoró sustancialmente tras participar."
+            }
+          ]
+        },
+        {
+          "id": "nps",
+          "title": "Pregunta Clave de Recomendación",
+          "description": "0–6 = Detractores · 7–8 = Pasivos · 9–10 = Promotores.",
+          "questions": [
+            {
+              "id": "nps_recomendacion",
+              "type": "nps10",
+              "text": "En una escala de 0 a 10, ¿qué tan probable es que recomiendes este Programa de Liderazgo a un amigo o compañero universitario?"
+            }
+          ]
+        },
+        {
+          "id": "conference",
+          "title": "Evaluación de Conferencias y Masterclasses",
+          "description": "Aplicación inmediata al terminar una Keynote, Masterclass o Conferencia Magistral. Escala: 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "metaFields": [
+            {
+              "id": "conference_title",
+              "label": "Conferencia / ponencia",
+              "type": "text",
+              "placeholder": "Nombre de la ponencia",
+              "required": true
+            },
+            {
+              "id": "speaker_name",
+              "label": "Ponente",
+              "type": "text",
+              "placeholder": "Nombre del conferencista",
+              "required": true
+            },
+            {
+              "id": "conference_date",
+              "label": "Fecha",
+              "type": "date",
+              "required": true
+            }
+          ],
+          "questions": [
+            {
+              "id": "conference_utilidad",
+              "type": "likert5",
+              "text": "Utilidad y Relevancia: El tema expuesto aportó conocimientos novedosos y aplicables a mi liderazgo."
+            },
+            {
+              "id": "conference_dominio",
+              "type": "likert5",
+              "text": "Dominio del Ponente: El conferencista demostró solvencia técnica, preparación y manejo fluido del tema."
+            },
+            {
+              "id": "conference_claridad",
+              "type": "likert5",
+              "text": "Claridad y Dinamismo: La exposición fue ágil, estructurada, mantuvo mi atención y evitó el ‘choro’ acartonado."
+            },
+            {
+              "id": "conference_preguntas",
+              "type": "likert5",
+              "text": "Espacio de Preguntas: El ponente respondió con claridad, respeto y brevedad a las dudas de la audiencia."
+            },
+            {
+              "id": "conference_material",
+              "type": "likert5",
+              "text": "Calidad del Material: Las diapositivas, videos o recursos visuales fueron atractivos y profesionales."
+            },
+            {
+              "id": "conference_reinvitar",
+              "type": "yes_no",
+              "text": "Pregunta Directa: ¿Recomendarías volver a invitar a este ponente para futuras cohortes?"
+            }
+          ]
+        }
+      ],
+      "updatedAt": "2026-09-24T16:39:55+00:00"
+    },
+    {
+      "id": "4353d94a-db71-459c-9b31-ba986f81cbb5",
+      "moduleId": "6ef03530-6bdd-40c5-b284-b3df2681b386",
+      "title": "Encuesta de satisfacción · Módulo 5",
+      "description": "Tu respuesta es obligatoria al cierre de cada módulo y desbloquea el examen final. Contesta con base en tu experiencia real.",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "schemaVersion": 2,
+      "sections": [
+        {
+          "id": "impact",
+          "title": "Pregunta de Impacto Global",
+          "description": "Valora cada afirmación del 1 al 5. 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "questions": [
+            {
+              "id": "impact_transformacion",
+              "type": "likert5",
+              "text": "Transformación Personal: Este programa cambió positivamente la forma en que me comunico y ejecuto proyectos."
+            },
+            {
+              "id": "impact_aplicacion",
+              "type": "likert5",
+              "text": "Aplicación Real: Implementé en mi vida profesional/comunitaria al menos 3 herramientas aprendidas en los módulos."
+            },
+            {
+              "id": "impact_sostenibilidad",
+              "type": "likert5",
+              "text": "Sostenibilidad: Mi Carta a 90 Días sigue activa y mi Par de Rendición de Cuentas me ha ayudado a no abandonar."
+            },
+            {
+              "id": "impact_red",
+              "type": "likert5",
+              "text": "Red de Contactos: Construí alianzas de valor con otros jóvenes ejecutores de Aguascalientes."
+            },
+            {
+              "id": "impact_institucional",
+              "type": "likert5",
+              "text": "Percepción Institucional: Mi percepción sobre el impacto real del IAJU mejoró sustancialmente tras participar."
+            }
+          ]
+        },
+        {
+          "id": "nps",
+          "title": "Pregunta Clave de Recomendación",
+          "description": "0–6 = Detractores · 7–8 = Pasivos · 9–10 = Promotores.",
+          "questions": [
+            {
+              "id": "nps_recomendacion",
+              "type": "nps10",
+              "text": "En una escala de 0 a 10, ¿qué tan probable es que recomiendes este Programa de Liderazgo a un amigo o compañero universitario?"
+            }
+          ]
+        },
+        {
+          "id": "conference",
+          "title": "Evaluación de Conferencias y Masterclasses",
+          "description": "Aplicación inmediata al terminar una Keynote, Masterclass o Conferencia Magistral. Escala: 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "metaFields": [
+            {
+              "id": "conference_title",
+              "label": "Conferencia / ponencia",
+              "type": "text",
+              "placeholder": "Nombre de la ponencia",
+              "required": true
+            },
+            {
+              "id": "speaker_name",
+              "label": "Ponente",
+              "type": "text",
+              "placeholder": "Nombre del conferencista",
+              "required": true
+            },
+            {
+              "id": "conference_date",
+              "label": "Fecha",
+              "type": "date",
+              "required": true
+            }
+          ],
+          "questions": [
+            {
+              "id": "conference_utilidad",
+              "type": "likert5",
+              "text": "Utilidad y Relevancia: El tema expuesto aportó conocimientos novedosos y aplicables a mi liderazgo."
+            },
+            {
+              "id": "conference_dominio",
+              "type": "likert5",
+              "text": "Dominio del Ponente: El conferencista demostró solvencia técnica, preparación y manejo fluido del tema."
+            },
+            {
+              "id": "conference_claridad",
+              "type": "likert5",
+              "text": "Claridad y Dinamismo: La exposición fue ágil, estructurada, mantuvo mi atención y evitó el ‘choro’ acartonado."
+            },
+            {
+              "id": "conference_preguntas",
+              "type": "likert5",
+              "text": "Espacio de Preguntas: El ponente respondió con claridad, respeto y brevedad a las dudas de la audiencia."
+            },
+            {
+              "id": "conference_material",
+              "type": "likert5",
+              "text": "Calidad del Material: Las diapositivas, videos o recursos visuales fueron atractivos y profesionales."
+            },
+            {
+              "id": "conference_reinvitar",
+              "type": "yes_no",
+              "text": "Pregunta Directa: ¿Recomendarías volver a invitar a este ponente para futuras cohortes?"
+            }
+          ]
+        }
+      ],
+      "updatedAt": "2026-09-24T16:39:55+00:00"
+    },
+    {
+      "id": "ee09ce8d-0293-47cf-bed1-7322dab6a3b2",
+      "moduleId": "b17bf4a1-380e-46ad-bd4e-d10f011d7873",
+      "title": "Encuesta de satisfacción · Módulo 6",
+      "description": "Tu respuesta es obligatoria al cierre de cada módulo y desbloquea el examen final. Contesta con base en tu experiencia real.",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "schemaVersion": 2,
+      "sections": [
+        {
+          "id": "impact",
+          "title": "Pregunta de Impacto Global",
+          "description": "Valora cada afirmación del 1 al 5. 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "questions": [
+            {
+              "id": "impact_transformacion",
+              "type": "likert5",
+              "text": "Transformación Personal: Este programa cambió positivamente la forma en que me comunico y ejecuto proyectos."
+            },
+            {
+              "id": "impact_aplicacion",
+              "type": "likert5",
+              "text": "Aplicación Real: Implementé en mi vida profesional/comunitaria al menos 3 herramientas aprendidas en los módulos."
+            },
+            {
+              "id": "impact_sostenibilidad",
+              "type": "likert5",
+              "text": "Sostenibilidad: Mi Carta a 90 Días sigue activa y mi Par de Rendición de Cuentas me ha ayudado a no abandonar."
+            },
+            {
+              "id": "impact_red",
+              "type": "likert5",
+              "text": "Red de Contactos: Construí alianzas de valor con otros jóvenes ejecutores de Aguascalientes."
+            },
+            {
+              "id": "impact_institucional",
+              "type": "likert5",
+              "text": "Percepción Institucional: Mi percepción sobre el impacto real del IAJU mejoró sustancialmente tras participar."
+            }
+          ]
+        },
+        {
+          "id": "nps",
+          "title": "Pregunta Clave de Recomendación",
+          "description": "0–6 = Detractores · 7–8 = Pasivos · 9–10 = Promotores.",
+          "questions": [
+            {
+              "id": "nps_recomendacion",
+              "type": "nps10",
+              "text": "En una escala de 0 a 10, ¿qué tan probable es que recomiendes este Programa de Liderazgo a un amigo o compañero universitario?"
+            }
+          ]
+        },
+        {
+          "id": "conference",
+          "title": "Evaluación de Conferencias y Masterclasses",
+          "description": "Aplicación inmediata al terminar una Keynote, Masterclass o Conferencia Magistral. Escala: 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+          "metaFields": [
+            {
+              "id": "conference_title",
+              "label": "Conferencia / ponencia",
+              "type": "text",
+              "placeholder": "Nombre de la ponencia",
+              "required": true
+            },
+            {
+              "id": "speaker_name",
+              "label": "Ponente",
+              "type": "text",
+              "placeholder": "Nombre del conferencista",
+              "required": true
+            },
+            {
+              "id": "conference_date",
+              "label": "Fecha",
+              "type": "date",
+              "required": true
+            }
+          ],
+          "questions": [
+            {
+              "id": "conference_utilidad",
+              "type": "likert5",
+              "text": "Utilidad y Relevancia: El tema expuesto aportó conocimientos novedosos y aplicables a mi liderazgo."
+            },
+            {
+              "id": "conference_dominio",
+              "type": "likert5",
+              "text": "Dominio del Ponente: El conferencista demostró solvencia técnica, preparación y manejo fluido del tema."
+            },
+            {
+              "id": "conference_claridad",
+              "type": "likert5",
+              "text": "Claridad y Dinamismo: La exposición fue ágil, estructurada, mantuvo mi atención y evitó el ‘choro’ acartonado."
+            },
+            {
+              "id": "conference_preguntas",
+              "type": "likert5",
+              "text": "Espacio de Preguntas: El ponente respondió con claridad, respeto y brevedad a las dudas de la audiencia."
+            },
+            {
+              "id": "conference_material",
+              "type": "likert5",
+              "text": "Calidad del Material: Las diapositivas, videos o recursos visuales fueron atractivos y profesionales."
+            },
+            {
+              "id": "conference_reinvitar",
+              "type": "yes_no",
+              "text": "Pregunta Directa: ¿Recomendarías volver a invitar a este ponente para futuras cohortes?"
+            }
+          ]
+        },
+        {
+          "id": "mentor",
+          "title": "Evaluación del Mentor por el Alumno",
+          "description": "Aplicación especial del Módulo 6. Escala: 1 = Deficiente · 5 = Excelente.",
+          "metaFields": [
+            {
+              "id": "mentor_name",
+              "label": "Mentor evaluado",
+              "type": "text",
+              "placeholder": "Nombre del mentor",
+              "required": true
+            }
+          ],
+          "questions": [
+            {
+              "id": "mentor_disponibilidad",
+              "type": "likert5",
+              "text": "Disponibilidad y Puntualidad: ¿El mentor estuvo presente y accesible en los horarios pactados?"
+            },
+            {
+              "id": "mentor_escucha",
+              "type": "likert5",
+              "text": "Escucha Activa y Empatía: ¿Sentiste un espacio seguro, libre de juicio y de confidencialidad para expresar tus límites?"
+            },
+            {
+              "id": "mentor_retroalimentacion",
+              "type": "likert5",
+              "text": "Calidad de la Retroalimentación: ¿Las observaciones del mentor te ayudaron a destrabar problemas reales de tus proyectos?"
+            },
+            {
+              "id": "mentor_autonomia",
+              "type": "likert5",
+              "text": "Respeto a la Autonomía: ¿Te orientó mediante preguntas y herramientas sin imponerte sus decisiones personales?"
+            }
+          ]
+        }
+      ],
+      "updatedAt": "2026-09-24T16:39:55+00:00"
+    }
+  ],
+  "surveyResponses": [],
+  "gradeItems": [
+    {
+      "id": "71d8a71a-2d32-487c-8755-c5d6d67a7d55",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "title": "Caso práctico",
+      "type": "case",
+      "weight": 30,
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "60b211e8-68fa-4286-a1cd-a9854d812cce",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "title": "Autoevaluación 1",
+      "type": "self_assessment",
+      "weight": 20,
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "d89a4483-b0f0-47c4-86a3-4b011db8eecf",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "title": "Examen final",
+      "type": "final_exam",
+      "weight": 50,
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-21T23:15:04-06:00",
+      "updatedAt": "2026-09-21T23:15:04-06:00"
+    }
+  ],
+  "grades": [],
+  "submissions": []
+}

@@ -151,6 +151,97 @@
     </div>
   </section>
 
-  <section id="encuesta" class="moduleSection surveySection"><div class="panel"><span class="eyebrow">REQUISITO DE CIERRE</span><h2>Encuesta del módulo</h2>{% if current_user.role=='participant' %}{% if survey_done %}<div class="surveyComplete"><b>✓ Encuesta completada</b><p>El examen final se encuentra desbloqueado.</p></div>{% elif survey %}<p>{{ survey.description }}</p><form method="post" action="{{ url_for('submit_survey', module_id=module.id) }}">{% for q in survey.questions %}<label>{{ loop.index }}. {{ q.text }}{% if q.type=='rating' %}<select name="q_{{ q.id }}" required><option value="">Selecciona</option>{% for n in range(1,6) %}<option value="{{ n }}">{{ n }} / 5</option>{% endfor %}</select>{% else %}<textarea name="q_{{ q.id }}" required></textarea>{% endif %}</label>{% endfor %}<button class="primaryButton">Enviar encuesta y desbloquear examen final</button></form>{% endif %}{% else %}<p>Los alumnos deben completar esta encuesta antes de poder abrir el examen final.</p>{% endif %}</div></section>
+  <section id="encuesta" class="moduleSection surveySection">
+    <div class="panel satisfactionPanel">
+      <div class="surveyHeader">
+        <div>
+          <span class="eyebrow">REQUISITO DE CIERRE</span>
+          <h2>{{ survey.title if survey else 'Encuesta de satisfacción' }}</h2>
+          <p>{{ survey.description if survey else 'Completa la encuesta para desbloquear el examen final.' }}</p>
+        </div>
+        {% if survey %}<span class="surveyModuleBadge">{{ module.title }}</span>{% endif %}
+      </div>
+
+      {% if current_user.role=='participant' %}
+        {% if survey_done %}
+          <div class="surveyComplete">
+            <b>✓ Encuesta de satisfacción completada</b>
+            <p>Tu respuesta quedó registrada y el examen final se encuentra desbloqueado.</p>
+          </div>
+        {% elif survey %}
+          <form class="satisfactionForm" method="post" action="{{ url_for('submit_survey', module_id=module.id) }}">
+            {% for section in survey.sections %}
+              {% if section.id != 'mentor' or module.number|int in [3,6] %}
+              <article class="surveyBlock surveyBlock-{{ section.id }}">
+                <div class="surveyBlockHead">
+                  <span class="surveyStep">{{ loop.index }}</span>
+                  <div><h3>{{ section.title }}</h3><p>{{ section.description }}</p></div>
+                </div>
+
+                {% if section.metaFields %}
+                  <div class="surveyMetaGrid">
+                    {% for field in section.metaFields %}
+                      <label>{{ field.label }}
+                        <input type="{{ field.type }}" name="meta_{{ field.id }}" placeholder="{{ field.placeholder or '' }}" {% if field.required %}required{% endif %}>
+                      </label>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                <div class="surveyQuestions">
+                  {% for q in section.questions %}
+                    <fieldset class="surveyQuestion">
+                      <legend><b>{{ loop.index }}.</b> {{ q.text }}</legend>
+
+                      {% if q.type=='likert5' %}
+                        <div class="ratingScale ratingScale5" role="radiogroup" aria-label="Escala de 1 a 5">
+                          {% for n in range(1,6) %}
+                            <label class="ratingChoice">
+                              <input type="radio" name="q_{{ q.id }}" value="{{ n }}" required>
+                              <span>{{ n }}</span>
+                            </label>
+                          {% endfor %}
+                        </div>
+                        <div class="scaleLegend"><span>1 · Bajo / desacuerdo</span><span>5 · Alto / acuerdo</span></div>
+
+                      {% elif q.type=='nps10' %}
+                        <div class="ratingScale npsScale" role="radiogroup" aria-label="Escala de recomendación de 0 a 10">
+                          {% for n in range(0,11) %}
+                            <label class="ratingChoice npsChoice">
+                              <input type="radio" name="q_{{ q.id }}" value="{{ n }}" required>
+                              <span>{{ n }}</span>
+                            </label>
+                          {% endfor %}
+                        </div>
+                        <div class="npsLegend"><span class="detractor">0–6 · Detractores</span><span class="passive">7–8 · Pasivos</span><span class="promoter">9–10 · Promotores</span></div>
+
+                      {% elif q.type=='yes_no' %}
+                        <div class="yesNoScale" role="radiogroup">
+                          <label><input type="radio" name="q_{{ q.id }}" value="yes" required><span>✓ Sí</span></label>
+                          <label><input type="radio" name="q_{{ q.id }}" value="no" required><span>× No</span></label>
+                        </div>
+                      {% endif %}
+                    </fieldset>
+                  {% endfor %}
+                </div>
+              </article>
+              {% endif %}
+            {% endfor %}
+
+            <div class="surveySubmitBar">
+              <div><b>Último paso del módulo</b><small>Al enviar, tu respuesta quedará registrada y se desbloqueará el examen final.</small></div>
+              <button class="primaryButton" type="submit">Enviar encuesta y desbloquear examen final</button>
+            </div>
+          </form>
+        {% endif %}
+      {% else %}
+        <div class="staffSurveyInfo">
+          <b>Encuesta obligatoria por módulo</b>
+          <p>Los alumnos deben responder la encuesta de satisfacción antes de poder abrir el examen final. En los módulos 3 y 6 también se incluye la evaluación del mentor.</p>
+          <a class="secondaryButton linkAsButton" href="{{ url_for('survey_results', module_id=module.id) }}">Ver respuestas y resultados</a>
+        </div>
+      {% endif %}
+    </div>
+  </section>
 </div>
 {% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Resultados de encuesta · {{ module.title }}{% endblock %}
+{% block content %}
+<div class="page surveyResultsPage">
+  <div class="titleRow">
+    <div><a class="backLink" href="{{ url_for('module_detail', module_id=module.id) }}#encuesta">← Volver al módulo</a><h1>Resultados de satisfacción</h1><p>{{ module.title }} · {{ survey.title }}</p></div>
+  </div>
+
+  <div class="surveyResultStats">
+    <article><span>Respuestas</span><b>{{ summary.responses }}</b></article>
+    <article><span>Impacto global</span><b>{{ summary.impactAverage if summary.impactAverage is not none else '—' }}</b><small>/ 5</small></article>
+    <article><span>Conferencia / Masterclass</span><b>{{ summary.conferenceAverage if summary.conferenceAverage is not none else '—' }}</b><small>/ 5</small></article>
+    <article><span>NPS</span><b>{{ summary.npsScore if summary.npsScore is not none else '—' }}</b><small>Prom. {{ summary.promoters }} · Pas. {{ summary.passives }} · Det. {{ summary.detractors }}</small></article>
+    {% if module.number|int in [3,6] %}<article><span>Evaluación de mentor</span><b>{{ summary.mentorAverage if summary.mentorAverage is not none else '—' }}</b><small>/ 5</small></article>{% endif %}
+  </div>
+
+  <div class="surveyResponseList">
+    {% for row in rows %}
+    <article class="surveyResponseCard">
+      <div class="surveyResponseIdentity"><div class="avatar">{{ row.student[0] }}</div><div><b>{{ row.student }}</b><small>@{{ row.username }} · {{ row.createdAt[:16].replace('T',' ') }}</small></div></div>
+      <div class="surveyResponseMetrics">
+        <span><small>Impacto</small><b>{{ row.impactAverage or '—' }}/5</b></span>
+        <span><small>NPS</small><b>{{ row.nps if row.nps is not none else '—' }}</b><em class="npsTag {{ row.npsGroup|lower }}">{{ row.npsGroup }}</em></span>
+        <span><small>Masterclass</small><b>{{ row.conferenceAverage or '—' }}/5</b></span>
+        {% if module.number|int in [3,6] %}<span><small>Mentor</small><b>{{ row.mentorAverage or '—' }}/5</b></span>{% endif %}
+      </div>
+      <div class="surveyResponseContext">
+        <p><b>Ponencia:</b> {{ row.conferenceTitle or '—' }}</p><p><b>Ponente:</b> {{ row.speakerName or '—' }}</p><p><b>Fecha:</b> {{ row.conferenceDate or '—' }}</p><p><b>¿Reinvitar?</b> {{ 'Sí' if row.reinvite=='yes' else ('No' if row.reinvite=='no' else '—') }}</p>
+        {% if module.number|int in [3,6] %}<p><b>Mentor:</b> {{ row.mentorName or '—' }}</p>{% endif %}
+      </div>
+    </article>
+    {% else %}
+      <div class="empty">Todavía no hay respuestas de satisfacción para este módulo.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

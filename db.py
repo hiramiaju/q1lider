@@ -199,6 +199,82 @@ def ensure_roster_seed(db: dict[str, Any]) -> bool:
     return changed
 
 
+SATISFACTION_SURVEY_SCHEMA_VERSION = 2
+
+
+def build_satisfaction_survey(module: dict[str, Any], admin_id: str | None = None, survey_id: str | None = None, created_at: str | None = None) -> dict[str, Any]:
+    """Build the official +Q1LÍDER satisfaction survey used at the end of every module."""
+    module_number = int(module.get("number") or 0)
+    sections: list[dict[str, Any]] = [
+        {
+            "id": "impact",
+            "title": "Pregunta de Impacto Global",
+            "description": "Valora cada afirmación del 1 al 5. 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+            "questions": [
+                {"id": "impact_transformacion", "type": "likert5", "text": "Transformación Personal: Este programa cambió positivamente la forma en que me comunico y ejecuto proyectos."},
+                {"id": "impact_aplicacion", "type": "likert5", "text": "Aplicación Real: Implementé en mi vida profesional/comunitaria al menos 3 herramientas aprendidas en los módulos."},
+                {"id": "impact_sostenibilidad", "type": "likert5", "text": "Sostenibilidad: Mi Carta a 90 Días sigue activa y mi Par de Rendición de Cuentas me ha ayudado a no abandonar."},
+                {"id": "impact_red", "type": "likert5", "text": "Red de Contactos: Construí alianzas de valor con otros jóvenes ejecutores de Aguascalientes."},
+                {"id": "impact_institucional", "type": "likert5", "text": "Percepción Institucional: Mi percepción sobre el impacto real del IAJU mejoró sustancialmente tras participar."},
+            ],
+        },
+        {
+            "id": "nps",
+            "title": "Pregunta Clave de Recomendación",
+            "description": "0–6 = Detractores · 7–8 = Pasivos · 9–10 = Promotores.",
+            "questions": [
+                {"id": "nps_recomendacion", "type": "nps10", "text": "En una escala de 0 a 10, ¿qué tan probable es que recomiendes este Programa de Liderazgo a un amigo o compañero universitario?"},
+            ],
+        },
+        {
+            "id": "conference",
+            "title": "Evaluación de Conferencias y Masterclasses",
+            "description": "Aplicación inmediata al terminar una Keynote, Masterclass o Conferencia Magistral. Escala: 1 = Totalmente en desacuerdo · 3 = Neutral · 5 = Totalmente de acuerdo.",
+            "metaFields": [
+                {"id": "conference_title", "label": "Conferencia / ponencia", "type": "text", "placeholder": "Nombre de la ponencia", "required": True},
+                {"id": "speaker_name", "label": "Ponente", "type": "text", "placeholder": "Nombre del conferencista", "required": True},
+                {"id": "conference_date", "label": "Fecha", "type": "date", "required": True},
+            ],
+            "questions": [
+                {"id": "conference_utilidad", "type": "likert5", "text": "Utilidad y Relevancia: El tema expuesto aportó conocimientos novedosos y aplicables a mi liderazgo."},
+                {"id": "conference_dominio", "type": "likert5", "text": "Dominio del Ponente: El conferencista demostró solvencia técnica, preparación y manejo fluido del tema."},
+                {"id": "conference_claridad", "type": "likert5", "text": "Claridad y Dinamismo: La exposición fue ágil, estructurada, mantuvo mi atención y evitó el ‘choro’ acartonado."},
+                {"id": "conference_preguntas", "type": "likert5", "text": "Espacio de Preguntas: El ponente respondió con claridad, respeto y brevedad a las dudas de la audiencia."},
+                {"id": "conference_material", "type": "likert5", "text": "Calidad del Material: Las diapositivas, videos o recursos visuales fueron atractivos y profesionales."},
+                {"id": "conference_reinvitar", "type": "yes_no", "text": "Pregunta Directa: ¿Recomendarías volver a invitar a este ponente para futuras cohortes?"},
+            ],
+        },
+    ]
+    if module_number in {3, 6}:
+        sections.append(
+            {
+                "id": "mentor",
+                "title": "Evaluación del Mentor por el Alumno",
+                "description": f"Aplicación especial del Módulo {module_number}. Escala: 1 = Deficiente · 5 = Excelente.",
+                "metaFields": [
+                    {"id": "mentor_name", "label": "Mentor evaluado", "type": "text", "placeholder": "Nombre del mentor", "required": True},
+                ],
+                "questions": [
+                    {"id": "mentor_disponibilidad", "type": "likert5", "text": "Disponibilidad y Puntualidad: ¿El mentor estuvo presente y accesible en los horarios pactados?"},
+                    {"id": "mentor_escucha", "type": "likert5", "text": "Escucha Activa y Empatía: ¿Sentiste un espacio seguro, libre de juicio y de confidencialidad para expresar tus límites?"},
+                    {"id": "mentor_retroalimentacion", "type": "likert5", "text": "Calidad de la Retroalimentación: ¿Las observaciones del mentor te ayudaron a destrabar problemas reales de tus proyectos?"},
+                    {"id": "mentor_autonomia", "type": "likert5", "text": "Respeto a la Autonomía: ¿Te orientó mediante preguntas y herramientas sin imponerte sus decisiones personales?"},
+                ],
+            }
+        )
+    return {
+        "id": survey_id or new_id(),
+        "moduleId": module["id"],
+        "schemaVersion": SATISFACTION_SURVEY_SCHEMA_VERSION,
+        "title": f"Encuesta de satisfacción · {module['title']}",
+        "description": "Tu respuesta es obligatoria al cierre de cada módulo y desbloquea el examen final. Contesta con base en tu experiencia real.",
+        "sections": sections,
+        "createdBy": admin_id,
+        "createdAt": created_at or now_iso(),
+        "updatedAt": now_iso(),
+    }
+
+
 def ensure_academic_seed(db: dict[str, Any], admin_id: str | None = None) -> bool:
     """Add academic structures to old databases without removing any existing information."""
     changed = False
@@ -223,24 +299,21 @@ def ensure_academic_seed(db: dict[str, Any], admin_id: str | None = None) -> boo
             )
         changed = True
 
-    # Every module gets one default satisfaction survey. It is the gate for the final exam.
+    # Every module has the official satisfaction survey. Existing v1 surveys are upgraded in place.
     for module in db["modules"]:
-        if not any(s.get("moduleId") == module.get("id") for s in db["surveys"]):
-            db["surveys"].append(
-                {
-                    "id": new_id(),
-                    "moduleId": module["id"],
-                    "title": f"Encuesta de cierre · {module['title']}",
-                    "description": "Completa esta encuesta para desbloquear el examen final del módulo.",
-                    "questions": [
-                        {"id": new_id(), "text": "¿Qué tan útil te resultó el módulo?", "type": "rating"},
-                        {"id": new_id(), "text": "¿Qué fue lo más valioso que aprendiste?", "type": "text"},
-                        {"id": new_id(), "text": "¿Qué mejorarías del módulo?", "type": "text"},
-                    ],
-                    "createdBy": admin_id,
-                    "createdAt": now_iso(),
-                }
+        existing = next((s for s in db["surveys"] if s.get("moduleId") == module.get("id")), None)
+        if not existing:
+            db["surveys"].append(build_satisfaction_survey(module, admin_id))
+            changed = True
+        elif int(existing.get("schemaVersion") or 1) < SATISFACTION_SURVEY_SCHEMA_VERSION:
+            upgraded = build_satisfaction_survey(
+                module,
+                existing.get("createdBy") or admin_id,
+                survey_id=existing.get("id") or new_id(),
+                created_at=existing.get("createdAt") or now_iso(),
             )
+            existing.clear()
+            existing.update(upgraded)
             changed = True
     return changed
 

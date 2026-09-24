@@ -243,3 +243,14 @@ Cuando el nombre tiene varias palabras se utiliza el **primer nombre + primer ap
 - El calendario principal incluye accesos rápidos y tarjetas de resumen según el rol.
 - La barra lateral está agrupada por **Mi +Q1LÍDER / Formación / Gestión académica / Sistema** y agrega descripciones cortas para que cada sección se entienda más rápido.
 - El front mantiene responsive, modo claro/oscuro y el sidebar con scroll interno.
+
+## v5.6 · Encuesta de satisfacción por módulo
+
+Cada uno de los 6 módulos incluye ahora la encuesta oficial de satisfacción como requisito para desbloquear el examen final. La encuesta integra:
+
+- 5 indicadores de impacto global en escala 1–5.
+- NPS de recomendación en escala 0–10, con lectura de detractores, pasivos y promotores.
+- Evaluación de la conferencia/masterclass (ponente, fecha, utilidad, dominio, claridad, preguntas, material y recomendación de reinvitación).
+- En los módulos 3 y 6, evaluación adicional del mentor en escala 1–5.
+
+Las respuestas se guardan por alumno y por módulo en `surveyResponses`. La actualización usa `schemaVersion: 2`; respuestas de la encuesta anterior no cuentan como completadas para esta nueva versión, por lo que el alumno deberá responder el formato actualizado antes del examen final.

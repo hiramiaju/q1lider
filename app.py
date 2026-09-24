@@ -211,7 +211,14 @@ def get_module(db: dict[str, Any], module_id: str | None) -> dict[str, Any] | No
 
 
 def survey_completed(db: dict[str, Any], module_id: str, user_id: str) -> bool:
-    return any(r.get("moduleId") == module_id and r.get("userId") == user_id for r in db["surveyResponses"])
+    survey = next((s for s in db["surveys"] if s.get("moduleId") == module_id), None)
+    required_version = int((survey or {}).get("schemaVersion") or 1)
+    return any(
+        r.get("moduleId") == module_id
+        and r.get("userId") == user_id
+        and int(r.get("surveyVersion") or 1) >= required_version
+        for r in db["surveyResponses"]
+    )
 
 
 def grade_for_item(db: dict[str, Any], grade_item_id: str, user_id: str) -> float | None:
@@ -701,26 +708,149 @@ def submit_case(module_id: str):
 @roles_required("participant")
 def submit_survey(module_id: str):
     db = read_db()
+    module = get_module(db, module_id)
     survey = next((s for s in db["surveys"] if s.get("moduleId") == module_id), None)
-    if not survey:
+    if not module or not survey:
         abort(404)
     if survey_completed(db, module_id, g.user["id"]):
-        flash("Ya completaste la encuesta de este módulo.", "success")
+        flash("Ya completaste la encuesta de satisfacción de este módulo.", "success")
         return redirect(url_for("module_detail", module_id=module_id) + "#evaluaciones")
-    answers = {}
-    for q in survey.get("questions", []):
-        value = request.form.get(f"q_{q['id']}", "").strip()
-        if not value:
-            flash("Responde todas las preguntas de la encuesta.", "error")
-            return redirect(url_for("module_detail", module_id=module_id) + "#encuesta")
-        answers[q["id"]] = value[:3000]
+
+    answers: dict[str, str] = {}
+    metadata: dict[str, str] = {}
+    module_number = int(module.get("number") or 0)
+    sections = survey.get("sections") or []
+
+    for section in sections:
+        # Mentor evaluation only applies to M3 and M6.
+        if section.get("id") == "mentor" and module_number not in {3, 6}:
+            continue
+        for field in section.get("metaFields", []):
+            value = request.form.get(f"meta_{field['id']}", "").strip()
+            if field.get("required") and not value:
+                flash(f"Completa el campo: {field.get('label', 'dato requerido')}.", "error")
+                return redirect(url_for("module_detail", module_id=module_id) + "#encuesta")
+            metadata[field["id"]] = value[:500]
+        for q in section.get("questions", []):
+            value = request.form.get(f"q_{q['id']}", "").strip()
+            if not value:
+                flash("Responde todas las preguntas de la encuesta de satisfacción.", "error")
+                return redirect(url_for("module_detail", module_id=module_id) + "#encuesta")
+            qtype = q.get("type")
+            if qtype == "likert5" and value not in {"1", "2", "3", "4", "5"}:
+                flash("Hay una respuesta inválida en la escala de 1 a 5.", "error")
+                return redirect(url_for("module_detail", module_id=module_id) + "#encuesta")
+            if qtype == "nps10" and value not in {str(i) for i in range(11)}:
+                flash("Selecciona un valor válido de 0 a 10 en la recomendación.", "error")
+                return redirect(url_for("module_detail", module_id=module_id) + "#encuesta")
+            if qtype == "yes_no" and value not in {"yes", "no"}:
+                flash("Selecciona Sí o No en la recomendación del ponente.", "error")
+                return redirect(url_for("module_detail", module_id=module_id) + "#encuesta")
+            answers[q["id"]] = value[:3000]
+
     db["surveyResponses"].append({
-        "id": new_id(), "surveyId": survey["id"], "moduleId": module_id, "userId": g.user["id"],
-        "answers": answers, "createdAt": now_iso(),
+        "id": new_id(),
+        "surveyId": survey["id"],
+        "surveyVersion": int(survey.get("schemaVersion") or 1),
+        "moduleId": module_id,
+        "moduleNumber": module_number,
+        "userId": g.user["id"],
+        "answers": answers,
+        "metadata": metadata,
+        "createdAt": now_iso(),
     })
     write_db(db)
-    flash("Encuesta completada. El examen final ya está desbloqueado.", "success")
+    flash("Encuesta de satisfacción completada. El examen final ya está desbloqueado.", "success")
     return redirect(url_for("module_detail", module_id=module_id) + "#evaluaciones")
+
+
+@app.route("/modulos/<module_id>/encuesta/resultados")
+@roles_required("admin", "teacher")
+def survey_results(module_id: str):
+    db = read_db()
+    module = get_module(db, module_id)
+    survey = next((s for s in db["surveys"] if s.get("moduleId") == module_id), None)
+    if not module or not survey:
+        abort(404)
+    version = int(survey.get("schemaVersion") or 1)
+    responses = [
+        r for r in db["surveyResponses"]
+        if r.get("moduleId") == module_id and int(r.get("surveyVersion") or 1) >= version
+    ]
+    users = {u.get("id"): u for u in db["users"]}
+
+    def number(value):
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return None
+
+    def avg(values):
+        clean = [v for v in values if v is not None]
+        return round(sum(clean) / len(clean), 2) if clean else None
+
+    rows = []
+    promoter_count = detractor_count = passive_count = 0
+    all_impact = []
+    all_conference = []
+    all_mentor = []
+    for response in sorted(responses, key=lambda r: r.get("createdAt", ""), reverse=True):
+        answers = response.get("answers") or {}
+        meta = response.get("metadata") or {}
+        impact = [number(answers.get(key)) for key in [
+            "impact_transformacion", "impact_aplicacion", "impact_sostenibilidad", "impact_red", "impact_institucional"
+        ]]
+        conference = [number(answers.get(key)) for key in [
+            "conference_utilidad", "conference_dominio", "conference_claridad", "conference_preguntas", "conference_material"
+        ]]
+        mentor = [number(answers.get(key)) for key in [
+            "mentor_disponibilidad", "mentor_escucha", "mentor_retroalimentacion", "mentor_autonomia"
+        ]]
+        all_impact.extend(v for v in impact if v is not None)
+        all_conference.extend(v for v in conference if v is not None)
+        all_mentor.extend(v for v in mentor if v is not None)
+        nps = number(answers.get("nps_recomendacion"))
+        nps_group = "—"
+        if nps is not None:
+            if nps <= 6:
+                nps_group = "Detractor"
+                detractor_count += 1
+            elif nps <= 8:
+                nps_group = "Pasivo"
+                passive_count += 1
+            else:
+                nps_group = "Promotor"
+                promoter_count += 1
+        user = users.get(response.get("userId"), {})
+        rows.append({
+            "student": (user.get("fullName") or f"{user.get('name','')} {user.get('lastName','')}").strip() or "Alumno",
+            "username": user.get("username", ""),
+            "createdAt": response.get("createdAt", ""),
+            "impactAverage": avg(impact),
+            "nps": int(nps) if nps is not None else None,
+            "npsGroup": nps_group,
+            "conferenceAverage": avg(conference),
+            "conferenceTitle": meta.get("conference_title", ""),
+            "speakerName": meta.get("speaker_name", ""),
+            "conferenceDate": meta.get("conference_date", ""),
+            "reinvite": answers.get("conference_reinvitar", ""),
+            "mentorAverage": avg(mentor),
+            "mentorName": meta.get("mentor_name", ""),
+        })
+
+    nps_total = promoter_count + passive_count + detractor_count
+    nps_score = round(((promoter_count - detractor_count) / nps_total) * 100, 1) if nps_total else None
+    summary = {
+        "responses": len(rows),
+        "impactAverage": avg(all_impact),
+        "conferenceAverage": avg(all_conference),
+        "mentorAverage": avg(all_mentor),
+        "npsScore": nps_score,
+        "promoters": promoter_count,
+        "passives": passive_count,
+        "detractors": detractor_count,
+    }
+    return render_template("survey_results.html", module=module, survey=survey, rows=rows, summary=summary)
 
 
 # --------------------------- MATERIALS ---------------------------
