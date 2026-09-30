@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import os
+import json
+import zipfile
+from io import BytesIO
 from calendar import monthrange
 from datetime import date, datetime, timedelta
 from functools import wraps
@@ -16,6 +19,7 @@ from flask import (
     redirect,
     render_template,
     request,
+    send_file,
     send_from_directory,
     session,
     url_for,
@@ -23,6 +27,7 @@ from flask import (
 from werkzeug.utils import secure_filename
 
 from db import (
+    DATA_DIR,
     UPLOAD_DIR,
     STUDENT_SHARED_PASSWORD,
     STUDENT_PASSWORD_POLICY_VERSION,
@@ -206,6 +211,17 @@ def save_event_image(file_storage) -> tuple[str | None, str | None, str | None]:
     UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
     file_storage.save(UPLOAD_DIR / filename)
     return filename, original, file_storage.mimetype
+
+
+def remove_uploaded_file(filename: str | None) -> None:
+    if not filename:
+        return
+    try:
+        path = UPLOAD_DIR / Path(filename).name
+        if path.exists() and path.is_file():
+            path.unlink()
+    except OSError:
+        pass
 
 
 def get_module(db: dict[str, Any], module_id: str | None) -> dict[str, Any] | None:
@@ -603,13 +619,14 @@ def modules_page():
     for module in sorted(db["modules"], key=lambda m: int(m.get("number") or 0)):
         materials_count = sum(1 for m in db["materials"] if m.get("moduleId") == module["id"])
         assessments = [a for a in db["assessments"] if a.get("moduleId") == module["id"]]
+        assignments_count = sum(1 for a in db.get("moduleAssignments", []) if a.get("moduleId") == module["id"])
         attempts = [a for a in db["assessmentAttempts"] if a.get("userId") == uid and any(x.get("id") == a.get("assessmentId") for x in assessments)]
         survey_done = survey_completed(db, module["id"], uid) if role_of(g.user) == "participant" else False
         mg = module_grade(db, module["id"], uid) if role_of(g.user) == "participant" else {"grade": None}
         available = available_integral_instruments(g.user)
         integral_done = sum(1 for item in available if integral_evaluation_response(db, module["id"], item["id"], uid))
         platform_done = bool(platform_survey_response(db, module["id"], uid)) if role_of(g.user) == "participant" else False
-        cards.append({**module, "materialsCount": materials_count, "assessmentCount": len(assessments), "attemptCount": len(attempts), "surveyDone": survey_done, "grade": mg.get("grade"), "integralDone": integral_done, "integralTotal": len(available), "platformSurveyDone": platform_done})
+        cards.append({**module, "materialsCount": materials_count, "assessmentCount": len(assessments), "assignmentCount": assignments_count, "attemptCount": len(attempts), "surveyDone": survey_done, "grade": mg.get("grade"), "integralDone": integral_done, "integralTotal": len(available), "platformSurveyDone": platform_done})
     return render_template("modules.html", modules=cards)
 
 
@@ -651,11 +668,38 @@ def module_detail(module_id: str):
     for instrument in available_integral_instruments(g.user):
         integral_instruments.append({**instrument, "completed": bool(integral_evaluation_response(db, module_id, instrument["id"], uid))})
     platform_done = bool(platform_survey_response(db, module_id, uid)) if role_of(g.user) == "participant" else False
+
+    module_assignments = sorted(
+        [a for a in db.get("moduleAssignments", []) if a.get("moduleId") == module_id],
+        key=lambda a: (a.get("dueDate") or "9999-12-31", a.get("createdAt") or ""),
+    )
+    assignment_submissions: dict[str, Any] = {}
+    if role_of(g.user) == "participant":
+        for assignment in module_assignments:
+            assignment_submissions[assignment["id"]] = next(
+                (row for row in db.get("assignmentSubmissions", [])
+                 if row.get("assignmentId") == assignment.get("id") and row.get("userId") == uid),
+                None,
+            )
+    else:
+        user_map = {u.get("id"): safe_user(u) for u in db["users"] if role_of(u) == "participant"}
+        for assignment in module_assignments:
+            rows = []
+            for row in db.get("assignmentSubmissions", []):
+                if row.get("assignmentId") != assignment.get("id"):
+                    continue
+                student = user_map.get(row.get("userId"))
+                if student:
+                    rows.append({**row, "student": student})
+            rows.sort(key=lambda r: (r.get("student", {}).get("fullName") or "").lower())
+            assignment_submissions[assignment["id"]] = rows
+
     return render_template(
         "module_detail.html", module=module, grouped=grouped, posts=posts, assessments=assessments,
         attempts_by_exam=attempts_by_exam, survey=survey, survey_done=survey_done, submission=submission,
         grouped_comments=grouped_comments, grade_data=grade_data, integral_instruments=integral_instruments,
         platform_survey_done=platform_done, platform_survey_questions=PLATFORM_SURVEY_QUESTIONS,
+        module_assignments=module_assignments, assignment_submissions=assignment_submissions,
     )
 
 
@@ -673,6 +717,186 @@ def update_module(module_id: str):
     write_db(db)
     flash("Módulo actualizado.", "success")
     return redirect(url_for("module_detail", module_id=module_id))
+
+
+@app.post("/modulos/<module_id>/tareas")
+@roles_required("admin", "teacher")
+def create_module_assignment(module_id: str):
+    db = read_db()
+    if not get_module(db, module_id):
+        abort(404)
+    title = request.form.get("title", "").strip()
+    instructions = request.form.get("instructions", "").strip()
+    due_date = request.form.get("dueDate", "").strip()
+    try:
+        weight = float(request.form.get("weight") or 10)
+    except ValueError:
+        weight = 10.0
+    if not title:
+        flash("Escribe un título para la tarea.", "error")
+        return redirect(url_for("module_detail", module_id=module_id) + "#tareas-modulo")
+    if weight <= 0 or weight > 100:
+        flash("El valor de la tarea debe estar entre 0 y 100%.", "error")
+        return redirect(url_for("module_detail", module_id=module_id) + "#tareas-modulo")
+    try:
+        file_name, original_name, mime = save_uploaded_file(request.files.get("file"))
+    except ValueError as exc:
+        flash(str(exc), "error")
+        return redirect(url_for("module_detail", module_id=module_id) + "#tareas-modulo")
+
+    grade_item_id = new_id()
+    assignment_id = new_id()
+    db["gradeItems"].append({
+        "id": grade_item_id, "moduleId": module_id, "title": title[:180],
+        "type": "module_assignment", "weight": weight, "createdBy": g.user["id"],
+        "createdAt": now_iso(), "updatedAt": now_iso(),
+    })
+    db.setdefault("moduleAssignments", []).append({
+        "id": assignment_id, "moduleId": module_id, "title": title[:180],
+        "instructions": instructions[:10000], "dueDate": due_date or None,
+        "weight": weight, "maxScore": 100, "gradeItemId": grade_item_id,
+        "fileName": file_name, "originalName": original_name, "mime": mime,
+        "createdBy": g.user["id"], "createdAt": now_iso(), "updatedAt": now_iso(),
+    })
+    write_db(db)
+    flash("Tarea publicada en el módulo y agregada a Calificaciones.", "success")
+    return redirect(url_for("module_detail", module_id=module_id) + "#tareas-modulo")
+
+
+@app.post("/tareas-modulo/<assignment_id>/update")
+@roles_required("admin", "teacher")
+def update_module_assignment(assignment_id: str):
+    db = read_db()
+    assignment = next((a for a in db.get("moduleAssignments", []) if a.get("id") == assignment_id), None)
+    if not assignment:
+        abort(404)
+    title = request.form.get("title", assignment.get("title", "")).strip()
+    instructions = request.form.get("instructions", assignment.get("instructions", "")).strip()
+    due_date = request.form.get("dueDate", "").strip()
+    try:
+        weight = float(request.form.get("weight") or assignment.get("weight") or 10)
+    except ValueError:
+        weight = float(assignment.get("weight") or 10)
+    if not title or weight <= 0 or weight > 100:
+        flash("Revisa el título y el valor de la tarea.", "error")
+        return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
+    try:
+        file_name, original_name, mime = save_uploaded_file(request.files.get("file"))
+    except ValueError as exc:
+        flash(str(exc), "error")
+        return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
+    if file_name:
+        remove_uploaded_file(assignment.get("fileName"))
+        assignment.update({"fileName": file_name, "originalName": original_name, "mime": mime})
+    assignment.update({
+        "title": title[:180], "instructions": instructions[:10000], "dueDate": due_date or None,
+        "weight": weight, "updatedAt": now_iso(),
+    })
+    grade_item = next((i for i in db["gradeItems"] if i.get("id") == assignment.get("gradeItemId")), None)
+    if grade_item:
+        grade_item.update({"title": title[:180], "weight": weight, "updatedAt": now_iso()})
+    write_db(db)
+    flash("Tarea actualizada.", "success")
+    return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
+
+
+@app.post("/tareas-modulo/<assignment_id>/delete")
+@roles_required("admin", "teacher")
+def delete_module_assignment(assignment_id: str):
+    db = read_db()
+    assignment = next((a for a in db.get("moduleAssignments", []) if a.get("id") == assignment_id), None)
+    if not assignment:
+        abort(404)
+    module_id = assignment.get("moduleId")
+    grade_item_id = assignment.get("gradeItemId")
+    remove_uploaded_file(assignment.get("fileName"))
+    for row in list(db.get("assignmentSubmissions", [])):
+        if row.get("assignmentId") == assignment_id:
+            remove_uploaded_file(row.get("fileName"))
+    db["moduleAssignments"] = [a for a in db.get("moduleAssignments", []) if a.get("id") != assignment_id]
+    db["assignmentSubmissions"] = [r for r in db.get("assignmentSubmissions", []) if r.get("assignmentId") != assignment_id]
+    if grade_item_id:
+        db["gradeItems"] = [i for i in db["gradeItems"] if i.get("id") != grade_item_id]
+        db["grades"] = [row for row in db["grades"] if row.get("gradeItemId") != grade_item_id]
+    write_db(db)
+    flash("Tarea eliminada del módulo.", "success")
+    return redirect(url_for("module_detail", module_id=module_id) + "#tareas-modulo")
+
+
+@app.post("/tareas-modulo/<assignment_id>/entregar")
+@roles_required("participant")
+def submit_module_assignment(assignment_id: str):
+    db = read_db()
+    assignment = next((a for a in db.get("moduleAssignments", []) if a.get("id") == assignment_id), None)
+    if not assignment:
+        abort(404)
+    existing = next((r for r in db.get("assignmentSubmissions", [])
+                     if r.get("assignmentId") == assignment_id and r.get("userId") == g.user["id"]), None)
+    if existing and existing.get("grade") is not None:
+        flash("Esta tarea ya fue calificada y la entrega quedó cerrada.", "error")
+        return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
+    text = request.form.get("text", "").strip()
+    try:
+        file_name, original_name, mime = save_uploaded_file(request.files.get("file"))
+    except ValueError as exc:
+        flash(str(exc), "error")
+        return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
+    current_file = existing.get("fileName") if existing else None
+    if not text and not file_name and not current_file:
+        flash("Escribe tu respuesta o adjunta un archivo para entregar.", "error")
+        return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
+    if file_name and existing:
+        remove_uploaded_file(existing.get("fileName"))
+    payload = {
+        "assignmentId": assignment_id, "moduleId": assignment.get("moduleId"), "userId": g.user["id"],
+        "text": text[:20000], "fileName": file_name or current_file,
+        "originalName": original_name if file_name else (existing.get("originalName") if existing else None),
+        "mime": mime if file_name else (existing.get("mime") if existing else None),
+        "status": "submitted", "updatedAt": now_iso(),
+    }
+    if existing:
+        existing.update(payload)
+    else:
+        db.setdefault("assignmentSubmissions", []).append({
+            "id": new_id(), **payload, "grade": None, "feedback": "",
+            "submittedAt": now_iso(), "createdAt": now_iso(),
+        })
+    write_db(db)
+    flash("Tarea entregada correctamente.", "success")
+    return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
+
+
+@app.post("/tareas-modulo/<assignment_id>/calificar")
+@roles_required("admin", "teacher")
+def grade_module_assignment(assignment_id: str):
+    db = read_db()
+    assignment = next((a for a in db.get("moduleAssignments", []) if a.get("id") == assignment_id), None)
+    if not assignment:
+        abort(404)
+    student_id = request.form.get("studentId", "").strip()
+    row = next((r for r in db.get("assignmentSubmissions", [])
+                if r.get("assignmentId") == assignment_id and r.get("userId") == student_id), None)
+    if not row:
+        abort(404)
+    try:
+        score = float(request.form.get("score") or "")
+    except ValueError:
+        flash("Escribe una calificación válida entre 0 y 100.", "error")
+        return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
+    if score < 0 or score > 100:
+        flash("La calificación debe estar entre 0 y 100.", "error")
+        return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
+    feedback = request.form.get("feedback", "").strip()
+    row.update({
+        "grade": round(score, 2), "feedback": feedback[:5000], "status": "graded",
+        "gradedBy": g.user["id"], "gradedAt": now_iso(), "updatedAt": now_iso(),
+    })
+    grade_item_id = assignment.get("gradeItemId")
+    if grade_item_id:
+        upsert_grade(db, grade_item_id, student_id, score, g.user["id"])
+    write_db(db)
+    flash("Tarea calificada y Kárdex actualizado.", "success")
+    return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
 
 
 @app.post("/modulos/<module_id>/foro")
@@ -1785,6 +2009,48 @@ def admin_page():
         "admin.html", students=students, teachers=teachers, admins=admins, stats=stats,
         attendance_map=attendance_map, block_after=BLOCK_AFTER_ABSENCES,
         student_shared_password=STUDENT_SHARED_PASSWORD,
+    )
+
+
+@app.get("/admin/backup/download")
+@roles_required("admin")
+def download_admin_backup():
+    # Force a read first so db.json exists and is normalized before zipping it.
+    read_db()
+    buffer = BytesIO()
+    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        manifest = {
+            "project": "+Q1LIDER",
+            "createdAt": now_iso(),
+            "contents": ["data/", "uploads/", "program_docs/"],
+            "restoreHint": "Con la plataforma detenida, respalda tu instalación actual y reemplaza data/ y uploads/ por los contenidos de este ZIP.",
+        }
+        archive.writestr("backup_info.json", json.dumps(manifest, ensure_ascii=False, indent=2))
+        if DATA_DIR.exists():
+            for path in sorted(DATA_DIR.rglob("*")):
+                if path.is_file():
+                    archive.write(path, Path("data") / path.relative_to(DATA_DIR))
+        if UPLOAD_DIR.exists():
+            uploaded_any = False
+            for path in sorted(UPLOAD_DIR.rglob("*")):
+                if path.is_file():
+                    uploaded_any = True
+                    archive.write(path, Path("uploads") / path.relative_to(UPLOAD_DIR))
+            if not uploaded_any:
+                archive.writestr("uploads/.gitkeep", "")
+        program_docs_dir = Path(app.root_path) / "static" / "program_docs"
+        if program_docs_dir.exists():
+            for path in sorted(program_docs_dir.rglob("*")):
+                if path.is_file():
+                    archive.write(path, Path("program_docs") / path.relative_to(program_docs_dir))
+    buffer.seek(0)
+    return send_file(
+        buffer,
+        mimetype="application/zip",
+        as_attachment=True,
+        download_name=f"q1lider-backup-{stamp}.zip",
+        max_age=0,
     )
 
 

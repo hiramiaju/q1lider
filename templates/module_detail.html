@@ -49,7 +49,7 @@
   {% endif %}
 
   <nav class="moduleTabs">
-    <a href="#contenido">Contenido</a><a href="#caso">Caso práctico</a><a href="#foro">Foro</a><a href="#evaluaciones">Evaluaciones</a><a href="#evaluaciones-integrales">Encuestas del programa</a><a href="#encuesta-plataforma">Plataforma</a>
+    <a href="#contenido">Contenido</a><a href="#tareas-modulo">Tareas</a><a href="#caso">Caso práctico</a><a href="#foro">Foro</a><a href="#evaluaciones">Evaluaciones</a><a href="#evaluaciones-integrales">Encuestas del programa</a><a href="#encuesta-plataforma">Plataforma</a>
   </nav>
 
   <section id="contenido" class="moduleSection">
@@ -108,6 +108,112 @@
     </div>
   </section>
 
+  <section id="tareas-modulo" class="moduleSection moduleAssignmentsSection">
+    <div class="sectionHead">
+      <div>
+        <span class="eyebrow">TRABAJO DEL MÓDULO</span>
+        <h2>Tareas y entregas</h2>
+        <p>Las tareas pueden incluir instrucciones escritas, archivo adjunto y valor dentro de la calificación del módulo.</p>
+      </div>
+      {% if current_user.role in ['admin','teacher'] %}<span class="assignmentCountBadge">{{ module_assignments|length }} tarea{{ '' if module_assignments|length==1 else 's' }}</span>{% endif %}
+    </div>
+
+    {% if current_user.role in ['admin','teacher'] %}
+    <details class="panel assignmentCreator" {% if not module_assignments %}open{% endif %}>
+      <summary><b>＋ Crear tarea para este módulo</b><span>Título, instrucciones, archivo opcional y valor de calificación</span></summary>
+      <form method="post" action="{{ url_for('create_module_assignment', module_id=module.id) }}" enctype="multipart/form-data" class="assignmentForm">
+        <div class="cols">
+          <label>Título de la tarea<input name="title" required maxlength="180" placeholder="Ej. Reflexión de liderazgo"></label>
+          <label>Fecha límite<input type="date" name="dueDate"></label>
+        </div>
+        <label>Instrucciones / texto de la tarea<textarea name="instructions" rows="5" placeholder="Explica qué debe hacer y entregar el alumno..."></textarea></label>
+        <div class="cols">
+          <label>Valor en el módulo (%)<input type="number" name="weight" min="0.1" max="100" step="0.1" value="10" required></label>
+          <label>Archivo para el alumno (opcional)<input type="file" name="file"></label>
+        </div>
+        <button class="primaryButton">Publicar tarea</button>
+      </form>
+    </details>
+    {% endif %}
+
+    <div class="moduleAssignmentGrid">
+      {% for task in module_assignments %}
+      {% set task_submission = assignment_submissions.get(task.id) %}
+      <article class="moduleAssignmentCard {{ 'gradedAssignment' if current_user.role=='participant' and task_submission and task_submission.grade is not none else '' }}">
+        <div class="assignmentTop">
+          <div>
+            <span class="assignmentWeight">Vale {{ task.weight|round(1) }}%</span>
+            {% if task.dueDate %}<span class="assignmentDue">Entrega {{ task.dueDate }}</span>{% else %}<span class="assignmentDue muted">Sin fecha límite</span>{% endif %}
+          </div>
+          {% if task.fileName %}<a class="assignmentAttachment" href="{{ url_for('uploaded_file', filename=task.fileName) }}" target="_blank">▤ Archivo de la tarea</a>{% endif %}
+        </div>
+        <h3>{{ task.title }}</h3>
+        <div class="assignmentInstructions">{{ task.instructions or 'Sin instrucciones adicionales.' }}</div>
+
+        {% if current_user.role=='participant' %}
+          {% if task_submission and task_submission.grade is not none %}
+            <div class="assignmentGradeBox">
+              <span>Calificación</span><b>{{ task_submission.grade|round(1) }}/100</b>
+              {% if task_submission.feedback %}<p>{{ task_submission.feedback }}</p>{% endif %}
+            </div>
+            <div class="submissionSnapshot">
+              <b>✓ Entrega cerrada</b>
+              {% if task_submission.text %}<p>{{ task_submission.text }}</p>{% endif %}
+              {% if task_submission.fileName %}<a href="{{ url_for('uploaded_file', filename=task_submission.fileName) }}" target="_blank">Ver archivo entregado ↗</a>{% endif %}
+            </div>
+          {% else %}
+            {% if task_submission %}
+            <div class="submissionStatus"><b>✓ Entrega registrada</b><span>Puedes reemplazarla hasta que sea calificada.</span></div>
+            {% endif %}
+            <form method="post" action="{{ url_for('submit_module_assignment', assignment_id=task.id) }}" enctype="multipart/form-data" class="studentAssignmentForm">
+              <label>Respuesta en texto<textarea name="text" rows="4" placeholder="Escribe tu respuesta aquí...">{{ task_submission.text if task_submission else '' }}</textarea></label>
+              <label>Archivo adjunto (opcional)<input type="file" name="file"></label>
+              {% if task_submission and task_submission.fileName %}<small>Archivo actual: <a href="{{ url_for('uploaded_file', filename=task_submission.fileName) }}" target="_blank">{{ task_submission.originalName }}</a>. Solo selecciona otro archivo si deseas reemplazarlo.</small>{% endif %}
+              <button class="primaryButton">{{ 'Actualizar entrega' if task_submission else 'Entregar tarea' }}</button>
+            </form>
+          {% endif %}
+        {% else %}
+          <details class="assignmentEditor">
+            <summary>✎ Editar tarea</summary>
+            <form method="post" action="{{ url_for('update_module_assignment', assignment_id=task.id) }}" enctype="multipart/form-data" class="assignmentForm compactAssignmentForm">
+              <label>Título<input name="title" value="{{ task.title }}" required></label>
+              <label>Instrucciones<textarea name="instructions" rows="4">{{ task.instructions }}</textarea></label>
+              <div class="cols"><label>Fecha límite<input type="date" name="dueDate" value="{{ task.dueDate or '' }}"></label><label>Valor (%)<input type="number" name="weight" min="0.1" max="100" step="0.1" value="{{ task.weight }}"></label></div>
+              <label>Reemplazar archivo<input type="file" name="file"></label>
+              <button>Guardar cambios</button>
+            </form>
+            <form method="post" action="{{ url_for('delete_module_assignment', assignment_id=task.id) }}" onsubmit="return confirm('¿Eliminar esta tarea, sus entregas y sus calificaciones?')"><button class="dangerGhost fullButton">Eliminar tarea</button></form>
+          </details>
+
+          <div class="assignmentSubmissionsStaff">
+            <div class="assignmentSubmissionsHead"><b>Entregas</b><span>{{ task_submission|length }} recibida{{ '' if task_submission|length==1 else 's' }}</span></div>
+            {% for row in task_submission %}
+              <article class="assignmentSubmissionRow">
+                <div class="assignmentStudentIdentity"><div class="avatar small">{{ row.student.name[0] }}</div><div><b>{{ row.student.fullName }}</b><small>@{{ row.student.username }}</small></div></div>
+                <div class="assignmentSubmissionContent">
+                  {% if row.text %}<p>{{ row.text }}</p>{% endif %}
+                  {% if row.fileName %}<a href="{{ url_for('uploaded_file', filename=row.fileName) }}" target="_blank">Abrir archivo · {{ row.originalName }} ↗</a>{% endif %}
+                  <small>Entregada {{ (row.updatedAt or row.submittedAt or '')[:16].replace('T',' ') }}</small>
+                </div>
+                <form method="post" action="{{ url_for('grade_module_assignment', assignment_id=task.id) }}" class="assignmentGradeForm">
+                  <input type="hidden" name="studentId" value="{{ row.userId }}">
+                  <label>Calificación /100<input type="number" name="score" min="0" max="100" step="0.1" value="{{ row.grade if row.grade is not none else '' }}" required></label>
+                  <label>Retroalimentación<textarea name="feedback" rows="2" placeholder="Comentario para el alumno">{{ row.feedback or '' }}</textarea></label>
+                  <button>{{ 'Actualizar calificación' if row.grade is not none else 'Calificar' }}</button>
+                </form>
+              </article>
+            {% else %}
+              <div class="empty compact">Todavía no hay entregas de esta tarea.</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </article>
+      {% else %}
+        <div class="empty moduleAssignmentsEmpty">{% if current_user.role in ['admin','teacher'] %}Aún no has publicado tareas en este módulo.{% else %}No tienes tareas publicadas en este módulo por ahora.{% endif %}</div>
+      {% endfor %}
+    </div>
+  </section>
+
   <section id="caso" class="moduleSection twoColAcademic">
     <div class="panel"><span class="eyebrow">ENTREGA</span><h2>Caso práctico</h2>
       {% if current_user.role=='participant' %}
@@ -116,7 +222,7 @@
         <form method="post" action="{{ url_for('submit_case', module_id=module.id) }}" enctype="multipart/form-data"><label>Archivo<input type="file" name="file" required></label><label>Nota para el docente<textarea name="note" placeholder="Comentario opcional"></textarea></label><button>{{ 'Reemplazar entrega' if submission else 'Entregar caso práctico' }}</button></form>
       {% else %}<p>Los alumnos pueden subir aquí su caso práctico. Las calificaciones se capturan desde el módulo de Calificaciones.</p>{% endif %}
     </div>
-    <div class="panel"><span class="eyebrow">PROGRESO</span><h2>Ruta del módulo</h2><ol class="moduleChecklist"><li>Plan del módulo</li><li>Guía complementaria</li><li>Enunciado del caso práctico</li><li>Entrega del caso</li><li>Foro de dudas</li><li>Autoevaluación</li><li>Proyecto práctico</li><li>Master class</li><li>Encuesta de cierre</li><li>Examen final</li></ol></div>
+    <div class="panel"><span class="eyebrow">PROGRESO</span><h2>Ruta del módulo</h2><ol class="moduleChecklist"><li>Plan del módulo</li><li>Guía complementaria</li><li>Enunciado del caso práctico</li><li>Entrega del caso</li><li>Tareas del módulo</li><li>Foro de dudas</li><li>Autoevaluación</li><li>Proyecto práctico</li><li>Master class</li><li>Encuesta de cierre</li><li>Examen final</li></ol></div>
   </section>
 
   <section id="foro" class="moduleSection">

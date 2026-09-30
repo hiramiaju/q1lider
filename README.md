@@ -1,6 +1,33 @@
-# +Q1LÍDER — Flask Campus Académico v5.5
+# +Q1LÍDER — Flask Campus Académico v5.8
 
 Versión en **Python + Flask + Jinja + CSS/JavaScript + JSON local**. No usa Next.js, React, Vite, Express, Supabase ni servicios de Google.
+
+## Novedad v5.8 — Tareas por módulo + backup completo
+
+### Tareas calificables por módulo
+Docente y Administrador pueden crear tareas directamente dentro de cada módulo con:
+
+- título;
+- instrucciones en texto;
+- fecha límite opcional;
+- valor porcentual dentro del módulo;
+- archivo adjunto opcional.
+
+El alumno puede entregar texto, archivo o ambos. Mientras la entrega no haya sido calificada puede actualizarla. Al ser calificada, la entrega queda cerrada y el alumno ve su resultado y retroalimentación.
+
+Cada tarea crea automáticamente un concepto en **Calificaciones**. La nota de 0 a 100 se registra también en el Kárdex mediante la ponderación configurada para la tarea.
+
+### Backup desde Administración
+El administrador dispone de **Descargar backup ZIP**. El archivo contiene:
+
+- `data/db.json`;
+- padrón y demás archivos de `data/`;
+- todo `uploads/`;
+- documentos base de `static/program_docs/`;
+- `backup_info.json` con fecha y guía breve de restauración.
+
+El backup contiene información privada y hashes de contraseñas, por lo que debe almacenarse en un lugar seguro.
+
 
 ## Cambios principales de v5
 

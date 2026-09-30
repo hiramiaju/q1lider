@@ -49,6 +49,7 @@
           <p>{{ m.description }}</p>
           <div class="moduleMetrics">
             <span>▤ {{ m.materialsCount }} materiales</span>
+            <span>✓ {{ m.assignmentCount }} tareas</span>
             <span>✎ {{ m.assessmentCount }} evaluaciones</span>
             {% if current_user.role=='participant' %}
               <span>{{ '✓ Encuesta cierre' if m.surveyDone else '○ Encuesta cierre' }}</span>

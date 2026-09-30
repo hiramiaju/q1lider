@@ -58,6 +58,8 @@ def base_db() -> dict[str, Any]:
         "gradeItems": [],
         "grades": [],
         "submissions": [],
+        "moduleAssignments": [],
+        "assignmentSubmissions": [],
     }
 
 

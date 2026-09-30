@@ -8,7 +8,10 @@
       <h1>Personas del programa</h1>
       <p>Encuentra rápido a cualquier alumno, consulta su usuario y administra su acceso.</p>
     </div>
-    <button class="primaryAction" data-modal-open="newUser">＋ Crear usuario</button>
+    <div class="adminHeaderActions">
+      <a class="secondaryButton backupHeaderButton" href="{{ url_for('download_admin_backup') }}">⇩ Descargar backup</a>
+      <button class="primaryAction" data-modal-open="newUser">＋ Crear usuario</button>
+    </div>
   </div>
 
   <div class="stats adminStats">
@@ -24,6 +27,17 @@
     <button type="button" class="secondaryMini passwordCopy" data-copy="{{ student_shared_password }}">Copiar contraseña</button>
     <form method="post" action="{{ url_for('reset_students_shared_password') }}" onsubmit="return confirm('¿Restablecer la contraseña de TODOS los alumnos a la clave común?')"><button class="linkButton resetStudentsPassword">Reaplicar a todos</button></form>
   </div>
+
+  <section class="adminBackupCard">
+    <div class="adminBackupIcon">⤓</div>
+    <div>
+      <small>RESPALDO COMPLETO</small>
+      <h2>Descarga toda la información de +Q1LÍDER</h2>
+      <p>Genera un ZIP con la base <b>db.json</b>, padrón y todos los archivos subidos por alumnos, docentes y administradores. Úsalo como respaldo antes de cambios importantes o despliegues.</p>
+      <div class="backupContents"><span>✓ Usuarios y accesos</span><span>✓ Módulos y calificaciones</span><span>✓ Tareas y entregas</span><span>✓ Materiales y uploads</span><span>✓ Asistencia y encuestas</span></div>
+    </div>
+    <a class="primaryButton backupDownloadButton" href="{{ url_for('download_admin_backup') }}">Descargar backup ZIP</a>
+  </section>
 
   <div class="directoryToolbar">
     <div class="directorySearch"><span>⌕</span><input id="userDirectorySearch" type="search" placeholder="Buscar alumno por nombre, usuario, correo o teléfono..."></div>
