@@ -6,6 +6,7 @@ import zipfile
 from io import BytesIO
 from calendar import monthrange
 from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo
 from functools import wraps
 from pathlib import Path
 from typing import Any, Callable
@@ -73,6 +74,41 @@ MATERIAL_TYPES = {
 ASSESSMENT_TYPES = {"self_assessment": "Autoevaluación", "evaluation": "Evaluación", "final_exam": "Examen final"}
 BLOCK_AFTER_ABSENCES = 3
 PROGRAM_WEEKS = 12
+APP_TIMEZONE = ZoneInfo(os.environ.get("Q1LIDER_TIMEZONE", "America/Mexico_City"))
+
+
+def _close_datetime(item: dict[str, Any], date_key: str, time_key: str) -> datetime | None:
+    """Return a timezone-aware local deadline, preserving backwards compatibility."""
+    date_value = str(item.get(date_key) or "").strip()
+    if not date_value:
+        return None
+    time_value = str(item.get(time_key) or "23:59").strip() or "23:59"
+    try:
+        value = datetime.fromisoformat(f"{date_value}T{time_value}")
+        if value.tzinfo is None:
+            value = value.replace(tzinfo=APP_TIMEZONE)
+        return value.astimezone(APP_TIMEZONE)
+    except (TypeError, ValueError):
+        return None
+
+
+def _availability(item: dict[str, Any], date_key: str, time_key: str) -> dict[str, Any]:
+    active = item.get("active", True) is not False and item.get("status") != "inactive"
+    deadline = _close_datetime(item, date_key, time_key)
+    expired = bool(deadline and datetime.now(APP_TIMEZONE) > deadline)
+    return {
+        "isActive": active,
+        "isExpired": expired,
+        "isOpen": active and not expired,
+        "deadlineIso": deadline.isoformat(timespec="minutes") if deadline else None,
+    }
+
+
+def _form_active(default: bool = True) -> bool:
+    raw = request.form.get("active")
+    if raw is None:
+        return default
+    return str(raw).strip().lower() in {"1", "true", "active", "on", "yes"}
 
 
 def role_of(user: dict[str, Any] | None) -> str:
@@ -655,7 +691,10 @@ def module_detail(module_id: str):
         {**p, "authorName": author_name(db, p.get("authorId", ""))}
         for p in db["forumPosts"] if p.get("moduleId") == module_id
     ], key=lambda p: p.get("createdAt", ""))
-    assessments = sorted([a for a in db["assessments"] if a.get("moduleId") == module_id], key=lambda a: a.get("createdAt", ""))
+    assessments = sorted(
+        [{**a, **_availability(a, "closeDate", "closeTime")} for a in db["assessments"] if a.get("moduleId") == module_id],
+        key=lambda a: a.get("createdAt", ""),
+    )
     attempts_by_exam = {}
     for attempt in db["assessmentAttempts"]:
         if attempt.get("userId") == uid:
@@ -670,8 +709,8 @@ def module_detail(module_id: str):
     platform_done = bool(platform_survey_response(db, module_id, uid)) if role_of(g.user) == "participant" else False
 
     module_assignments = sorted(
-        [a for a in db.get("moduleAssignments", []) if a.get("moduleId") == module_id],
-        key=lambda a: (a.get("dueDate") or "9999-12-31", a.get("createdAt") or ""),
+        [{**a, **_availability(a, "dueDate", "dueTime")} for a in db.get("moduleAssignments", []) if a.get("moduleId") == module_id],
+        key=lambda a: (a.get("dueDate") or "9999-12-31", a.get("dueTime") or "23:59", a.get("createdAt") or ""),
     )
     assignment_submissions: dict[str, Any] = {}
     if role_of(g.user) == "participant":
@@ -728,6 +767,8 @@ def create_module_assignment(module_id: str):
     title = request.form.get("title", "").strip()
     instructions = request.form.get("instructions", "").strip()
     due_date = request.form.get("dueDate", "").strip()
+    due_time = request.form.get("dueTime", "").strip() or ("23:59" if due_date else "")
+    active = _form_active(True)
     try:
         weight = float(request.form.get("weight") or 10)
     except ValueError:
@@ -753,7 +794,8 @@ def create_module_assignment(module_id: str):
     })
     db.setdefault("moduleAssignments", []).append({
         "id": assignment_id, "moduleId": module_id, "title": title[:180],
-        "instructions": instructions[:10000], "dueDate": due_date or None,
+        "instructions": instructions[:10000], "dueDate": due_date or None, "dueTime": due_time or None,
+        "active": active, "status": "active" if active else "inactive",
         "weight": weight, "maxScore": 100, "gradeItemId": grade_item_id,
         "fileName": file_name, "originalName": original_name, "mime": mime,
         "createdBy": g.user["id"], "createdAt": now_iso(), "updatedAt": now_iso(),
@@ -773,6 +815,8 @@ def update_module_assignment(assignment_id: str):
     title = request.form.get("title", assignment.get("title", "")).strip()
     instructions = request.form.get("instructions", assignment.get("instructions", "")).strip()
     due_date = request.form.get("dueDate", "").strip()
+    due_time = request.form.get("dueTime", "").strip() or (assignment.get("dueTime") or ("23:59" if due_date else ""))
+    active = _form_active(assignment.get("active", True) is not False)
     try:
         weight = float(request.form.get("weight") or assignment.get("weight") or 10)
     except ValueError:
@@ -789,7 +833,8 @@ def update_module_assignment(assignment_id: str):
         remove_uploaded_file(assignment.get("fileName"))
         assignment.update({"fileName": file_name, "originalName": original_name, "mime": mime})
     assignment.update({
-        "title": title[:180], "instructions": instructions[:10000], "dueDate": due_date or None,
+        "title": title[:180], "instructions": instructions[:10000], "dueDate": due_date or None, "dueTime": due_time or None,
+        "active": active, "status": "active" if active else "inactive",
         "weight": weight, "updatedAt": now_iso(),
     })
     grade_item = next((i for i in db["gradeItems"] if i.get("id") == assignment.get("gradeItemId")), None)
@@ -797,6 +842,22 @@ def update_module_assignment(assignment_id: str):
         grade_item.update({"title": title[:180], "weight": weight, "updatedAt": now_iso()})
     write_db(db)
     flash("Tarea actualizada.", "success")
+    return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
+
+
+@app.post("/tareas-modulo/<assignment_id>/toggle-status")
+@roles_required("admin", "teacher")
+def toggle_module_assignment_status(assignment_id: str):
+    db = read_db()
+    assignment = next((a for a in db.get("moduleAssignments", []) if a.get("id") == assignment_id), None)
+    if not assignment:
+        abort(404)
+    new_active = not (assignment.get("active", True) is not False and assignment.get("status") != "inactive")
+    assignment["active"] = new_active
+    assignment["status"] = "active" if new_active else "inactive"
+    assignment["updatedAt"] = now_iso()
+    write_db(db)
+    flash(f"Tarea {'activada' if new_active else 'desactivada'} correctamente.", "success")
     return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
 
 
@@ -830,6 +891,13 @@ def submit_module_assignment(assignment_id: str):
     assignment = next((a for a in db.get("moduleAssignments", []) if a.get("id") == assignment_id), None)
     if not assignment:
         abort(404)
+    availability = _availability(assignment, "dueDate", "dueTime")
+    if not availability["isOpen"]:
+        if not availability["isActive"]:
+            flash("Esta tarea está inactiva y no acepta entregas.", "error")
+        else:
+            flash("La fecha y hora de cierre de esta tarea ya pasaron.", "error")
+        return redirect(url_for("module_detail", module_id=assignment.get("moduleId")) + "#tareas-modulo")
     existing = next((r for r in db.get("assignmentSubmissions", [])
                      if r.get("assignmentId") == assignment_id and r.get("userId") == g.user["id"]), None)
     if existing and existing.get("grade") is not None:
@@ -1480,7 +1548,7 @@ def exams_page():
         attempts = [a for a in db["assessmentAttempts"] if a.get("assessmentId") == exam.get("id")]
         scored = [float(a.get("score")) for a in attempts if a.get("score") is not None]
         avg = round(sum(scored) / len(scored), 1) if scored else None
-        exams.append({**exam, "moduleTitle": module.get("title") if module else "Sin módulo", "attemptCount": len(attempts), "average": avg})
+        exams.append({**exam, **_availability(exam, "closeDate", "closeTime"), "moduleTitle": module.get("title") if module else "Sin módulo", "attemptCount": len(attempts), "average": avg})
     exams.sort(key=lambda x: x.get("createdAt", ""), reverse=True)
     return render_template("exams.html", exams=exams, modules=db["modules"])
 
@@ -1501,6 +1569,9 @@ def create_exam():
         flash("Agrega al menos una pregunta con el formato indicado.", "error")
         return redirect(url_for("exams_page"))
     title = request.form.get("title", "").strip() or ASSESSMENT_TYPES[exam_type]
+    close_date = request.form.get("closeDate", "").strip()
+    close_time = request.form.get("closeTime", "").strip() or ("23:59" if close_date else "")
+    active = _form_active(True)
     assessment_id = new_id()
     grade_item_id = None
     try:
@@ -1517,6 +1588,8 @@ def create_exam():
     db["assessments"].append({
         "id": assessment_id, "moduleId": module_id, "title": title[:180], "description": request.form.get("description", "").strip()[:3000],
         "type": exam_type, "questions": questions, "gradeItemId": grade_item_id,
+        "closeDate": close_date or None, "closeTime": close_time or None,
+        "active": active, "status": "active" if active else "inactive",
         "createdBy": g.user["id"], "createdAt": now_iso(), "updatedAt": now_iso(),
     })
     write_db(db)
@@ -1544,6 +1617,9 @@ def edit_exam(exam_id: str):
             flash("Agrega al menos una pregunta válida.", "error")
             return redirect(url_for("edit_exam", exam_id=exam_id))
         title = request.form.get("title", "").strip() or ASSESSMENT_TYPES[exam_type]
+        close_date = request.form.get("closeDate", "").strip()
+        close_time = request.form.get("closeTime", "").strip() or (exam.get("closeTime") or ("23:59" if close_date else ""))
+        active = _form_active(exam.get("active", True) is not False)
         try:
             weight = max(0.0, min(100.0, float(request.form.get("weight") or 0)))
         except ValueError:
@@ -1551,7 +1627,10 @@ def edit_exam(exam_id: str):
         exam.update({
             "moduleId": module_id, "title": title[:180],
             "description": request.form.get("description", "").strip()[:3000],
-            "type": exam_type, "questions": questions, "updatedAt": now_iso(),
+            "type": exam_type, "questions": questions,
+            "closeDate": close_date or None, "closeTime": close_time or None,
+            "active": active, "status": "active" if active else "inactive",
+            "updatedAt": now_iso(),
         })
         grade_item = next((i for i in db["gradeItems"] if i.get("id") == exam.get("gradeItemId")), None)
         if weight > 0:
@@ -1579,6 +1658,22 @@ def edit_exam(exam_id: str):
     )
 
 
+@app.post("/examenes/<exam_id>/toggle-status")
+@roles_required("admin", "teacher")
+def toggle_exam_status(exam_id: str):
+    db = read_db()
+    exam = next((a for a in db["assessments"] if a.get("id") == exam_id), None)
+    if not exam:
+        abort(404)
+    new_active = not (exam.get("active", True) is not False and exam.get("status") != "inactive")
+    exam["active"] = new_active
+    exam["status"] = "active" if new_active else "inactive"
+    exam["updatedAt"] = now_iso()
+    write_db(db)
+    flash(f"Evaluación {'activada' if new_active else 'desactivada'} correctamente.", "success")
+    return redirect(request.referrer or url_for("exams_page"))
+
+
 @app.post("/examenes/<exam_id>/delete")
 @roles_required("admin", "teacher")
 def delete_exam(exam_id: str):
@@ -1604,6 +1699,13 @@ def take_exam(exam_id: str):
     if not exam:
         abort(404)
     module = get_module(db, exam.get("moduleId"))
+    availability = _availability(exam, "closeDate", "closeTime")
+    if not availability["isOpen"]:
+        if not availability["isActive"]:
+            flash("Esta evaluación está inactiva por el momento.", "error")
+        else:
+            flash("La fecha y hora de cierre de esta evaluación ya pasaron.", "error")
+        return redirect(url_for("module_detail", module_id=exam.get("moduleId")) + "#evaluaciones")
     if exam.get("type") == "final_exam" and not survey_completed(db, exam.get("moduleId"), g.user["id"]):
         flash("Completa primero la encuesta del módulo para desbloquear el examen final.", "error")
         return redirect(url_for("module_detail", module_id=exam.get("moduleId")) + "#encuesta")
@@ -1635,6 +1737,13 @@ def submit_exam(exam_id: str):
     exam = next((a for a in db["assessments"] if a.get("id") == exam_id), None)
     if not exam:
         abort(404)
+    availability = _availability(exam, "closeDate", "closeTime")
+    if not availability["isOpen"]:
+        if not availability["isActive"]:
+            flash("Esta evaluación está inactiva y ya no acepta respuestas.", "error")
+        else:
+            flash("La fecha y hora de cierre de esta evaluación ya pasaron.", "error")
+        return redirect(url_for("module_detail", module_id=exam.get("moduleId")) + "#evaluaciones")
     if exam.get("type") == "final_exam" and not survey_completed(db, exam.get("moduleId"), g.user["id"]):
         abort(403)
     existing = next((a for a in db["assessmentAttempts"] if a.get("assessmentId") == exam_id and a.get("userId") == g.user["id"]), None)

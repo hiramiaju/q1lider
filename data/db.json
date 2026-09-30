@@ -3022,6 +3022,399 @@
       "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
       "createdAt": "2026-09-21T23:15:04-06:00",
       "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "71338bd8-0bae-4a5a-b414-cb90860f566c",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "title": "Evaluacion Psicologica para jovenes",
+      "description": "",
+      "type": "evaluation",
+      "questions": [
+        {
+          "id": "557e448f-5031-449a-ae80-e4fbda7e9efa",
+          "type": "choice",
+          "text": "Libro es a Biblioteca como Cuadro es a:",
+          "options": [
+            "Pintor",
+            "Museo",
+            "Marco",
+            "Pared"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "d41142ce-5c4f-4a66-b933-91d05648b34b",
+          "type": "choice",
+          "text": "Semilla es a Árbol como Huevo es a:",
+          "options": [
+            "Nido",
+            "Ave",
+            "Pluma",
+            "Cascarón"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "5ea813fe-d7e8-4aa8-8ce7-27872522311e",
+          "type": "choice",
+          "text": "¿Qué palabra no pertenece al grupo?",
+          "options": [
+            "Manzana",
+            "Plátano",
+            "Zanahoria",
+            "Naranja",
+            "Pera"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": "6c0e9b38-6d68-4439-a005-de73db4a8587",
+          "type": "choice",
+          "text": "Completa la serie: 2, 4, 8, 16, __, 64",
+          "options": [
+            "32",
+            "24",
+            "30",
+            "48"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "868ce484-951f-433a-a414-33a32e2d7a8c",
+          "type": "choice",
+          "text": "Completa la serie: 1, 1, 2, 3, 5, 8, __",
+          "options": [
+            "13",
+            "10",
+            "12",
+            "11"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "521df5e8-9eaa-4a23-a975-caa52f783529",
+          "type": "choice",
+          "text": "Si 3 personas terminan un trabajo en 12 días, ¿cuántos días tardarían 6 personas trabajando al mismo ritmo?",
+          "options": [
+            "6 días",
+            "4 días",
+            "8 días",
+            "12 días"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "c59473be-c811-41b9-bf44-6d9b06491c56",
+          "type": "choice",
+          "text": "Todos los A son B. Ningún B es C. Por lo tanto:",
+          "options": [
+            "Todos los A son C",
+            "Ningún A es C",
+            "Algunos A son C",
+            "No se puede determinar"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "c70d62c7-a5d3-4e13-8d5c-2bc6f95f6c97",
+          "type": "choice",
+          "text": "Miras al norte. Giras 90° a la derecha, luego 180° y finalmente 90° a la izquierda. ¿Hacia qué dirección miras ahora?",
+          "options": [
+            "Norte",
+            "Sur",
+            "Este",
+            "Oeste"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "755c9bb0-57b9-4329-b809-03356c973ad5",
+          "type": "choice",
+          "text": "Si hoy es martes, ¿qué día de la semana será dentro de 100 días?",
+          "options": [
+            "Lunes",
+            "Miércoles",
+            "Jueves",
+            "Viernes"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": "c19d96e9-fa96-4ab4-9b43-62e2c981c480",
+          "type": "open",
+          "text": "Memoria de trabajo: Repite la serie de 7 dígitos proporcionada por el aplicador en orden directo e inverso."
+        },
+        {
+          "id": "133545e2-e9d4-44c0-b762-e7c625a8bdac",
+          "type": "open",
+          "text": "Ordena estas palabras para formar una oración con sentido: trabajo / el / importante / es / en / equipo"
+        },
+        {
+          "id": "5939163b-c7cf-44de-aa51-d2acbec94fea",
+          "type": "choice",
+          "text": "¿Cuál es el sinónimo de \"eficaz\"?",
+          "options": [
+            "Lento",
+            "Efectivo",
+            "Confuso",
+            "Costoso"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "61fff91a-ed8a-4288-a2a4-42ac241954ab",
+          "type": "choice",
+          "text": "Un producto cuesta $450 y tiene 20% de descuento. ¿Cuál es el precio final?",
+          "options": [
+            "$360",
+            "$380",
+            "$400",
+            "$350"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "beb20435-9c0f-4f2d-a284-acdf6f51c0ea",
+          "type": "choice",
+          "text": "Un proyecto avanza 15% cada semana. ¿En cuántas semanas alcanzará al menos el 100%?",
+          "options": [
+            "5 semanas",
+            "6 semanas",
+            "7 semanas",
+            "8 semanas"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": "445a56bc-9023-41cc-9983-ce423c2e03f1",
+          "type": "choice",
+          "text": "Caminas 3 cuadras al norte, 2 cuadras al este y 3 cuadras al sur. ¿En qué dirección y cuántas cuadras debes caminar para volver al punto de partida por el camino más corto?",
+          "options": [
+            "Este, 2 cuadras",
+            "Oeste, 2 cuadras",
+            "Norte, 3 cuadras",
+            "Oeste, 3 cuadras"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "be65665c-702c-4425-8758-9e98645f9bb5",
+          "type": "choice",
+          "text": "Observa la secuencia: círculo, cuadrado, cuadrado, triángulo, triángulo, triángulo, círculo, cuadrado, cuadrado... ¿Qué tres figuras siguen?",
+          "options": [
+            "Triángulo, triángulo, triángulo",
+            "Círculo, círculo, triángulo",
+            "Cuadrado, triángulo, triángulo",
+            "Triángulo, círculo, cuadrado"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "d046060d-4f56-48a3-bc78-73f2617e9cbd",
+          "type": "choice",
+          "text": "Cuenta cuántas veces aparece la letra \"e\" en esta frase: \"el perro corre en el parque cada tarde\"",
+          "options": [
+            "5 veces",
+            "6 veces",
+            "7 veces",
+            "8 veces"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": "b81aedd4-e3dc-4acc-b3b8-fa24ec720d7f",
+          "type": "choice",
+          "text": "¿Cuántos números pares hay en esta secuencia: 4729638150?",
+          "options": [
+            "4",
+            "5",
+            "6",
+            "3"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "842b0b76-f2ba-4406-bbd0-e76cfb8f41a9",
+          "type": "choice",
+          "text": "Ante un desacuerdo en un equipo de trabajo, ¿qué harías primero?",
+          "options": [
+            "Imponer tu idea",
+            "Escuchar todas las posturas antes de proponer una solución",
+            "Evitar el tema",
+            "Buscar a un superior para que decida"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "5bcb3166-ebd4-4e6b-bcfb-b43260cb195f",
+          "type": "open",
+          "text": "Describe brevemente una situación en la que colaboraste con otras personas para lograr un objetivo común."
+        },
+        {
+          "id": "539d6271-b00c-45af-8f85-fe3503a29d63",
+          "type": "scale",
+          "text": "Me gusta explorar ideas, lugares o actividades nuevas y poco convencionales.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "81c32f92-ef2f-4f61-a633-847437da907e",
+          "type": "scale",
+          "text": "Disfruto el arte, la música o la cultura en general.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "2677617a-6b6a-42c2-b6f7-fe9e826c2d6b",
+          "type": "scale",
+          "text": "Me considero una persona curiosa e imaginativa.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "5e322769-23f8-4b06-b7de-d007faae8094",
+          "type": "scale",
+          "text": "Cumplo mis compromisos aunque me cueste esfuerzo extra.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "3d7b3420-5e89-42c3-b456-e33544156bdb",
+          "type": "scale",
+          "text": "Planeo mis actividades con anticipación en vez de improvisar.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "3d780414-f228-4a8b-bcdd-7da8a2bdfbf2",
+          "type": "scale",
+          "text": "Soy organizado/a con mis tareas y mi tiempo.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "23bb9461-4ec5-45cc-b9f0-6b1b20ae2c5c",
+          "type": "scale",
+          "text": "Me siento cómodo/a hablando frente a un grupo de personas.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "c692c2f2-0445-494c-b337-946a2542e8ec",
+          "type": "scale",
+          "text": "Prefiero actividades sociales a pasar tiempo a solas.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "b8675ca9-c4c2-4eb1-b84c-3102b26a1a0a",
+          "type": "scale",
+          "text": "Suelo tomar la iniciativa para socializar con personas nuevas.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "bb6668dc-6519-47dd-9c9e-eed4b08a8531",
+          "type": "scale",
+          "text": "Suelo ponerme en el lugar de los demás antes de opinar.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "3f5816f4-184c-4198-8504-5eb25c50fbf5",
+          "type": "scale",
+          "text": "Evito conflictos y busco el consenso en el grupo.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "56e051de-b5d3-451b-ad5b-59f7c25be2b6",
+          "type": "scale",
+          "text": "Disfruto ayudar a otras personas, aunque no obtenga algo a cambio.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "1e6352ce-4c81-4ebe-9623-79c74be25b79",
+          "type": "scale",
+          "text": "Me mantengo tranquilo/a incluso bajo presión.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "018d9ac2-a8ee-4026-b3ab-2d033dc9e915",
+          "type": "scale",
+          "text": "Rara vez me siento ansioso/a o abrumado/a por problemas cotidianos.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "f9ff81e1-777d-47d1-8c65-1ed85d5336d4",
+          "type": "scale",
+          "text": "Puedo controlar mis emociones en situaciones difíciles.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "b67e8276-7eff-45a2-8a45-a9db44ba605a",
+          "type": "scale",
+          "text": "Me interesa participar en actividades que beneficien a mi comunidad.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "f02e06e1-0417-4bd5-85b3-7598d0bbdb87",
+          "type": "scale",
+          "text": "Me mantengo informado/a sobre temas políticos y sociales de mi ciudad o país.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "17ed80c2-fddb-4be0-a26a-c7f65f99c527",
+          "type": "scale",
+          "text": "Creo que mi participación individual puede generar cambios reales.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "222a919c-d8f4-4913-b4e1-c28bbb834fb6",
+          "type": "scale",
+          "text": "Estaría dispuesto/a a colaborar en proyectos de voluntariado o gestión comunitaria.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        },
+        {
+          "id": "ac6c8222-27fe-4e0f-a0ea-e5ec41d314e4",
+          "type": "scale",
+          "text": "Me interesa ocupar roles de liderazgo en mi comunidad, escuela o trabajo.",
+          "min": 1,
+          "max": 5,
+          "correctValue": null
+        }
+      ],
+      "gradeItemId": "1be73d06-792c-4fde-8efb-ba985ea147cd",
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-30T23:00:01+00:00",
+      "updatedAt": "2026-09-30T23:00:01+00:00"
     }
   ],
   "assessmentAttempts": [],
@@ -3810,11 +4203,23 @@
       "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
       "createdAt": "2026-09-21T23:15:04-06:00",
       "updatedAt": "2026-09-21T23:15:04-06:00"
+    },
+    {
+      "id": "1be73d06-792c-4fde-8efb-ba985ea147cd",
+      "moduleId": "fac9c7d6-23b4-4ad1-9117-53501f071ba2",
+      "title": "Evaluacion Psicologica para jovenes",
+      "type": "evaluation",
+      "weight": 20.0,
+      "createdBy": "6f6229a2-faa7-4871-ac1d-6829acf06eec",
+      "createdAt": "2026-09-30T23:00:01+00:00",
+      "updatedAt": "2026-09-30T23:00:01+00:00"
     }
   ],
   "grades": [],
   "submissions": [],
   "integralEvaluationResponses": [],
   "platformSurveyResponses": [],
-  "studentPasswordPolicyVersion": 1
+  "studentPasswordPolicyVersion": 1,
+  "moduleAssignments": [],
+  "assignmentSubmissions": []
 }

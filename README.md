@@ -321,3 +321,15 @@ MULTI|Selecciona dos acciones|Escuchar|Interrumpir|Preguntar|Ignorar|1,3
 - `MULTI`: selección múltiple; el último campo indica las opciones correctas separadas por coma.
 
 Las preguntas abiertas y las escalas sin respuesta correcta se almacenan en el intento, pero no afectan el cálculo automático de la calificación.
+
+## v5.9 · Hora de cierre + estado Activo/Inactivo
+
+- Las **tareas por módulo** ahora permiten definir fecha y hora de cierre.
+- Las tareas pueden editarse en cualquier momento por Docente/Admin: título, instrucciones, valor, archivo, fecha, hora y estado.
+- Botón rápido **Activar / Desactivar** por tarea. Una tarea inactiva no acepta entregas.
+- Al pasar la fecha y hora límite, la tarea se cierra automáticamente aunque siga marcada como activa.
+- Las **autoevaluaciones, evaluaciones y exámenes finales** ahora permiten fecha y hora de cierre.
+- Cada evaluación tiene estado manual **Activa / Inactiva**, editable desde su formulario y mediante botón rápido.
+- Un alumno no puede abrir ni enviar una evaluación inactiva o vencida.
+- Los intentos ya enviados siguen disponibles para consultar resultados aunque el instrumento se cierre después.
+- Zona horaria predeterminada: `America/Mexico_City`. Puede cambiarse con la variable de entorno `Q1LIDER_TIMEZONE`.

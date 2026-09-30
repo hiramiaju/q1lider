@@ -21,9 +21,9 @@
 
   <div class="examList">
     {% for e in exams %}
-    <article class="examAdminCard">
-      <div><span class="pill {{ 'dangerPill' if e.type=='final_exam' else '' }}">{{ assessment_type_labels.get(e.type,e.type) }}</span><h3>{{ e.title }}</h3><p>{{ e.moduleTitle }} · {{ e.questions|length }} preguntas</p><small>{{ e.attemptCount }} intento(s){% if e.average is not none %} · Promedio {{ e.average }}{% endif %}</small></div>
-      <div class="examAdminActions"><a class="secondaryButton" href="{{ url_for('edit_exam', exam_id=e.id) }}">✎ Editar</a><form method="post" action="{{ url_for('delete_exam', exam_id=e.id) }}" onsubmit="return confirm('¿Eliminar esta evaluación? También se eliminarán sus intentos y calificaciones asociadas.')"><button class="dangerGhost">Eliminar</button></form></div>
+    <article class="examAdminCard {{ 'closedAcademicItem' if not e.isOpen else '' }}">
+      <div><div class="examMetaBadges"><span class="pill {{ 'dangerPill' if e.type=='final_exam' else '' }}">{{ assessment_type_labels.get(e.type,e.type) }}</span><span class="academicStatus {{ 'statusActive' if e.isActive else 'statusInactive' }}">{{ 'Activa' if e.isActive else 'Inactiva' }}</span>{% if e.isExpired %}<span class="academicStatus statusClosed">Cerrada por horario</span>{% endif %}</div><h3>{{ e.title }}</h3><p>{{ e.moduleTitle }} · {{ e.questions|length }} preguntas</p><small>{% if e.closeDate %}Cierre {{ e.closeDate }} · {{ e.closeTime or '23:59' }} · {% endif %}{{ e.attemptCount }} intento(s){% if e.average is not none %} · Promedio {{ e.average }}{% endif %}</small></div>
+      <div class="examAdminActions"><a class="secondaryButton" href="{{ url_for('edit_exam', exam_id=e.id) }}">✎ Editar</a><form method="post" action="{{ url_for('toggle_exam_status', exam_id=e.id) }}"><button class="{{ 'dangerGhost' if e.isActive else 'secondaryButton' }}">{{ '⏸ Desactivar' if e.isActive else '▶ Activar' }}</button></form><form method="post" action="{{ url_for('delete_exam', exam_id=e.id) }}" onsubmit="return confirm('¿Eliminar esta evaluación? También se eliminarán sus intentos y calificaciones asociadas.')"><button class="dangerGhost">Eliminar</button></form></div>
     </article>
     {% else %}<div class="empty">Aún no hay evaluaciones creadas.</div>{% endfor %}
   </div>
@@ -34,7 +34,8 @@
     <button type="button" class="modalClose" data-modal-close>×</button><h2>Nueva evaluación</h2>
     <div class="cols"><label>Módulo<select name="moduleId" required>{% for m in modules %}<option value="{{ m.id }}">{{ m.title }}</option>{% endfor %}</select></label><label>Tipo<select name="type"><option value="self_assessment">Autoevaluación</option><option value="evaluation">Evaluación</option><option value="final_exam">Examen final</option></select></label></div>
     <label>Título<input name="title" required></label><label>Descripción<textarea name="description"></textarea></label>
-    <label>Valor en la calificación del módulo (%)<input name="weight" type="number" min="0" max="100" step="0.01" value="0"><small>Las preguntas abiertas y escalas sin valor correcto no cuentan en la calificación automática.</small></label>
+    <div class="cols"><label>Fecha de cierre<input name="closeDate" type="date"></label><label>Hora de cierre<input name="closeTime" type="time" value="23:59"></label></div>
+    <div class="cols"><label>Estado inicial<select name="active"><option value="active" selected>Activa</option><option value="inactive">Inactiva</option></select></label><label>Valor en la calificación del módulo (%)<input name="weight" type="number" min="0" max="100" step="0.01" value="0"><small>Las preguntas abiertas y escalas sin valor correcto no cuentan en la calificación automática.</small></label></div>
     <label>Preguntas<textarea name="questions" rows="11" placeholder="Pregunta|Opción A|Opción B|Opción C|2&#10;ESCALA|¿Qué tan claro fue el tema?|1|5&#10;VF|La escucha activa es importante|V&#10;ABIERTA|¿Qué aprendiste hoy?" required></textarea></label>
     <details class="syntaxHelp"><summary>Ver todos los formatos disponibles</summary><pre>Pregunta|Opción A|Opción B|Opción C|2
 ESCALA|Pregunta|1|5

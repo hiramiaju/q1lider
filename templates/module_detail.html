@@ -124,7 +124,11 @@
       <form method="post" action="{{ url_for('create_module_assignment', module_id=module.id) }}" enctype="multipart/form-data" class="assignmentForm">
         <div class="cols">
           <label>Título de la tarea<input name="title" required maxlength="180" placeholder="Ej. Reflexión de liderazgo"></label>
-          <label>Fecha límite<input type="date" name="dueDate"></label>
+          <label>Estado inicial<select name="active"><option value="active" selected>Activa</option><option value="inactive">Inactiva</option></select></label>
+        </div>
+        <div class="cols">
+          <label>Fecha de cierre<input type="date" name="dueDate"></label>
+          <label>Hora de cierre<input type="time" name="dueTime" value="23:59"></label>
         </div>
         <label>Instrucciones / texto de la tarea<textarea name="instructions" rows="5" placeholder="Explica qué debe hacer y entregar el alumno..."></textarea></label>
         <div class="cols">
@@ -139,11 +143,13 @@
     <div class="moduleAssignmentGrid">
       {% for task in module_assignments %}
       {% set task_submission = assignment_submissions.get(task.id) %}
-      <article class="moduleAssignmentCard {{ 'gradedAssignment' if current_user.role=='participant' and task_submission and task_submission.grade is not none else '' }}">
+      <article class="moduleAssignmentCard {{ 'gradedAssignment' if current_user.role=='participant' and task_submission and task_submission.grade is not none else '' }} {{ 'closedAcademicItem' if not task.isOpen else '' }}">
         <div class="assignmentTop">
           <div>
             <span class="assignmentWeight">Vale {{ task.weight|round(1) }}%</span>
-            {% if task.dueDate %}<span class="assignmentDue">Entrega {{ task.dueDate }}</span>{% else %}<span class="assignmentDue muted">Sin fecha límite</span>{% endif %}
+            <span class="academicStatus {{ 'statusActive' if task.isActive else 'statusInactive' }}">{{ 'Activa' if task.isActive else 'Inactiva' }}</span>
+            {% if task.dueDate %}<span class="assignmentDue">Cierra {{ task.dueDate }} · {{ task.dueTime or '23:59' }}</span>{% else %}<span class="assignmentDue muted">Sin cierre programado</span>{% endif %}
+            {% if task.isExpired %}<span class="academicStatus statusClosed">Cerrada por horario</span>{% endif %}
           </div>
           {% if task.fileName %}<a class="assignmentAttachment" href="{{ url_for('uploaded_file', filename=task.fileName) }}" target="_blank">▤ Archivo de la tarea</a>{% endif %}
         </div>
@@ -162,8 +168,12 @@
               {% if task_submission.fileName %}<a href="{{ url_for('uploaded_file', filename=task_submission.fileName) }}" target="_blank">Ver archivo entregado ↗</a>{% endif %}
             </div>
           {% else %}
+            {% if not task.isOpen %}
+              <div class="closedAcademicNotice"><b>🔒 Entrega cerrada</b><span>{% if not task.isActive %}El docente desactivó esta tarea.{% else %}La fecha y hora límite ya pasaron.{% endif %}</span></div>
+              {% if task_submission %}<div class="submissionSnapshot"><b>Tu última entrega quedó registrada</b>{% if task_submission.text %}<p>{{ task_submission.text }}</p>{% endif %}{% if task_submission.fileName %}<a href="{{ url_for('uploaded_file', filename=task_submission.fileName) }}" target="_blank">Ver archivo entregado ↗</a>{% endif %}</div>{% endif %}
+            {% else %}
             {% if task_submission %}
-            <div class="submissionStatus"><b>✓ Entrega registrada</b><span>Puedes reemplazarla hasta que sea calificada.</span></div>
+            <div class="submissionStatus"><b>✓ Entrega registrada</b><span>Puedes reemplazarla hasta que sea calificada o se cierre la tarea.</span></div>
             {% endif %}
             <form method="post" action="{{ url_for('submit_module_assignment', assignment_id=task.id) }}" enctype="multipart/form-data" class="studentAssignmentForm">
               <label>Respuesta en texto<textarea name="text" rows="4" placeholder="Escribe tu respuesta aquí...">{{ task_submission.text if task_submission else '' }}</textarea></label>
@@ -171,6 +181,7 @@
               {% if task_submission and task_submission.fileName %}<small>Archivo actual: <a href="{{ url_for('uploaded_file', filename=task_submission.fileName) }}" target="_blank">{{ task_submission.originalName }}</a>. Solo selecciona otro archivo si deseas reemplazarlo.</small>{% endif %}
               <button class="primaryButton">{{ 'Actualizar entrega' if task_submission else 'Entregar tarea' }}</button>
             </form>
+            {% endif %}
           {% endif %}
         {% else %}
           <details class="assignmentEditor">
@@ -178,10 +189,12 @@
             <form method="post" action="{{ url_for('update_module_assignment', assignment_id=task.id) }}" enctype="multipart/form-data" class="assignmentForm compactAssignmentForm">
               <label>Título<input name="title" value="{{ task.title }}" required></label>
               <label>Instrucciones<textarea name="instructions" rows="4">{{ task.instructions }}</textarea></label>
-              <div class="cols"><label>Fecha límite<input type="date" name="dueDate" value="{{ task.dueDate or '' }}"></label><label>Valor (%)<input type="number" name="weight" min="0.1" max="100" step="0.1" value="{{ task.weight }}"></label></div>
+              <div class="cols"><label>Estado<select name="active"><option value="active" {{ 'selected' if task.isActive else '' }}>Activa</option><option value="inactive" {{ 'selected' if not task.isActive else '' }}>Inactiva</option></select></label><label>Valor (%)<input type="number" name="weight" min="0.1" max="100" step="0.1" value="{{ task.weight }}"></label></div>
+              <div class="cols"><label>Fecha de cierre<input type="date" name="dueDate" value="{{ task.dueDate or '' }}"></label><label>Hora de cierre<input type="time" name="dueTime" value="{{ task.dueTime or '23:59' }}"></label></div>
               <label>Reemplazar archivo<input type="file" name="file"></label>
               <button>Guardar cambios</button>
             </form>
+            <form method="post" action="{{ url_for('toggle_module_assignment_status', assignment_id=task.id) }}"><button class="{{ 'dangerGhost' if task.isActive else 'secondaryButton' }} fullButton">{{ '⏸ Desactivar tarea' if task.isActive else '▶ Activar tarea' }}</button></form>
             <form method="post" action="{{ url_for('delete_module_assignment', assignment_id=task.id) }}" onsubmit="return confirm('¿Eliminar esta tarea, sus entregas y sus calificaciones?')"><button class="dangerGhost fullButton">Eliminar tarea</button></form>
           </details>
 
@@ -238,12 +251,16 @@
     <div class="assessmentGrid">
       {% for exam in assessments %}
         {% set tries=attempts_by_exam.get(exam.id,[]) %}
-        <article class="assessmentCard {{ 'final' if exam.type=='final_exam' else '' }} {{ 'completedAssessment' if tries else '' }}">
-          <span>{{ assessment_type_labels.get(exam.type,exam.type) }}</span><h3>{{ exam.title }}</h3><p>{{ exam.description }}</p>
+        <article class="assessmentCard {{ 'final' if exam.type=='final_exam' else '' }} {{ 'completedAssessment' if tries else '' }} {{ 'closedAcademicItem' if not exam.isOpen and not tries else '' }}">
+          <div class="assessmentStatusRow"><span>{{ assessment_type_labels.get(exam.type,exam.type) }}</span><span class="academicStatus {{ 'statusActive' if exam.isActive else 'statusInactive' }}">{{ 'Activa' if exam.isActive else 'Inactiva' }}</span>{% if exam.isExpired %}<span class="academicStatus statusClosed">Cerrada</span>{% endif %}</div>
+          <h3>{{ exam.title }}</h3><p>{{ exam.description }}</p>
+          {% if exam.closeDate %}<small class="assessmentDeadline">Cierre: {{ exam.closeDate }} · {{ exam.closeTime or '23:59' }}</small>{% else %}<small class="assessmentDeadline muted">Sin cierre programado</small>{% endif %}
           {% if current_user.role=='participant' %}
             {% if tries %}
               <div class="submittedAssessment">✓ Evaluación enviada {% if tries[-1].score is not none %}<b>{{ tries[-1].score }}/100</b>{% else %}<b>Registrada</b>{% endif %}<small>Tu intento quedó cerrado.</small></div>
               <a class="secondaryButton linkAsButton" href="{{ url_for('exam_result', exam_id=exam.id) }}">Ver resultado</a>
+            {% elif not exam.isOpen %}
+              <div class="lockedExam">🔒 {% if not exam.isActive %}Evaluación inactiva{% else %}El horario de cierre ya pasó{% endif %}</div>
             {% elif exam.type=='final_exam' and not survey_done %}
               <div class="lockedExam">🔒 Completa la encuesta para desbloquear</div>
             {% else %}
@@ -251,6 +268,7 @@
             {% endif %}
           {% else %}
             <small>{{ exam.questions|length }} preguntas</small><a class="secondaryButton linkAsButton" href="{{ url_for('edit_exam', exam_id=exam.id) }}">✎ Editar evaluación</a>
+            <form method="post" action="{{ url_for('toggle_exam_status', exam_id=exam.id) }}" class="inlineStatusForm"><button class="{{ 'dangerGhost' if exam.isActive else 'secondaryButton' }}">{{ '⏸ Desactivar' if exam.isActive else '▶ Activar' }}</button></form>
           {% endif %}
         </article>
       {% else %}<div class="empty compact">No hay evaluaciones publicadas todavía.</div>{% endfor %}
